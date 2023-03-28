@@ -1,14 +1,30 @@
-# volumes:
+volumes:
+  byob-data:
+    external: true
 services:
-  fastapi:
+  database:
+    image: postgres:14.2-bullseye
+    volumes:
+      - byob-data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=users,produce,posts,deliveries
+      - POSTGRES_PASSWORD=test-databases
+    ports:
+      - 15432:5432
+  byob_service:
     build:
-      context: sample_service
-      dockerfile: Dockerfile.dev
+      context: ./byob_service
+      dockerfile: ./Dockerfile.dev
     ports:
       - 8000:8000
     volumes:
-      - ./sample_service:/app
-      
+      - ./byob_service:/app
+    environment:
+      DATABASE_URL: postgres://user:password@database:5432/user
+      WAIT_HOSTS: database:5432
+      WAIT_TIMEOUT: 240
+
   ghi:
     image: node:lts-bullseye
     command: /bin/bash run.sh
@@ -23,4 +39,3 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       REACT_APP_SAMPLE_SERVICE_API_HOST: http://localhost:8000
-            
