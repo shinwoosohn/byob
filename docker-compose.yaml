@@ -1,17 +1,15 @@
+# uncommented volumes
+# add volume for postgres-data
 volumes:
+# from postgres-data -> byob-data
   byob-data:
     external: true
+
+  pg-admin:
+    external: true
+
+
 services:
-  database:
-    image: postgres:14.2-bullseye
-    volumes:
-      - byob-data:/var/lib/postgresql/data
-      - ./db:/docker-entrypoint-initdb.d
-    environment:
-      - POSTGRES_MULTIPLE_DATABASES=users,produce,posts,deliveries
-      - POSTGRES_PASSWORD=test-databases
-    ports:
-      - 15432:5432
   byob_service:
     build:
       context: ./byob_service
@@ -21,9 +19,9 @@ services:
     volumes:
       - ./byob_service:/app
     environment:
-      DATABASE_URL: postgres://user:password@database:5432/user
-      WAIT_HOSTS: database:5432
-      WAIT_TIMEOUT: 240
+      DATABASE_URL: postgresql://byob:password@postgres/byob
+      # replace user-name=byob? and db-name=byob? with proper values?
+      WAIT_HOSTS: postgres:5432
 
   ghi:
     image: node:lts-bullseye
@@ -38,4 +36,30 @@ services:
       NODE_ENV: development
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
-      REACT_APP_SAMPLE_SERVICE_API_HOST: http://localhost:8000
+      REACT_APP_BYOB_SERVICE_API_HOST: http://localhost:8000
+      # changed from ..._SAMPLE_SERVICE... to BYOB_SERVICE
+
+  postgres:
+    build:
+      context: ./relational-data
+      dockerfile: ./Dockerfile.dev
+    volumes:
+      - byob-data:/var/lib/postgresql/data
+      # changed from postgres to byob
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=byob
+      - POSTGRES_PASSWORD=password
+      # changed test-databases to password - okayd by seir
+    ports:
+      - 15432:5432
+
+  pg-admin:
+    image: dpage/pgadmin4
+    volumes:
+      - pg-admin:/var/lib/pgadmin
+    ports:
+      - 8082:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ADMIN@HACKREACTOR.COM
+      PGADMIN_DEFAULT_PASSWORD: PASSWORD
+      PGADMIN_DISABLE_POSTFIX: 1
