@@ -1,13 +1,12 @@
 # uncommented volumes
 # add volume for postgres-data
 volumes:
-# from postgres-data -> byob-data
+  # from postgres-data -> byob-data
   byob-data:
     external: true
 
   pg-admin:
     external: true
-
 
 services:
   byob_service:
@@ -20,7 +19,6 @@ services:
       - ./byob_service:/app
     environment:
       DATABASE_URL: postgresql://byob:password@postgres/byob
-      # replace user-name=byob? and db-name=byob? with proper values?
       WAIT_HOSTS: postgres:5432
 
   ghi:
@@ -37,7 +35,6 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       REACT_APP_BYOB_SERVICE_API_HOST: http://localhost:8000
-      # changed from ..._SAMPLE_SERVICE... to BYOB_SERVICE
 
   postgres:
     build:
@@ -45,11 +42,9 @@ services:
       dockerfile: ./Dockerfile.dev
     volumes:
       - byob-data:/var/lib/postgresql/data
-      # changed from postgres to byob
     environment:
       - POSTGRES_MULTIPLE_DATABASES=byob
       - POSTGRES_PASSWORD=password
-      # changed test-databases to password - okayd by seir
     ports:
       - 15432:5432
 
