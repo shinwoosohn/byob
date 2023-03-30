@@ -39,3 +39,10 @@ Recommended naming convention is `first_last.md`.
     Queries
         - when you create a ConnectionPool to use to connect to the database, use code like this
             ```pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])```
+
+
+Thursday:
+
+    created produce migration table
+
+    added copy/paste for produce queiries
