@@ -1,28 +1,35 @@
 from pydantic import BaseModel
 from typing import Optional, List, Union
-from datetime import date
 from queries.pool import pool
+from datetime import date
+# from queries.post import PostOut
+# from queries.deliveries import DevliveriesOut
 
-# ProduceIn {
-#     quantity: int,
-#     weight: int,
-#     description: str,
-#     image_url: str,
-#     exp_date: date,
-#     is_decorative: bool Default: False,
-#     is_available: bool Default: False,
-# }
 
-# ProduceOut	{
-#     produce_id: int,
-#     quantity: int,
-#     weight: int,
-#     description: str,
-#     image_url: str,
-#     exp_date date,
-#     is_decorative Default: False bool,
-#     is_available Default: False	bool,
-#     price float,
-#     owner_id int
-#     posts List PostsOut
-#     deliveries List DeliveriesOut
+class ProduceIn(BaseModel):
+    quantity: int
+    weight: int
+    description: str
+    image_url: str
+    exp_date: date
+    is_decorative: bool
+    is_available: bool
+
+
+class ProduceOut(ProduceIn):
+    produce_id: int
+    quantity: int
+    weight: int
+    description: str
+    image_url: str
+    exp_date: date
+    is_decorative: bool
+    is_available: bool
+    price: float
+    owner_id: int
+    posts: List[PostsOut]
+    deliveries: List[DeliveriesOut]
+
+
+class ProduceRepository:
+    pass

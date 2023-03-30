@@ -37,3 +37,7 @@ class UsersOut(BaseModel):
 
 class UsersOutWithPassword(UsersOut):
     hashed_password: str
+
+
+class UsersRepository:
+    pass
