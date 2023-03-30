@@ -21,7 +21,7 @@ steps = [
     );
     """,
     """
-    DROP TABLE users
+    DROP TABLE users;
     """
     ]
 ]
