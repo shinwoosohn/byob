@@ -15,7 +15,7 @@ class MyAuthenticator(Authenticator):
         # username (which could be an email)
         return users.get(username)
 
-    def get_user_getter(
+    def get_account_getter(
         self,
         users: UsersRepository = Depends(),
     ):
@@ -27,7 +27,7 @@ class MyAuthenticator(Authenticator):
         # user object
         return user.hashed_password
 
-    def get_user_data_for_cookie(self, user: UsersOut):
+    def get_account_data_for_cookie(self, user: UsersOut):
         # Return the username and the data for the cookie.
         # You must return TWO values from this method.
         return user.username, UsersOut(**user.dict())
