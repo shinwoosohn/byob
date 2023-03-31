@@ -11,7 +11,7 @@ steps = [
         city VARCHAR(100) NOT NULL,
         state VARCHAR(15) NOT NULL,
         username VARCHAR(25) UNIQUE NOT NULL,
-        password VARCHAR(25) NOT NULL,
+        hashed_password VARCHAR(25) NOT NULL,
         avatar_url VARCHAR(1000),
         is_driver BOOL DEFAULT FALSE NOT NULL,
         car_model VARCHAR(25),
