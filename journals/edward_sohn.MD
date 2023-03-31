@@ -12,4 +12,6 @@ As a group, we implemented our first migration table for users. David was the dr
 
 ## 3/30/23
 
-As a group, we implemented the users query schema. I was the driver and everyone else helped me create the UsersIn, UsersOut, and UsersOutWithPassword models.
+As a group, we implemented the users query schema. I was the driver and everyone else helped me create the UsersIn, UsersOut, and UsersOutWithPassword models. I also added the pool.py file in queries.
+
+As a group, we implemented the authenticator and the users.py in routers. Garrett was the driver and we helped him create the UsersRepository in /routers/users. We followed along Curtis' lecture to help us and we changed the appropriate names to match our project.
