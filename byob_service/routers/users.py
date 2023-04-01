@@ -14,7 +14,7 @@ from queries.users import (
     UsersIn,
     UsersOut,
     UsersOutWithPassword,
-    UsersRepository
+    UsersRepo
 )
 
 
@@ -37,7 +37,7 @@ async def create_user(
     info: UsersIn,
     request: Request,
     response: Response,
-    repo: UsersRepository = Depends(),
+    repo: UsersRepo = Depends(),
 ):
     hashed_password = authenticator.hash_password(info.password)
     try:

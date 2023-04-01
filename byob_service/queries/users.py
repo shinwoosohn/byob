@@ -27,7 +27,6 @@ class UsersOut(BaseModel):
     city: str
     state: str
     username: str
-    password: str
     avatar_url: Optional[str]
     is_driver: bool
     car_model: Optional[str]
@@ -39,7 +38,7 @@ class UsersOutWithPassword(UsersOut):
     hashed_password: str
 
 
-class UsersRepository:
+class UsersRepo:
 
     # Create method for Users
     def create(self, users: UsersIn,
