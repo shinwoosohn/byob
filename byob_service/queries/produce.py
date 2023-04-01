@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from typing import Optional, List, Union
 from queries.pool import pool
 from datetime import date
-# from queries.post import PostOut
-# from queries.deliveries import DevliveriesOut
+from queries.posts import PostsOut
+# from queries.deliveries import DeliveriesOut
 
 
 class ProduceIn(BaseModel):
@@ -28,8 +28,8 @@ class ProduceOut(ProduceIn):
     price: float
     owner_id: int
     posts: List[PostsOut]
-    deliveries: List[DeliveriesOut]
+    # deliveries: List[DeliveriesOut]
 
 
-class ProduceRepository:
+class ProduceRepo:
     pass
