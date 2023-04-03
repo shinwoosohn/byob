@@ -148,7 +148,6 @@ class UsersRepo:
                           , city = %s
                           , state = %s
                           , username = %s
-                          , hashed_password = %s
                           , avatar_url = %s
                         WHERE id = %s
                         """,
@@ -161,7 +160,6 @@ class UsersRepo:
                             user.city,
                             user.state,
                             user.username,
-                            user.hashed_password,
                             user.avatar_url,
                             user_id
 
@@ -172,6 +170,28 @@ class UsersRepo:
         except Exception as e:
             print(e)
             return {"message":"Could not update Profile"}
+
+
+    def delete_user_profile(self,  user_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        """
+                        DELETE FROM users
+                        WHERE id = %s;
+                        """,
+                        [user_id]
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return {"message":"Could not delete Profile"}
+
+
+#######################################################################
+# ENCODERS BELOW
+#######################################################################
 
     def record_to_user_out(self, record):
         return UsersOutWithPassword(
@@ -204,6 +224,5 @@ class UsersRepo:
             city=record[6],
             state=record[7],
             username=record[8],
-            hashed_password=record[9],
             avatar_url=record[10]
         )
