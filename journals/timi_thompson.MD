@@ -46,3 +46,5 @@ Thursday:
     created produce migration table
 
     added copy/paste for produce queiries
+     turned into querie.py with proper class names
+     implentend UsersRepository(pass) and ProduceRepositor
