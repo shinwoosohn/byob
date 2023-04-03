@@ -74,3 +74,13 @@ def get_one_user(
     account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> UsersOutWithPassword:
     return repo.get_user(user_id)
+
+
+@router.put("/users/{user_id}", response_model=UsersOut)
+def update_user(
+    user_id: int,
+    user: UsersIn,
+    repo: UsersRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+) -> UsersOut:
+    return repo.update_user_profile(user_id, user)

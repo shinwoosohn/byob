@@ -132,6 +132,47 @@ class UsersRepo:
             print(e)
             return {"message": "Could not get that user"}
 
+
+    def update_user_profile(self, user_id: int, user:UsersIn) -> Optional[UsersOutWithPassword]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        """
+                        UPDATE users
+                        SET first_name = %s
+                          , last_name = %s
+                          , email = %s
+                          , phone_number = %s
+                          , address = %s
+                          , city = %s
+                          , state = %s
+                          , username = %s
+                          , hashed_password = %s
+                          , avatar_url = %s
+                        WHERE id = %s
+                        """,
+                        [
+                            user.first_name,
+                            user.last_name,
+                            user.email,
+                            user.phone_number,
+                            user.address,
+                            user.city,
+                            user.state,
+                            user.username,
+                            user.hashed_password,
+                            user.avatar_url,
+                            user_id
+
+                        ]
+                    )
+
+                    return self.record_to_user_update(user_id,user)
+        except Exception as e:
+            print(e)
+            return {"message":"Could not update Profile"}
+
     def record_to_user_out(self, record):
         return UsersOutWithPassword(
             user_id=record[0],
@@ -149,4 +190,20 @@ class UsersRepo:
             car_model=record[12],
             license_plate=record[13],
             dl_number=record[14],
+        )
+
+
+    def record_to_user_update(self, record):
+        return UsersOutWithPassword(
+            user_id=record[0],
+            first_name=record[1],
+            last_name=record[2],
+            email=record[3],
+            phone_number=record[4],
+            address=record[5],
+            city=record[6],
+            state=record[7],
+            username=record[8],
+            hashed_password=record[9],
+            avatar_url=record[10]
         )
