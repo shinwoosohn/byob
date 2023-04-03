@@ -48,3 +48,52 @@ Thursday:
     added copy/paste for produce queiries
      turned into querie.py with proper class names
      implentend UsersRepository(pass) and ProduceRepositor
+
+    monday
+
+    user.py routers and queries DELETE endpoint
+        ***** removed .hashed_passwords from update endpoints
+
+        @router.delete("/users/{user_id}", response_model=bool)
+def delete_user(
+    user_id: int,
+    repo: UsersRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+) -> bool:
+
+
+    try:
+        return repo.delete_user_profile(user_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot delete an account with those credentials",
+        )
+
+
+
+    def delete_user_profile(self,  user_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        """
+                        DELETE FROM users
+                        WHERE id = %s;
+                        """,
+                        [user_id]
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return {"message":"Could not delete Profile"}
+*************
+added
+              try:
+        return repo.get_user(user_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot ***** an account with those credentials",
+        )
+        for update elte get
