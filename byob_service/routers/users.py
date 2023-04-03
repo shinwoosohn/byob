@@ -73,7 +73,13 @@ def get_one_user(
     repo: UsersRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> UsersOutWithPassword:
-    return repo.get_user(user_id)
+    try:
+        return repo.get_user(user_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot get an account with those credentials",
+        )
 
 
 @router.put("/users/{user_id}", response_model=UsersOut)
@@ -83,4 +89,25 @@ def update_user(
     repo: UsersRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> UsersOut:
-    return repo.update_user_profile(user_id, user)
+    try:
+        return repo.update_user_profile(user_id, user)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot update an account with those credentials",
+        )
+
+
+@router.delete("/users/{user_id}", response_model=bool)
+def delete_user(
+    user_id: int,
+    repo: UsersRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+) -> bool:
+    try:
+        return repo.delete_user_profile(user_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot delete an account with those credentials",
+        )
