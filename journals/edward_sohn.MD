@@ -8,7 +8,7 @@ Recommended naming convention is `first_last.md`.
 
 ## 4/3/23
 
-I added the get user method in router and queries for API endpoint. I also added an encoder.
+I added the get user and get all users method in router and queries for API endpoint.
 
 ## 3/30/23
 
