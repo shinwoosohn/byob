@@ -82,6 +82,20 @@ def get_one_user(
         )
 
 
+@router.get("/users", response_model=List[UsersOutWithPassword])
+def get_all(
+    repo: UsersRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
+    try:
+        return repo.get_all()
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot get all users",
+        )
+
+
 @router.put("/users/{user_id}", response_model=UsersOut)
 def update_user(
     user_id: int,

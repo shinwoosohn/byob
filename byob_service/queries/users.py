@@ -132,8 +132,39 @@ class UsersRepo:
             print(e)
             return {"message": "Could not get that user"}
 
+    def get_all(self) -> List[UsersOutWithPassword]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        """
+                        SELECT id AS user_id
+                            , first_name
+                            , last_name
+                            , email
+                            , phone_number
+                            , address
+                            , city
+                            , state
+                            , username
+                            , hashed_password
+                            , avatar_url
+                            , is_driver
+                            , car_model
+                            , license_plate
+                            , dl_number
+                        FROM users
+                        ORDER BY id;
+                        """
+                    )
+                    return [self.record_to_user_out(record) for record in cur]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get all users"}
 
-    def update_user_profile(self, user_id: int, user:UsersIn) -> Optional[UsersOutWithPassword]:
+    def update_user_profile(
+        self, user_id: int, user: UsersIn
+    ) -> Optional[UsersOutWithPassword]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -161,18 +192,16 @@ class UsersRepo:
                             user.state,
                             user.username,
                             user.avatar_url,
-                            user_id
-
-                        ]
+                            user_id,
+                        ],
                     )
 
-                    return self.record_to_user_update(user_id,user)
+                    return self.record_to_user_update(user_id, user)
         except Exception as e:
             print(e)
-            return {"message":"Could not update Profile"}
+            return {"message": "Could not update Profile"}
 
-
-    def delete_user_profile(self,  user_id: int) -> bool:
+    def delete_user_profile(self, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -181,17 +210,16 @@ class UsersRepo:
                         DELETE FROM users
                         WHERE id = %s;
                         """,
-                        [user_id]
+                        [user_id],
                     )
                     return True
         except Exception as e:
             print(e)
-            return {"message":"Could not delete Profile"}
+            return {"message": "Could not delete Profile"}
 
-
-#######################################################################
-# ENCODERS BELOW
-#######################################################################
+    #######################################################################
+    # ENCODERS BELOW
+    #######################################################################
 
     def record_to_user_out(self, record):
         return UsersOutWithPassword(
@@ -212,7 +240,6 @@ class UsersRepo:
             dl_number=record[14],
         )
 
-
     def record_to_user_update(self, record):
         return UsersOutWithPassword(
             user_id=record[0],
@@ -224,5 +251,5 @@ class UsersRepo:
             city=record[6],
             state=record[7],
             username=record[8],
-            avatar_url=record[10]
+            avatar_url=record[10],
         )
