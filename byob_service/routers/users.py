@@ -52,3 +52,17 @@ async def create_user(
     return UserToken(user=user, **token.dict())
 
 ############################################################################
+
+# grabs token from cookie store related user session
+
+@router.get("/token", response_model=UserToken | None)
+async def get_token(
+    request: Request,
+    account: UsersIn = Depends(authenticator.try_get_current_account_data)
+) -> UserToken | None:
+    if account and authenticator.cookie_name in request.cookies:
+        return {
+            "access_token": request.cookies[authenticator.cookie_name],
+            "type": "Bearer",
+            "account": account,
+        }
