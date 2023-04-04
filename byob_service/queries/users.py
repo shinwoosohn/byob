@@ -78,7 +78,7 @@ class UsersRepo:
                             users.city,
                             users.state,
                             users.username,
-                            users.hashed_password,
+                            hashed_password,
                             users.avatar_url,
                         ],
                     )
