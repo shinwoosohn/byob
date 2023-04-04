@@ -13,13 +13,17 @@ from pydantic import BaseModel
 from queries.users import UsersIn, UsersOut, UsersOutWithPassword, UsersRepo
 
 
-class UserForm(BaseModel):
+class DuplicateAccountError(ValueError):
+    pass
+
+
+class AccountForm(BaseModel):
     username: str
     password: str
 
 
-class UserToken(Token):
-    user: UsersOut
+class AccountToken(Token):
+    account: UsersOut
 
 
 class HttpError(BaseModel):
@@ -29,7 +33,8 @@ class HttpError(BaseModel):
 router = APIRouter()
 
 
-@router.post("/users", response_model=UserToken | HttpError)
+# SignUp endpoint / Create User using Authenticator for hashing password
+@router.post("/users", response_model=AccountToken | HttpError)
 async def create_user(
     info: UsersIn,
     request: Request,
@@ -38,27 +43,24 @@ async def create_user(
 ):
     hashed_password = authenticator.hash_password(info.password)
     try:
-        user = repo.create(info, hashed_password)
-    except ValueError:
+        account = repo.create(info, hashed_password)
+    except DuplicateAccountError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot create an account with those credentials",
         )
-    form = UserForm(username=info.email, password=info.password)
+    form = AccountForm(username=info.username, password=info.password)
     token = await authenticator.login(response, request, form, repo)
-    return UserToken(user=user, **token.dict())
+    return AccountToken(account=account, **token.dict())
 
 
 ############################################################################
-
-# grabs token from cookie store related user session
-
-
-@router.get("/token", response_model=UserToken | None)
+# From jwtdown-fastapi : Grabs token from cookie store related user session
+@router.get("/token", response_model=AccountToken | None)
 async def get_token(
     request: Request,
     account: UsersIn = Depends(authenticator.try_get_current_account_data),
-) -> UserToken | None:
+) -> AccountToken | None:
     if account and authenticator.cookie_name in request.cookies:
         return {
             "access_token": request.cookies[authenticator.cookie_name],
@@ -67,6 +69,8 @@ async def get_token(
         }
 
 
+############################################################################
+# GET regular user_profile api endpoint
 @router.get("/users/{user_id}", response_model=UsersOutWithPassword)
 def get_one_user(
     user_id: int,
@@ -82,6 +86,8 @@ def get_one_user(
         )
 
 
+############################################################################
+# GET All users api endpoint for development purposes
 @router.get("/users", response_model=List[UsersOutWithPassword])
 def get_all(
     repo: UsersRepo = Depends(),
@@ -96,6 +102,8 @@ def get_all(
         )
 
 
+############################################################################
+# UPDATE regular user_profile api endpoint
 @router.put("/users/{user_id}", response_model=UsersOut)
 def update_user(
     user_id: int,
@@ -112,6 +120,8 @@ def update_user(
         )
 
 
+############################################################################
+# DELETE user api endpoint
 @router.delete("/users/{user_id}", response_model=bool)
 def delete_user(
     user_id: int,
