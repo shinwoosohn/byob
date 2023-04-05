@@ -6,6 +6,10 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/4/23
+
+I added the front end for the user sign up. We encountered a CORS policy error when test creating a sample user. Brandon(SEIR) advised us to set the origins into a list and not use os.environ.get. It looks at both CORS_HOST and localhost:3000 but CORS_HOST was never set in our dockerfile, so it gave us the CORS policy error.
+
 ## 4/3/23
 
 I added the get user and get all users method in router and queries for API endpoint.
