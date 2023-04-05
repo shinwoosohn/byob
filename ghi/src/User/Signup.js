@@ -14,17 +14,17 @@ function Signup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = {};
-    data.first_name = firstName;
-    data.last_name = lastName;
-    data.email = email;
-    data.phone_number = phoneNumber;
-    data.address = address;
-    data.city = city;
-    data.state = state;
-    data.username = username;
-    data.password = password;
-    data.avatar_url = avatarUrl;
+    // const data = {};
+    // data.first_name = firstName;
+    // data.last_name = lastName;
+    // data.email = email;
+    // data.phone_number = phoneNumber;
+    // data.address = address;
+    // data.city = city;
+    // data.state = state;
+    // data.username = username;
+    // data.password = password;
+    // data.avatar_url = avatarUrl;
 
     const userUrl = `${process.env.REACT_APP_BYOB_SERVICE_API_HOST}/users`;
     const fetchConfig = {

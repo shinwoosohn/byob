@@ -97,3 +97,15 @@ added
             detail="Cannot ***** an account with those credentials",
         )
         for update elte get
+
+
+tuesday april 4 ##################################################
+
+change to auth file: all "user" changed back to "account" to match the docs
+
+
+in fe 4
+    docker yaml file:
+    +
+    REACT_APP_BYOB_SERVICE_API_HOST: http://localhost:8000
+    REACT_APP_USER_SERVICE_API_HOST: http://localhost:8000
