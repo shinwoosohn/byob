@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Union
 from queries.pool import pool
 from datetime import date
-from queries.posts import PostsOut
+# from queries.posts import PostsOut
 # from queries.deliveries import DeliveriesOut
 
 
@@ -27,7 +27,7 @@ class ProduceOut(ProduceIn):
     is_available: bool
     price: float
     owner_id: int
-    posts: List[PostsOut]
+    # posts: List[PostsOut]
     # deliveries: List[DeliveriesOut]
 
 
