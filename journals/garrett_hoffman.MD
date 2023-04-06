@@ -2,6 +2,20 @@
 
 # Journals
 
+## 4/5/2023 - Work on CREATE and GET Posts api endpoints
+
+Today, I worked on:
+
+- Work on the CREATE api endpoint and repo method for the posts
+- Work on the GET Post api endpoint /posts/{id} and method
+
+The SQL required for the GET method requires a JOIN ON, which I understand well,
+but we're struggling to apply the python without getting pydantic syntax errors.
+We ran into an error because we tried to have a link from PostsOut in Produce.py and
+vice versa, but it didn't like it and referenced it as an infinite loop.
+
+I'm spending the night looking through prior lectures for api and SQL examples with multiple tables JOIN.
+
 ## 4/4/2023 - Morning FINAL fix to SignUp BE endpoint bug / Worked on frontend signup and CORS bug fixing
 
 Today, I worked on:
