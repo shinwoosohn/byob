@@ -58,3 +58,38 @@ class PostsRepo:
                     )
         except Exception as e:
             raise ValueError("Could not create post")
+
+
+    ##############################################################################
+    # GET post by id not caring about the user
+    def get_post(self, posts_id: int) -> Optional[PostsOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        """
+                        SELECT p.id AS posts_id,
+                            , u.username
+                            , p.post_created,
+                            , p.text
+                            , p.postimg_url
+                            , pr.id AS
+                            , pr.quantity
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                        FROM posts p
+                        LEFT JOIN produce pr
+                        ON p.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON p.poster_id = u.id
+                        GROUP BY posts_id;
+                        """,
+                        [posts_id]
+                    )
+                    record = result.fetchone()
+                    if record is None:
+                        return None
+                    return
