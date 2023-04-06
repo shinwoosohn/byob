@@ -68,13 +68,15 @@ class PostsRepo:
                 with conn.cursor() as cur:
                     result = cur.execute(
                         """
-                        SELECT p.id AS posts_id,
+                        SELECT p.id AS posts_id
+                            , u.id AS user_id
                             , u.username
-                            , p.post_created,
+                            , p.post_created
                             , p.text
                             , p.postimg_url
-                            , pr.id AS
+                            , pr.id AS produce_id
                             , pr.quantity
+                            , pr.weight
                             , pr.description
                             , pr.image_url
                             , pr.exp_date
@@ -85,7 +87,8 @@ class PostsRepo:
                         ON p.produce_id = pr.id
                         LEFT JOIN users u
                         ON p.poster_id = u.id
-                        GROUP BY posts_id;
+                        WHERE posts_id = %s
+                        ORDER BY posts_id;
                         """,
                         [posts_id]
                     )
@@ -93,3 +96,14 @@ class PostsRepo:
                     if record is None:
                         return None
                     return
+
+
+
+    # method to call in get_post that structures the data into proper nested dict form
+    def post_record_to_dict(self, row, description):
+        post = None
+        if row is not None:
+            post = {}
+            post_fields = [
+
+            ]
