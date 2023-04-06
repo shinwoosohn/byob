@@ -10,6 +10,7 @@ steps = [
             exp_date DATE NOT NULL,
             is_decorative BOOL DEFAULT false,
             is_available BOOL DEFAULT false,
+            price FLOAT,
             owner_id INT NOT NULL
         );
         """,
