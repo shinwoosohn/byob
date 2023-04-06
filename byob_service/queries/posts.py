@@ -8,7 +8,7 @@ class PostsIn(BaseModel):
     text: str
     postimg_url: str
     produce_id: Optional[int]
-    poster_id: int
+    poster_id: Optional[int]
 
 
 class PostOut(BaseModel):
@@ -17,7 +17,7 @@ class PostOut(BaseModel):
     text: str
     postimg_url: str
     produce_id: Optional[int]
-    poster_id: int
+    poster_id: Optional[int]
 
 
 class PostProduce(BaseModel):
@@ -30,6 +30,7 @@ class PostProduce(BaseModel):
     is_decorative: Optional[bool]
     is_available: Optional[bool]
     price: Optional[float]
+
 
 class PostUser(BaseModel):
     user_id: int
@@ -71,7 +72,7 @@ class PostsRepo:
                             posts.postimg_url,
                             posts.produce_id,
                             account_data["user_id"],
-                        ]
+                        ],
                     )
                     posts_id = cur.fetchone()[0]
                     old_data = posts.dict()
@@ -83,7 +84,6 @@ class PostsRepo:
         except Exception as e:
             print(e)
             raise ValueError("Could not create post")
-
 
     ##############################################################################
     # GET post by id not caring about the user
@@ -114,7 +114,7 @@ class PostsRepo:
                         ON p.poster_id = u.id
                         WHERE p.id = %s
                         """,
-                        [posts_id]
+                        [posts_id],
                     )
                     row = cur.fetchone()
                     return self.post_record_to_dict(row, cur.description)
@@ -122,27 +122,48 @@ class PostsRepo:
             print(e)
             return {"message": "Could not get that post"}
 
-
     ##############################################################################
     # GET ALL posts for main public feed
 
-
-
-
     ##############################################################################
     # UPDATE post by posts_id
-
-
-
+    def update_post(
+        self, posts: PostsIn, posts_id: int, account_data: dict
+    ) -> PostOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        # INSERT SQL statement to create posts
+                        """
+                        UPDATE posts
+                        SET text = %s
+                            , postimg_url = %s
+                            , produce_id = %s
+                        WHERE id = %s
+                        """,
+                        [
+                            posts.text,
+                            posts.postimg_url,
+                            posts.produce_id,
+                            posts_id,
+                        ],
+                    )
+                    posts_id = posts_id
+                    old_data = posts.dict()
+                    old_data["poster_id"] = account_data["user_id"]
+                    return PostOut(
+                        posts_id=posts_id,
+                        **old_data,
+                    )
+        except Exception as e:
+            print(e)
+            raise ValueError("Could not create post")
 
     ##############################################################################
     # DELETE post by posts_id
 
-
-
-
-
-#*****************************ENCODER***********************************************************
+    # *****************************ENCODER***********************************************************
     # method to call in get_post that structures the data into proper nested dict form
     def post_record_to_dict(self, row, description):
         post = None
