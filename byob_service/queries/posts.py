@@ -117,8 +117,6 @@ class PostsRepo:
                         [posts_id]
                     )
                     row = cur.fetchone()
-                    print(row)
-                    print(cur.description)
                     return self.post_record_to_dict(row, cur.description)
         except Exception as e:
             print(e)
@@ -156,7 +154,6 @@ class PostsRepo:
                 "text",
                 "postimg_url",
             ]
-            print(enumerate(description))
             for i, column in enumerate(description):
                 if column.name in post_fields:
                     post[column.name] = row[i]
