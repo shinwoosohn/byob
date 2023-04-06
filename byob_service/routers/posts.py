@@ -30,6 +30,7 @@ def get_post(
     posts_id: int,
     response: Response,
     repo: PostsRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     record = repo.get_post(posts_id)
     if record is None:
