@@ -1,19 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from typing import Union, List, Optional
 from authenticator import authenticator
-from queries.posts import PostsIn, PostsOut, PostsRepo
+from queries.posts import PostsIn, PostOut,PostsOut, PostsRepo
 
 
 router = APIRouter()
 
 
 # Create a post/listing endpoint
-@router.post('/posts', response_model=PostsOut)
+@router.post('/posts', response_model=PostOut)
 def create_post(
     info: PostsIn,
     repo: PostsRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
-) -> PostsOut:
+) -> PostOut:
     try:
         return repo.create(info, account_data)
     except ValueError:

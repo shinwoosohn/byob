@@ -1,9 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional, List, Union
-from datetime import datetime
+from datetime import datetime, date
 from queries.pool import pool
-from queries.produce import ProduceOut
-from queries.users import UsersOut
 
 
 class PostsIn(BaseModel):
@@ -13,19 +11,44 @@ class PostsIn(BaseModel):
     poster_id: int
 
 
+class PostOut(BaseModel):
+    posts_id: int
+    post_created: Optional[datetime]
+    text: str
+    postimg_url: str
+    produce_id: Optional[int]
+    poster_id: int
+
+
+class PostProduce(BaseModel):
+    produce_id: Optional[int]
+    quantity: Optional[int]
+    weight: Optional[int]
+    description: Optional[str]
+    image_url: Optional[str]
+    exp_date: Optional[date]
+    is_decorative: Optional[bool]
+    is_available: Optional[bool]
+    price: Optional[float]
+
+class PostUser(BaseModel):
+    user_id: int
+    username: str
+
+
 class PostsOut(BaseModel):
     posts_id: int
     post_created: Optional[datetime]
     text: str
     postimg_url: str
-    produce: Optional[ProduceOut]
-    user: UsersOut
+    produce: Optional[PostProduce]
+    user: PostUser
 
 
 class PostsRepo:
     ####################################################################
     # CREATE posts/listings method
-    def create(self, posts: PostsIn, account_data: dict) -> PostsOut:
+    def create(self, posts: PostsIn, account_data: dict) -> PostOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -53,11 +76,12 @@ class PostsRepo:
                     posts_id = cur.fetchone()[0]
                     old_data = posts.dict()
                     old_data["poster_id"] = account_data["user_id"]
-                    return PostsOut(
+                    return PostOut(
                         posts_id=posts_id,
                         **old_data,
                     )
         except Exception as e:
+            print(e)
             raise ValueError("Could not create post")
 
 
@@ -88,8 +112,7 @@ class PostsRepo:
                         ON p.produce_id = pr.id
                         LEFT JOIN users u
                         ON p.poster_id = u.id
-                        WHERE posts_id = %s
-                        ORDER BY posts_id;
+                        WHERE p.id = %s
                         """,
                         [posts_id]
                     )
@@ -98,6 +121,25 @@ class PostsRepo:
         except Exception as e:
             print(e)
             return {"message": "Could not get that post"}
+
+
+    ##############################################################################
+    # GET ALL posts for main public feed
+
+
+
+
+    ##############################################################################
+    # UPDATE post by posts_id
+
+
+
+
+    ##############################################################################
+    # DELETE post by posts_id
+
+
+
 
 
 #*****************************ENCODER***********************************************************
@@ -115,7 +157,7 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in post_fields:
                     post[column.name] = row[i]
-            post["id"] = post["posts_id"]
+            # post["id"] = post["posts_id"]
 
             produce = {}
             produce_fields = [
@@ -131,7 +173,7 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in produce_fields:
                     produce[column.name] = row[i]
-            produce["id"] = produce["produce_id"]
+            # produce["id"] = produce["produce_id"]
             post["produce"] = produce
 
             user = {}
@@ -142,6 +184,6 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in user_fields:
                     user[column.name] = row[i]
-            user["id"] = user["user_id"]
+            # user["id"] = user["user_id"]
             post["user"] = user
         return post
