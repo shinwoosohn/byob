@@ -1,5 +1,19 @@
 ## Journal
 
+### Wednesday April 3, 2023
+
+- Created the Post method for Produce
+
+```
+<!-- insert method here -->
+```
+
+### Tuesday April 4, 2023
+
+- Worked on FrontEnd Sign up
+
+### Monday April 3, 2023
+
 ### Thursday March 30, 2023
 
 ### Wednesday March 29, 2023
