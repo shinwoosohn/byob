@@ -14,7 +14,10 @@ but we're struggling to apply the python without getting pydantic syntax errors.
 We ran into an error because we tried to have a link from PostsOut in Produce.py and
 vice versa, but it didn't like it and referenced it as an infinite loop.
 
-I'm spending the night looking through prior lectures for api and SQL examples with multiple tables JOIN.
+After going through the motions of debugging, I was able to narrow down the issue and
+updated the Posts/listing schema, so that there are no more issues in the JSON received and
+returned in the 8000/docs. The Schema is very important for FastAPI as it's the way
+our endpoints pass data, so the python structure also needs to match the wanted outcome.
 
 ## 4/4/2023 - Morning FINAL fix to SignUp BE endpoint bug / Worked on frontend signup and CORS bug fixing
 
