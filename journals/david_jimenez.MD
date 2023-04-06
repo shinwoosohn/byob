@@ -1,5 +1,7 @@
 ## Journal
 
+### Thursday April 4, 2023
+
 ### Wednesday April 3, 2023
 
 - Created the Post method for Produce
@@ -40,6 +42,8 @@
             raise ValueError("Could not create produce")
 
 ```
+
+FastApi Doc is working
 
 ### Tuesday April 4, 2023
 
