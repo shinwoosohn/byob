@@ -2,13 +2,13 @@
 
 # Journals
 
-## 4/6/2023 - Pair program Update Post API endpoint and GET All posts API endpoint
+## 4/6/2023 - DEBUGGING / Pair program Update Post API endpoint and GET All posts API endpoint
 
 Today, I worked on:
 
-- pair programming update singular post/listing endpoint
-- pair programming GET all posts/listings endpoint
-- Debugging Produce endpoints
+- pair programming update singular post/listing endpoint - success
+- pair programming GET all posts/listings endpoint - success
+- Debugging Produce endpoints - GET and UPDATE - success
 - reviewing redux and frontend authentication
 
 We have effectively completed the necessary backend for an MVP - minimum viable product.
@@ -22,8 +22,8 @@ process of learning new technologies within a group to support each other.
 
 Today, I worked on:
 
-- Work on the CREATE api endpoint and repo method for the posts
-- Work on the GET Post api endpoint /posts/{id} and method
+- Work on the CREATE api endpoint and repo method for the posts - success
+- Work on the GET Post api endpoint /posts/{id} and method - success
 
 The SQL required for the GET method requires a JOIN ON, which I understand well,
 but we're struggling to apply the python without getting pydantic syntax errors.
@@ -39,7 +39,7 @@ our endpoints pass data, so the python structure also needs to match the wanted 
 
 Today, I worked on:
 
-- Morning bug fixing with an instructor and fellow peer and cleared issue in 20 min.
+- Morning bug fixing with an instructor and fellow peer and cleared issue in 20 min. - success
 - pair-programming in an effort to create a simple signup frontend form
 - wanted to get to frontend authorization, but not enough time
 - bug fixing a simple task, yet another nuance and workaround necessary

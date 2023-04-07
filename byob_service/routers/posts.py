@@ -1,22 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from typing import Union, List, Optional
 from authenticator import authenticator
-<<<<<<< HEAD
-from queries.posts import PostsIn, PostOut,PostsOut, PostsRepo
-=======
 from queries.posts import PostsIn, PostOut, PostsOut, PostsRepo
->>>>>>> main
 
 
 router = APIRouter()
 
 
 # Create a post/listing endpoint
-<<<<<<< HEAD
-@router.post('/posts', response_model=PostOut)
-=======
 @router.post("/posts", response_model=PostOut)
->>>>>>> main
 def create_post(
     info: PostsIn,
     repo: PostsRepo = Depends(),
