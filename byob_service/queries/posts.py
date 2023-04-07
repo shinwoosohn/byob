@@ -105,6 +105,7 @@ class PostsRepo:
                             , pr.exp_date
                             , pr.is_decorative
                             , pr.is_available
+                            , pr.price
                             , u.id AS user_id
                             , u.username
                         FROM posts p
@@ -124,6 +125,59 @@ class PostsRepo:
 
     ##############################################################################
     # GET ALL posts for main public feed
+    def get_all_post(self) -> List[PostsOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT p.id AS posts_id
+                            , p.post_created
+                            , p.text
+                            , p.postimg_url
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id AS user_id
+                            , u.username
+                        FROM posts p
+                        LEFT JOIN produce pr
+                        ON p.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON p.poster_id = u.id
+                        GROUP BY p.id
+                            , p.post_created
+                            , p.text
+                            , p.postimg_url
+                            , pr.id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id
+                            , u.username
+                        ORDER BY pr.exp_date DESC
+                        """
+                    )
+                    rows = cur.fetchall()
+                    return [
+                        self.post_record_to_dict(row, cur.description)
+                        for row in rows
+                    ]
+
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get posts"}
 
     ##############################################################################
     # UPDATE post by posts_id
@@ -190,6 +244,7 @@ class PostsRepo:
                 "exp_date",
                 "is_decorative",
                 "is_available",
+                "price",
             ]
             for i, column in enumerate(description):
                 if column.name in produce_fields:
