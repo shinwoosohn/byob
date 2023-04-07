@@ -67,6 +67,22 @@ def update_post(
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Cannot create post with those credentials",
+            detail="Cannot update post with those credentials",
+        )
+
+
+########################################################################################
+# GET all post/listing endpoint
+@router.get("/posts", response_model=List[PostsOut])
+def get_all_post(
+    repo: PostsRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
+    try:
+        return repo.get_all_post()
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot view all posts",
         )
 >>>>>>> main
