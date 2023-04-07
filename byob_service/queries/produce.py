@@ -60,7 +60,17 @@ class ProduceRepo:
                     result=cur.execute(
                         """
                         INSERT INTO produce
-                            (quantity,weight,description,image_url,exp_date,is_decorative,is_available,price,owner_id)
+                            (
+                                quantity
+                                , weight
+                                , description
+                                , image_url
+                                , exp_date
+                                , is_decorative
+                                , is_available
+                                , price
+                                , owner_id
+                            )
                         VALUES
                             (%s,%s,%s,%s,%s,%s,%s,%s,%s)
                         RETURNING id AS produce_id;
@@ -87,25 +97,8 @@ class ProduceRepo:
         except Exception as e:
             raise ValueError("Could not create produce")
 
-# ****************************END*CREATE*PRODUCE******************************************
 
-
-# not being used
-    # def produce_in_to_out(self, record):
-    #     return ProduceOut(
-    #         produce_id=record[0],
-    #         quantity=record[1],
-    #         weight=record[2],
-    #         description=record[3],
-    #         image_url=record[4],
-    #         exp_date=record[5],
-    #         is_decorative=record[6],
-    #         is_available=record[7],
-    #         price=record[8],
-    #     )
-
-
-######################################################################
+##############################################################################################
 # GET specific produce for specific user
     def get_produce(self, user_id: int, produce_id: int) -> Optional[ProduceGetOut]:
         try:
@@ -134,10 +127,45 @@ class ProduceRepo:
                     row = cur.fetchone()
                     return self.produce_record_to_dict(row, cur.description)
         except Exception as e:
-            print(e)
             return {"message": "Could not get that produce"}
 
 # ******************************UPDATE*A*PRODUCE*****************************************
+    def update_produce(self, user_id: int, produce_id: int, produce: ProduceIn, ) -> ProduceOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        """
+                        UPDATE produce
+                        SET quantity = %s
+                          ,  weight = %s
+                          ,  description = %s
+                          ,  image_url = %s
+                          ,  exp_date = %s
+                          ,  is_decorative = %s
+                          ,  is_available = %s
+                          ,  price = %s
+                        WHERE owner_id = %s and id = %s
+                        """,
+                        [
+                            produce.quantity,
+                            produce.weight,
+                            produce.description,
+                            produce.image_url,
+                            produce.exp_date,
+                            produce.is_decorative,
+                            produce.is_available,
+                            produce.price,
+                            produce.owner_id,
+                            produce_id
+                        ],
+                    )
+                    produce_id = produce_id
+                    old_data = produce.dict()
+                    old_data["owner_id"]=user_id
+                    return ProduceOut(produce_id=produce_id, **old_data)
+        except Exception as e :
+            raise ValueError("Could not update produce")
 
 #*****************************ENCODER***********************************************************
     # method to call in get_produce that structures the data into proper nested dict form

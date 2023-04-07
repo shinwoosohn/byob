@@ -43,3 +43,22 @@ def get_produce(
         response.status_code = 404
     else:
         return record
+
+
+################################################################################
+# UPDATE singular produce endpoint
+
+@router.put("/users/{user_id}/produce/{produce_id}", response_model=ProduceOut)
+def update_produce(
+    user_id: int,
+    produce_id: int,
+    response: Response,
+    produce: ProduceIn,
+    repo: ProduceRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+) -> ProduceOut:
+    try:
+        return repo.update_produce(user_id, produce_id, produce)
+    except Exception as e:
+        response.status_code = 400
+        return {"message": "Can not update produce"}
