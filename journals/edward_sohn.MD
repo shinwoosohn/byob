@@ -6,6 +6,10 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/6/23
+
+We split into pair programming. I was the driver and Garrett was helping me. We created the PUT and GET all posts API endpoints. We had to set some fields to Optional in our Posts schema and we encountered a fetch error where we got stuck on for a while. The problem was that we were getting an empty array back when we had the data in the database. We had a fetchall() print statement above the actual fetchall() statement which meant that all the data was being consumed from the cursor from the print statement. We learned a new complication that could arise when debugging. A bug from an attempt to debug!
+
 ## 4/5/23
 
 We split into pair programming. David was the driver and we worked on the POST produce endpoint.
