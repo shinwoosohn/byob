@@ -33,11 +33,7 @@ def create_post(
 
 ########################################################################################
 # GET singular post/listing endpoint
-<<<<<<< HEAD
-@router.get('/posts/{posts_id}', response_model=PostsOut)
-=======
 @router.get("/posts/{posts_id}", response_model=PostsOut)
->>>>>>> main
 def get_post(
     posts_id: int,
     response: Response,
@@ -49,8 +45,6 @@ def get_post(
         response.status_code = 404
     else:
         return record
-<<<<<<< HEAD
-=======
 
 
 ########################################################################################
@@ -85,4 +79,3 @@ def get_all_post(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot view all posts",
         )
->>>>>>> main

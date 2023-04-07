@@ -2,6 +2,22 @@
 
 # Journals
 
+## 4/6/2023 - Pair program Update Post API endpoint and GET All posts API endpoint
+
+Today, I worked on:
+
+- pair programming update singular post/listing endpoint
+- pair programming GET all posts/listings endpoint
+- Debugging Produce endpoints
+- reviewing redux and frontend authentication
+
+We have effectively completed the necessary backend for an MVP - minimum viable product.
+We have not worked on the frontend yet, so it will be its own challenge, but it feels good
+to have the backend done for a greater part of the project.
+
+Debugging is life, something I know well. It's a skill set, so I'm glad to be going through the
+process of learning new technologies within a group to support each other.
+
 ## 4/5/2023 - Work on CREATE and GET Posts api endpoints
 
 Today, I worked on:
