@@ -97,3 +97,21 @@ added
             detail="Cannot ***** an account with those credentials",
         )
         for update elte get
+
+
+
+THURSDAY april 6
+
+updating create route
+
+![Alt text](screenshots/Screen%20Shot%202023-04-06%20at%2012.51.31%20PM.png)
+
+
+working on get post
+
+
+
+FRIDAY
+
+fixed get see discord for screenshots of missing pieces
+produce.id doubled, missing user.id in WHERE statement, user -> users to match naming convention in migration table
