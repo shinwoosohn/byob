@@ -223,3 +223,50 @@ class ProduceRepo:
             # user["id"] = user["user_id"]
             produce["user"] = user
         return produce
+
+
+    def get_all_produce(self, user_id: int) -> List[ProduceGetOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id AS user_id
+                            , u.username
+                        FROM produce pr
+                        LEFT JOIN users u
+                        ON pr.owner_id = u.id
+                        WHERE u.id = %s
+                        GROUP BY pr.id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id
+                            , u.username
+                        ORDER BY pr.exp_date DESC
+                        """,
+                        [user_id],
+                    )
+                    rows = cur.fetchall()
+                    return [
+                        self.produce_record_to_dict(row, cur.description)
+                        for row in rows
+                    ]
+
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get list of produce"}

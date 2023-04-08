@@ -60,8 +60,10 @@ def delete_produce(
         response.status_code = 404
     else:
         return record
-# UPDATE singular produce endpoint
 
+
+# ####################################################################
+# UPDATE singular produce endpoint
 @router.put("/users/{user_id}/produce/{produce_id}", response_model=ProduceOut)
 def update_produce(
     user_id: int,
@@ -76,3 +78,21 @@ def update_produce(
     except Exception as e:
         response.status_code = 400
         return {"message": "Can not update produce"}
+
+
+
+# ####################################################################
+# GET ALL  produce endpoint
+@router.get("/users/{user_id}/produce/", response_model=List[ProduceGetOut])
+def get_all_produce(
+    user_id: int,
+    repo: ProduceRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
+    try:
+        return repo.get_all_produce(user_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot view all produce",
+        )
