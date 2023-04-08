@@ -217,6 +217,22 @@ class PostsRepo:
     ##############################################################################
     # DELETE post by posts_id
 
+    def delete_post(self, posts_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        DELETE FROM posts
+                        WHERE id = %s
+                        """,
+                        [posts_id],
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return False
+
     # *****************************ENCODER***********************************************************
     # method to call in get_post that structures the data into proper nested dict form
     def post_record_to_dict(self, row, description):
