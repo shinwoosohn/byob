@@ -71,3 +71,18 @@ def get_all_post(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot view all posts",
         )
+
+################################################################################
+# DELETE singular post endpoint
+@router.delete("/posts/{id}}", response_model=bool)
+def delete_post(
+    posts_id: int,
+    response: Response,
+    repo: PostsRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
+    record = repo.delete_post(posts_id)
+    if record is None:
+        response.status_code = 404
+    else:
+        return record
