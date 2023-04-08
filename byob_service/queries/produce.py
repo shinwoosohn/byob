@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Union
 from queries.pool import pool
 from datetime import date
+
 # from queries.posts import PostsOut
 # from queries.deliveries import DeliveriesOut
 
@@ -49,15 +50,14 @@ class ProduceGetOut(BaseModel):
     user: ProduceUser
 
 
-
 class ProduceRepo:
-# ******************************CREATE*PRODUCE******************************************
+    # ******************************CREATE*PRODUCE******************************************
 
     def create(self, user_id: int, produce: ProduceIn) -> ProduceOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result=cur.execute(
+                    result = cur.execute(
                         """
                         INSERT INTO produce
                             (
@@ -84,8 +84,8 @@ class ProduceRepo:
                             produce.is_decorative,
                             produce.is_available,
                             produce.price,
-                            user_id
-                        ]
+                            user_id,
+                        ],
                     )
                     produce_id = cur.fetchone()[0]
                     old_data = produce.dict()
@@ -97,10 +97,11 @@ class ProduceRepo:
         except Exception as e:
             raise ValueError("Could not create produce")
 
-
-##############################################################################################
-# GET specific produce for specific user
-    def get_produce(self, user_id: int, produce_id: int) -> Optional[ProduceGetOut]:
+    ##############################################################################################
+    # GET specific produce for specific user
+    def get_produce(
+        self, user_id: int, produce_id: int
+    ) -> Optional[ProduceGetOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -122,15 +123,20 @@ class ProduceRepo:
                         ON pr.owner_id = u.id
                         WHERE u.id = %s and pr.id = %s
                         """,
-                        [user_id, produce_id]
+                        [user_id, produce_id],
                     )
                     row = cur.fetchone()
                     return self.produce_record_to_dict(row, cur.description)
         except Exception as e:
             return {"message": "Could not get that produce"}
 
-# ******************************UPDATE*A*PRODUCE*****************************************
-    def update_produce(self, user_id: int, produce_id: int, produce: ProduceIn, ) -> ProduceOut:
+    # ******************************UPDATE*A*PRODUCE*****************************************
+    def update_produce(
+        self,
+        user_id: int,
+        produce_id: int,
+        produce: ProduceIn,
+    ) -> ProduceOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -157,17 +163,35 @@ class ProduceRepo:
                             produce.is_available,
                             produce.price,
                             produce.owner_id,
-                            produce_id
+                            produce_id,
                         ],
                     )
                     produce_id = produce_id
                     old_data = produce.dict()
-                    old_data["owner_id"]=user_id
+                    old_data["owner_id"] = user_id
                     return ProduceOut(produce_id=produce_id, **old_data)
-        except Exception as e :
+        except Exception as e:
             raise ValueError("Could not update produce")
 
-#*****************************ENCODER***********************************************************
+    ######################################################################
+    # DELETE specific produce for specific user
+    def delete_produce(self, produce_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        DELETE FROM produce
+                        WHERE id = %s
+                        """,
+                        [produce_id],
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return False
+
+    # *****************************ENCODER***********************************************************
     # method to call in get_produce that structures the data into proper nested dict form
     def produce_record_to_dict(self, row, description):
         produce = None
