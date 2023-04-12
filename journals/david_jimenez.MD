@@ -1,5 +1,10 @@
 ## Journal
 
+### Friday April 5, 2023
+
+- I created the get_all_produce method to get a list of produce for users as well as the router.
+- Spent some time **Garrett** getting this up and running on our docs page
+
 ### Thursday April 4, 2023
 
 ### Wednesday April 3, 2023
