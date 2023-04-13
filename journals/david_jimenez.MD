@@ -1,9 +1,21 @@
 ## Journal
 
+### Wednesday April 12, 2023
+
+- Edward and I worked on learning Tailwind CSS React
+- We got our NavBar up with search bar and a user profile picture
+- The Sidebar is up as well but does not look how we want it to. Were still learning the Tailwind class names and will continue to adjust
+- As a team we caught up and talked about plans on approaching more frontend stuff. Pretty much learning TailWind CSS
+
 ### Friday April 5, 2023
 
 - I created the get_all_produce method to get a list of produce for users as well as the router.
-- Spent some time **Garrett** getting this up and running on our docs page
+
+```
+<!-- insert method and router here -->
+```
+
+- Spent some time **Garrett** getting his methods and routers for the **_post_** set up and running on our docs page
 
 ### Thursday April 4, 2023
 

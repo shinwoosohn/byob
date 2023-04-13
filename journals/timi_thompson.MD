@@ -48,7 +48,7 @@ Thursday:
      turned into querie.py with proper class names
      implentend UsersRepository(pass) and ProduceRepositor
 
-monday ********\*\*\*\*********
+monday **\*\*\*\***\*\*\*\***\*\*\*\***
 
     user.py routers and queries DELETE endpoint
         ***** removed .hashed_passwords from update endpoints
