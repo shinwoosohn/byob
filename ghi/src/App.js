@@ -5,6 +5,7 @@ import Signup from "./User/Signup";
 // import ErrorNotification from './ErrorNotification';
 import "./App.css";
 import LoginForm from "./User/LoginForm";
+import TopNavBar from "./Components/topNavBar";
 
 function App() {
   const [launch_info, setLaunchInfo] = useState([]);
@@ -12,6 +13,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <TopNavBar />
       <Routes>
         <Route path="/" element={<Signup />}></Route>
         <Route path="/login" element={<LoginForm />}></Route>
