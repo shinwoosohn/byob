@@ -13,8 +13,8 @@ steps = [
             to_city VARCHAR(1000) NOT NULL,
             to_state VARCHAR(1000) NOT NULL,
             requestor_id INT NOT NULL,
-            order_status VARCHAR(25) DEFAULT pending,
-            delivery_status VARCHAR(25) DEFAULT pending,
+            order_status VARCHAR(25) DEFAULT 'pending',
+            delivery_status VARCHAR(25) DEFAULT 'pending',
             request_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             driver_id INT
         );
