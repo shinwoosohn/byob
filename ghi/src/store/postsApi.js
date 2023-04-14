@@ -21,21 +21,21 @@ export const postsApi = createApi({
       }),
       invalidatesTag: ["postsList"],
     }),
-    // updatePosts: builder.mutation({
-    //   query: (id, data) => ({
-    //     url: "/posts/" + id,
-    //     body: data,
-    //     method: "put",
-    //   }),
-    //   invalidatesTags: ["postsList"],
-    // }),
-    // deletePosts: builder.mutation({
-    //   query: (id) => ({
-    //     url: "/posts/" + id,
-    //     method: "delete",
-    //   }),
-    //   invalidatesTags: ["postsList"],
-    // }),
+    updatePosts: builder.mutation({
+      query: (id, data) => ({
+        url: "/posts/" + id,
+        body: data,
+        method: "put",
+      }),
+      invalidatesTags: ["postsList"],
+    }),
+    deletePosts: builder.mutation({
+      query: (id) => ({
+        url: "/posts/" + id,
+        method: "delete",
+      }),
+      invalidatesTags: ["postsList"],
+    }),
   }),
 });
 

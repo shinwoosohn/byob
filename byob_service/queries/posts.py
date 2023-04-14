@@ -34,6 +34,7 @@ class PostProduce(BaseModel):
 class PostUser(BaseModel):
     user_id: int
     username: str
+    avatar_url: str
 
 
 class PostsOut(BaseModel):
@@ -107,6 +108,7 @@ class PostsRepo:
                             , pr.price
                             , u.id AS user_id
                             , u.username
+                            , u.avatar_url
                         FROM posts p
                         LEFT JOIN produce pr
                         ON p.produce_id = pr.id
@@ -145,6 +147,7 @@ class PostsRepo:
                             , pr.price
                             , u.id AS user_id
                             , u.username
+                            , u.avatar_url
                         FROM posts p
                         LEFT JOIN produce pr
                         ON p.produce_id = pr.id
@@ -165,6 +168,7 @@ class PostsRepo:
                             , pr.price
                             , u.id
                             , u.username
+                            , u.avatar_url
                         ORDER BY pr.exp_date DESC
                         """
                     )
@@ -271,6 +275,7 @@ class PostsRepo:
             user_fields = [
                 "user_id",
                 "username",
+                "avatar_url",
             ]
             for i, column in enumerate(description):
                 if column.name in user_fields:
