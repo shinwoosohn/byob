@@ -2,14 +2,14 @@ import { useGetAllPostsQuery } from "../store/postsApi";
 import { Link } from "react-router-dom";
 import { useGetTokenQuery } from "../store/authApi";
 
-const producePost = (post) => {
+const producePost = ({ post }) => {
   if (post.produce.produce_id !== null) {
     return (
       <div class="max-w-sm w-full lg:max-w-full lg:flex">
         <div
           class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
-          style="background-image: url('/img/card-left.jpg')"
-          title="Woman holding a mug"
+          style={{ backgroundImage: `url(${post.produce.image_url})` }}
+          title={post.produce.description}
         ></div>
         <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
           <div class="mb-8">
@@ -35,8 +35,8 @@ const producePost = (post) => {
           <div class="flex items-center">
             <img
               class="w-10 h-10 rounded-full mr-4"
-              src={post.produce.image_url}
-              alt={post.produce.description}
+              src={post.user.avatar_url}
+              alt={post.user.username}
             />
             <div class="text-sm">
               <p class="text-gray-900 leading-none">{post.user.username}</p>
@@ -51,8 +51,8 @@ const producePost = (post) => {
       <div class="max-w-sm w-full lg:max-w-full lg:flex">
         <div
           class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
-          style="background-image: url('/img/card-left.jpg')"
-          title="Woman holding a mug"
+          style={{ backgroundImage: `url(${post.postimg_url})` }}
+          title={post.text}
         ></div>
         <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
           <div class="mb-8">
@@ -61,8 +61,8 @@ const producePost = (post) => {
           <div class="flex items-center">
             <img
               class="w-10 h-10 rounded-full mr-4"
-              src={post.postimg_url}
-              alt={post.text}
+              src={post.user.avatar_url}
+              alt={post.user.username}
             />
             <div class="text-sm">
               <p class="text-gray-900 leading-none">{post.user.username}</p>
@@ -98,3 +98,4 @@ function PostsList() {
     </div>
   );
 }
+export default PostsList;
