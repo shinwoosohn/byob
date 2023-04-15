@@ -2,6 +2,44 @@
 
 # Journals
 
+## 4/16/2023 - Worked during Spring Break on MVP2 Delivery API Endpoints and Repo Methods
+
+## 4/13/2023 - Worked during Spring Break on Public Feed (Get All Posts/Listings) React component
+
+Today, I worked on:
+
+- creating a react component using redux for our MVP main public feed webpage
+- Research Tailwind CSS to figure out styling
+- Create a sub component in the public feed for conditional rendering for each individual post
+- Haven't tested yet
+
+Because we are using react redux, it is taking some time to learn Tailwind and redux using the
+frontend authentication. We have a lot of time going forward with our backend complete for our MVP,
+so it should all be pair programming and working on styling in the future.
+
+I learned that I have focused more on backend, but I'm extremely interested in frontend and how it all
+works. I simply haven't found the same flow that is apparent in backend work. I will work on more personal
+projects from now on in order to bridge the gap in my full stack skills.
+
+## 4/12/2023 - Worked during Spring Break on MVP2 Delivery migration and schema
+
+Today, I worked on:
+
+- updating our schema for MVP2 Delivery side
+- Correct Migration tables for User to User Interaction planning
+- Skeleton Endpoints for later use
+- Test creation and connection to Deliveries Tables in PG-admin
+
+Our project is similar to others and our MVP2 is the best at helping us stand out,
+so for my personal experience and our overall project as a portfolio piece, I wanted
+to make sure we added this functionality.
+
+There were a lot of complicated nuances that our group didn't think about such as the impact
+of allowing users to order from other people. The app was originally an MVP related to having
+your own goods delivered. With the new functionality, we'd have orders, but I'm doing a cheeky
+way of getting around that for now just adding a producer_id for the owner of the produce
+for easy referencing and utilizing the deliveries repo.
+
 ## 4/6/2023 - DEBUGGING / Pair program Update Post API endpoint and GET All posts API endpoint
 
 Today, I worked on:
