@@ -92,7 +92,7 @@ function PostsList() {
   }
   return (
     <div className="flex flex-col space-y-6">
-      {posts.map((post) => producePost(post))}
+      {posts.map((post) => <producePost post='post' />)}
     </div>
   );
 }

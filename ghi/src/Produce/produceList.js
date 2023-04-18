@@ -1,7 +1,7 @@
 import React from "react";
 import { useGetAllProduceQuery } from "../store/produceApi";
 
-export default function produceList() {
+export default function ProduceList() {
   const { data: produceData } = useGetProduceQuery();
 
   return (
