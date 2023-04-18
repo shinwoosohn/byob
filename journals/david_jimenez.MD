@@ -1,6 +1,12 @@
 ## Journal
 
-### Wednesday April 12, 2023
+### Tuesday April 18, 2023
+
+### Monday April 17, 2023
+
+Sick day. Did not do much
+
+### Wednesday April 12, 2023 **_Spring Break_**
 
 - Edward and I worked on learning Tailwind CSS React
 - We got our NavBar up with search bar and a user profile picture
