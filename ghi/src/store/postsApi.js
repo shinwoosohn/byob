@@ -4,6 +4,7 @@ export const postsApi = createApi({
   reducerPath: "posts",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BYOB_SERVICE_API_HOST,
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     getAllPosts: builder.query({
@@ -11,7 +12,7 @@ export const postsApi = createApi({
       providesTags: ["postsList"],
     }),
     getPosts: builder.query({
-      query: () => "/posts/" + id,
+      query: (id) => "/posts/" + id,
     }),
     createPosts: builder.mutation({
       query: (data) => ({

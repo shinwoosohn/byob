@@ -1,6 +1,5 @@
 import { useGetAllPostsQuery } from "../store/postsApi";
 import { Link } from "react-router-dom";
-import { useGetTokenQuery } from "../store/authApi";
 
 const producePost = ({ post }) => {
   if (post.produce.produce_id !== null) {
@@ -77,7 +76,10 @@ const producePost = ({ post }) => {
 
 function PostsList() {
   const { data: posts, isError, isLoading } = useGetAllPostsQuery();
+<<<<<<< HEAD
   const { token } = useGetTokenQuery();
+=======
+>>>>>>> main
 
   if (isLoading) {
     return <div>Loading...</div>;
