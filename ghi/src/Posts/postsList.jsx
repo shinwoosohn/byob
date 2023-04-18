@@ -76,10 +76,6 @@ const producePost = ({ post }) => {
 
 function PostsList() {
   const { data: posts, isError, isLoading } = useGetAllPostsQuery();
-<<<<<<< HEAD
-  const { token } = useGetTokenQuery();
-=======
->>>>>>> main
 
   if (isLoading) {
     return <div>Loading...</div>;
