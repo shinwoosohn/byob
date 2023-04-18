@@ -15,21 +15,6 @@ const LoginForm = () => {
     login({ username: username, password: password });
     event.target.reset();
   };
-  // //   useEffect(() => {
-  //     const checkIfLoggedIn = async () => {
-  //       const response = await fetch("/api/accounts/login", {
-  //         method: "GET",
-  //       });
-  //       if (result.isSuccess) {
-  //         const { data } = await response.json();
-  //         dispatch(login(data));
-  //         setIsLoggedIn(true);
-  //       } else {
-  //         alert("Invalid username or password");
-  //       }
-  //     };
-  //     checkIfLoggedIn();
-  //   }, []);
 
   return (
     <form onSubmit={handleSubmit}>

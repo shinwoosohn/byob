@@ -4,6 +4,7 @@ export const postsApi = createApi({
   reducerPath: "posts",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BYOB_SERVICE_API_HOST,
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     getAllPosts: builder.query({
@@ -11,7 +12,7 @@ export const postsApi = createApi({
       providesTags: ["postsList"],
     }),
     getPosts: builder.query({
-      query: () => "/posts/" + id,
+      query: (id) => "/posts/" + id,
     }),
     createPosts: builder.mutation({
       query: (data) => ({
@@ -21,21 +22,21 @@ export const postsApi = createApi({
       }),
       invalidatesTag: ["postsList"],
     }),
-    // updatePosts: builder.mutation({
-    //   query: (id, data) => ({
-    //     url: "/posts/" + id,
-    //     body: data,
-    //     method: "put",
-    //   }),
-    //   invalidatesTags: ["postsList"],
-    // }),
-    // deletePosts: builder.mutation({
-    //   query: (id) => ({
-    //     url: "/posts/" + id,
-    //     method: "delete",
-    //   }),
-    //   invalidatesTags: ["postsList"],
-    // }),
+    updatePosts: builder.mutation({
+      query: (id, data) => ({
+        url: "/posts/" + id,
+        body: data,
+        method: "put",
+      }),
+      invalidatesTags: ["postsList"],
+    }),
+    deletePosts: builder.mutation({
+      query: (id) => ({
+        url: "/posts/" + id,
+        method: "delete",
+      }),
+      invalidatesTags: ["postsList"],
+    }),
   }),
 });
 
