@@ -74,7 +74,7 @@ def get_all_post(
 
 ################################################################################
 # DELETE singular post endpoint
-@router.delete("/posts/{id}}", response_model=bool)
+@router.delete("/posts/{posts_id}}", response_model=bool)
 def delete_post(
     posts_id: int,
     response: Response,
