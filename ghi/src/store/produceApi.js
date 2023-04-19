@@ -12,7 +12,7 @@ export const produceApi = createApi({
     //   providesTags: ["produceList"],
     // }),
     getProduce: builder.query({
-      query: () => "/produce/" + id,
+      query: (id) => "/produce/" + id,
     }),
     createProduce: builder.mutation({
       query: (data) => ({

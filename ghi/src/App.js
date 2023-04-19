@@ -5,6 +5,7 @@ import "./App.css";
 import LoginForm from "./User/LoginForm";
 import TopNavBar from "./Components/topNavBar";
 import PostsList from "./Posts/postsList";
+import CreateProduceForm from "./Produce/CreateProduceForm";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Signup />}></Route>
         <Route path="/login" element={<LoginForm />}></Route>
         <Route path="/posts" element={<PostsList />}></Route>
+        <Route path="/createproduce" element={<CreateProduceForm />}></Route>
       </Routes>
     </BrowserRouter>
   );
