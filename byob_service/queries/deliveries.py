@@ -70,4 +70,52 @@ class DeliveryOutWithDriver(BaseModel):
 
 
 class DeliveryRepo:
-    pass
+    ###################################################################################
+    # Create a Delivery method
+    def create_delivery(self, delivery: DeliveryIn, account_data: dict) -> DeliveryOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        # INSERT INTO SQL statement to create delivery
+                        """
+                        INSERT INTO deliveries
+                            (
+                                posts_id,
+                                produce_id,
+                                producer_id,
+                                from_address,
+                                from_city,
+                                from_state,
+                                to_address,
+                                to_city,
+                                to_state,
+                                requestor_id
+                            )
+                        VALUES
+                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id AS delivery_id;
+                        """,
+                        [
+                            delivery.posts_id,
+                            delivery.produce_id,
+                            delivery.producer_id,
+                            delivery.from_address,
+                            delivery.from_city,
+                            delivery.from_state,
+                            delivery.to_address,
+                            delivery.to_city,
+                            delivery.to_state,
+                            account_data["user_id"],
+                        ]
+                    )
+                    delivery_id = cur.fetchone()[0]
+                    old_data = delivery.dict()
+                    old_data["requestor_id"] = account_data["user_id"]
+                    return DeliveryOut(
+                        delivery_id=delivery_id,
+                        **old_data,
+                    )
+        except Exception as e:
+            print(e)
+            raise ValueError("Could not create delivery")

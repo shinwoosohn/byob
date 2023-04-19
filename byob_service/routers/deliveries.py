@@ -26,7 +26,7 @@ def create_delivery(
 
 #######################################################################################################
 # GET ALL Deliveries
-@router.get("/deliveries", response_model=List[DeliveryOut])
+@router.get("/deliveries", response_model=List[DeliveryOutWithDriver])
 def get_all_deliveries(
     repo: DeliveryRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
@@ -132,9 +132,9 @@ def delete_user_delivery(
 
 #######################################################################################################
 # GET User ALL Orders - where producer_id = current user_id
-@router.get("/users/{user_id}/orders", response_model=List[DeliveryOutWithDriver])
+@router.get("/users/{producer_id}/orders", response_model=List[DeliveryOutWithDriver])
 def get_user_orders(
-    user_id: int,
+    producer_id: int,
     repo: DeliveryRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
@@ -143,9 +143,9 @@ def get_user_orders(
 
 #######################################################################################################
 # GET User Single Order - where producer_id = current user_id
-@router.get("/users/{user_id}/orders/{delivery_id}", response_model=DeliveryOutWithDriver)
+@router.get("/users/{producer_id}/orders/{delivery_id}", response_model=DeliveryOutWithDriver)
 def get_user_order(
-    user_id: int,
+    producer_id: int,
     delivery_id: int,
     repo: DeliveryRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
@@ -155,9 +155,9 @@ def get_user_order(
 
 #######################################################################################################
 # UPDATE User Single Order Status - where producer_id = current user_id
-@router.put("/users/{user_id}/orders/{delivery_id}", response_model=OrderAccept)
+@router.put("/users/{producer_id}/orders/{delivery_id}", response_model=OrderAccept)
 def update_order_status(
-    user_id: int,
+    producer_id: int,
     delivery_id: int,
     info: OrderAccept,
     repo: DeliveryRepo = Depends(),
