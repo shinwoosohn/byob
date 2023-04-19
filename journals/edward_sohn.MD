@@ -6,6 +6,10 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/18/23
+
+I edited and designed the landing page and login form to look like our wireframe (with a few minor changes). I also added an error message if a user inputs a wrong username or password.
+
 ## 4/12/23
 
 David and I made the top navbar front end component. We used the default one from the Tailwind docs and we edited it to make it look like how it does in our figma wireframes. We added our logo, searchbar, and a profile image that navigates to the profile page (not finished). We also started on creating the sidebar with buttons that take users to different API endpoints.
