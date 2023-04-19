@@ -15,7 +15,10 @@ function App() {
         <Route path="/" element={<Signup />}></Route>
         <Route path="/login" element={<LoginForm />}></Route>
         <Route path="/posts" element={<PostsList />}></Route>
-        <Route path="/createproduce" element={<CreateProduceForm />}></Route>
+        <Route
+          path="/users/{users_id}/produce"
+          element={<CreateProduceForm />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

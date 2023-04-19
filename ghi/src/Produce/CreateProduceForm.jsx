@@ -1,7 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useCreateProduceMutation } from "../store/produceApi";
+import { useParams } from "react-router-dom";
+
 const CreateProduceForm = () => {
+  const { users_id } = useParams();
   const [produce, setProduce] = useState("");
   const [amount, setAmount] = useState("");
   const [weight, setWeight] = useState("");
@@ -42,14 +45,17 @@ const CreateProduceForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createProduce({
-      produce: produce,
-      amount: amount,
-      weight: weight,
-      description: description,
-      expirationDate: expirationDate,
-      pictureUrl: pictureUrl,
-    });
+    createProduce(
+      {
+        produce: produce,
+        amount: amount,
+        weight: weight,
+        description: description,
+        expirationDate: expirationDate,
+        pictureUrl: pictureUrl,
+      },
+      users_id
+    );
     event.target.reset();
   };
 

@@ -7,36 +7,36 @@ export const produceApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
-    // getAllProduce: builder.query({
-    //   query: () => "/produce",
-    //   providesTags: ["produceList"],
-    // }),
+    getAllProduce: builder.query({
+      query: (users_id) => `users/${users_id}/produce`,
+      providesTags: ["produceList"],
+    }),
     getProduce: builder.query({
-      query: (id) => "/produce/" + id,
+      query: (users_id, id) => `users/${users_id}/produce` + id,
     }),
     createProduce: builder.mutation({
-      query: (data) => ({
-        url: "/produce",
+      query: (data, users_id, id) => ({
+        url: `users/${users_id}/produce` + id,
         body: data,
         method: "post",
       }),
       invalidatesTag: ["produceList"],
     }),
-    // updateProduce: builder.mutation({
-    //   query: (id, data) => ({
-    //     url: "/produce/" + id,
-    //     body: data,
-    //     method: "put",
-    //   }),
-    //   invalidatesTags: ["produceList"],
-    // }),
-    // deleteProduce: builder.mutation({
-    //   query: (id) => ({
-    //     url: "/produce/" + id,
-    //     method: "delete",
-    //   }),
-    //   invalidatesTags: ["produceList"],
-    // }),
+    updateProduce: builder.mutation({
+      query: (users_id, id, data) => ({
+        url: `users/${users_id}/produce` + id,
+        body: data,
+        method: "put",
+      }),
+      invalidatesTags: ["produceList"],
+    }),
+    deleteProduce: builder.mutation({
+      query: (users_id, id) => ({
+        url: `users/${users_id}/produce` + id,
+        method: "delete",
+      }),
+      invalidatesTags: ["produceList"],
+    }),
   }),
 });
 
