@@ -2,7 +2,26 @@
 
 # Journals
 
-## 4/16/2023 - Worked during Spring Break on MVP2 Delivery API Endpoints and Repo Methods
+## 4/18/2023 - MVP2 Delivery API Endpoints and Repo Methods
+
+## 4/17/2023 - DEBUG Frontend Authentication / Update PostsList component for updates to redux store
+
+Today, I worked on:
+
+- research redux docs for ways to attach a user state to the entire configure store
+- create userSlice for redux store and update AuthAPI store login and get token endpoints
+- Update PostsAPI for 'credentials: include' on create API
+- Update PostsList for redux authentication instead of jwtdown-for-react
+
+Our Frontend authentication was missing quite a few pieces, so I grouped up with Eddie and we went
+through redux documentation and Learn RTK query videos. Although none specifically discussed the
+authentication, the thought process isn't any different to setting up a regular APIstore specific
+to token, a slice for current user, and a dependency on the store to run through the AuthAPI
+before pathing to the other API reducers.
+
+I'm feeling better now that our website is almost in a functional MVP state and we are officially moving
+towards MVP2 related topics. This is specifically related to the Deliveries that help our project
+stand out.
 
 ## 4/13/2023 - Worked during Spring Break on Public Feed (Get All Posts/Listings) React component
 
