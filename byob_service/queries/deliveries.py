@@ -9,6 +9,7 @@ class DeliveryIn(BaseModel):
     posts_id: Optional[int]
     produce_id: int
     producer_id: int
+    order_quantity: int
     from_address: str
     from_city: str
     from_state: str
@@ -24,6 +25,7 @@ class DeliveryOut(BaseModel):
     posts_id: Optional[int]
     produce_id: int
     producer_id: int
+    order_quantity: int
     from_address: str
     from_city: str
     from_state: str
@@ -39,6 +41,7 @@ class DeliveryOut(BaseModel):
 class OrderAccept(BaseModel):
     delivery_id: int
     order_status: str
+    order_quantity: int
 
 
 class DeliveryUpdate(BaseModel):
@@ -60,6 +63,7 @@ class DeliveryOutWithDriver(BaseModel):
     posts_id: Optional[int]
     produce: ProduceOut
     producer_id: int
+    order_quantity: int
     from_address: str
     from_city: str
     from_state: str
@@ -88,6 +92,7 @@ class DeliveryRepo:
                                 posts_id,
                                 produce_id,
                                 producer_id,
+                                order_quantity,
                                 from_address,
                                 from_city,
                                 from_state,
@@ -97,13 +102,14 @@ class DeliveryRepo:
                                 requestor_id
                             )
                         VALUES
-                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                         RETURNING id AS delivery_id;
                         """,
                         [
                             delivery.posts_id,
                             delivery.produce_id,
                             delivery.producer_id,
+                            delivery.order_quantity,
                             delivery.from_address,
                             delivery.from_city,
                             delivery.from_state,
@@ -137,6 +143,7 @@ class DeliveryRepo:
                         SELECT d.id AS delivery_id
                             , d.posts_id
                             , d.producer_id
+                            , d.order_quantity
                             , d.from_address
                             , d.from_city
                             , d.from_state
@@ -169,6 +176,7 @@ class DeliveryRepo:
                         GROUP BY d.id
                             , d.posts_id
                             , d.producer_id
+                            , d.order_quantity
                             , d.from_address
                             , d.from_city
                             , d.from_state
