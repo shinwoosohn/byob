@@ -2,6 +2,20 @@
 
 ### Tuesday April 18, 2023
 
+Todays main focus was on creating a form for users to create a produce to add to their inventory
+
+I created a file **_CreateProduceForm_** under the **_Produce_** directory in the **_src_** directory
+
+**_The Good_**
+
+- Form is up and appears on the website
+- Most if not all the code is done
+- The Nav link to the form Works
+
+**_The Bad_**
+
+- When creating the
+
 ### Monday April 17, 2023
 
 Sick day. Did not do much
