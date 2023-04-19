@@ -208,3 +208,17 @@ class DeliveryRepo:
 
     ###################################################################################
     # GET Delivery by delivery_id method
+
+
+
+
+
+    #*************************************Encoder**********************************************#
+    # method to translate deliveries into proper dictionary structure
+    def delivery_record_to_dict(self, row, description):
+        delivery = None
+        if row is not None:
+            delivery = {}
+            delivery_fields = [
+                ""
+            ]
