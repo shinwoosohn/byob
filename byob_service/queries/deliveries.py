@@ -47,6 +47,14 @@ class DeliveryUpdate(BaseModel):
     driver_id: Optional[int]
 
 
+class DeliveryDriver(BaseModel):
+    driver_id: Optional[int]
+    phone_number: Optional[str]
+    car_model: Optional[str]
+    license_plate: Optional[str]
+    dl_number: Optional[str]
+
+
 class DeliveryOutWithDriver(BaseModel):
     delivery_id: int
     posts_id: Optional[int]
@@ -62,11 +70,7 @@ class DeliveryOutWithDriver(BaseModel):
     order_status: Optional[str]
     delivery_status: Optional[str]
     request_created: Optional[datetime]
-    driver_id: Optional[int]
-    phone_number: Optional[str]
-    car_model: Optional[str]
-    license_plate: Optional[str]
-    DL_number: Optional[str]
+    driver: Optional[DeliveryDriver]
 
 
 class DeliveryRepo:
@@ -119,3 +123,88 @@ class DeliveryRepo:
         except Exception as e:
             print(e)
             raise ValueError("Could not create delivery")
+
+
+    ###################################################################################
+    # GET ALL Delivery method
+    def get_all_deliveries(self) -> List[DeliveryOutWithDriver]:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        # SELECT SQL statement
+                        """
+                        SELECT d.id AS delivery_id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id AS driver_id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        FROM deliveries d
+                        LEFT JOIN produce pr
+                        ON d.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON d.driver_id = u.id
+                        GROUP BY d.id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        ORDER BY pr.exp_date DESC
+                        """
+                    )
+                    rows = cur.fetchall()
+                    return [
+                        self.delivery_record_to_dict(row, cur.description)
+                        for row in rows
+                    ]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get deliveries"}
+
+
+    ###################################################################################
+    # GET Delivery by delivery_id method
