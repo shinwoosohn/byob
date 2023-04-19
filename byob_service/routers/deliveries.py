@@ -60,7 +60,7 @@ def update_delivery_status(
 
 #######################################################################################################
 # GET Driver ALL Deliveries - where driver_id = current user_id
-@router.get("/drivers/{driver_id}/deliveries", response_model=List[DeliveryOutWithDriver])
+@router.get("/users/{driver_id}/deliveries", response_model=List[DeliveryOutWithDriver])
 def get_driver_deliveries(
     driver_id: int,
     repo: DeliveryRepo = Depends(),
@@ -71,7 +71,7 @@ def get_driver_deliveries(
 
 #######################################################################################################
 # UPDATE Driver Delivery to DELETE driver_id - removes driver_id and changes status back to pending
-@router.put("/drivers/{driver_id}/deliveries/{delivery_id}", response_model=DeliveryUpdate)
+@router.put("/users/{driver_id}/deliveries/{delivery_id}", response_model=DeliveryUpdate)
 def update_driver_delivery(
     driver_id: int,
     delivery_id: int,
