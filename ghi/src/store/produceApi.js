@@ -16,7 +16,7 @@ export const produceApi = createApi({
     }),
     createProduce: builder.mutation({
       query: (data) => ({
-        url: "/produce",
+        url:  "/produce",
         body: data,
         method: "post",
       }),

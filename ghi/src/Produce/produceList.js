@@ -45,7 +45,7 @@ export default function ProduceList() {
                 <td>{produce.is_decorative}</td>
                 <td>{produce.is_available}</td>
                 <td>{produce.price}</td>
-                <Link to='/produce/edit'>
+                <Link to='user/id/produce/edit'>
                   <button>Edit</button>
                 </Link>
                 {/* add button to delete */}
