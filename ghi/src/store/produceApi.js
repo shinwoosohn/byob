@@ -4,6 +4,7 @@ export const produceApi = createApi({
   reducerPath: "produce",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BYOB_SERVICE_API_HOST,
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     // getAllProduce: builder.query({
