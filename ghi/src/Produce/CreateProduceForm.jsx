@@ -9,7 +9,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
 const ProduceForm = () => {
-  const { users_id } = useParams();
+  const { user_id } = useParams();
+  console.log(user_id);
   const [produce, setProduce] = useState("");
   const [quantity, setQuantity] = useState("");
   const [weight, setWeight] = useState("");
@@ -22,19 +23,19 @@ const ProduceForm = () => {
 
   const [createProduce, result] = useCreateProduceMutation();
 
-  const [checkedDecorativeDecorative, setCheckedDecorativeDecorative] =
-    React.useState(true);
-  const handleChangeDecorative = (event) => {
-    setCheckedDecorative(event.target.checked);
-  };
-  const [checkedAvailable, setCheckedAvailable] = React.useState(true);
-  const handleChangeDecorative = (event) => {
-    setCheckedDecorative(event.target.checked);
-  };
-  const [checkedAvailable, setCheckedAvailable] = React.useState(true);
-  const handleChangeAvailableAvailable = (event) => {
-    setCheckedAvailableAvailable(event.target.checked);
-  };
+  // const [checkedDecorativeDecorative, setCheckedDecorativeDecorative] =
+  //   React.useState(true);
+  // const handleChangeDecorative = (event) => {
+  //   setCheckedDecorative(event.target.checked);
+  // };
+  // const [checkedAvailable, setCheckedAvailable] = React.useState(true);
+  // const handleChangeDecorative = (event) => {
+  //   setCheckedDecorative(event.target.checked);
+  // };
+  // const [checkedAvailable, setCheckedAvailable] = React.useState(true);
+  // const handleChangeAvailableAvailable = (event) => {
+  //   setCheckedAvailableAvailable(event.target.checked);
+  // };
 
   const handleProduceChange = (event) => {
     const value = event.target.value;
@@ -90,21 +91,18 @@ const ProduceForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce(
-      {
-        quantity: quantity,
-        weight: weight,
-        description: description,
-        imageUrl: imageUrl,
-        expDate: expDate,
-        isDecorative: !checkedDecorative,
-        isAvailable: !checkedAvailable,
-        isDecorative: !checkedDecorative,
-        isAvailable: !checkedAvailable,
-        price: price,
-      },
-      users_id
-    );
+    createProduce(user_id, {
+      quantity: quantity,
+      weight: weight,
+      description: description,
+      imageUrl: imageUrl,
+      expDate: expDate,
+      // isDecorative: !checkedDecorative,
+      // isAvailable: !checkedAvailable,
+      // isDecorative: !checkedDecorative,
+      // isAvailable: !checkedAvailable,
+      price: price,
+    });
     console.log("@users_id");
   };
 
@@ -116,8 +114,8 @@ const ProduceForm = () => {
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
               Create A Produce
             </h1>
-            <form onChange={handleSubmit} id="create-produce-form">
-              <div>
+            <form onSubmit={handleSubmit} id="create-produce-form">
+              {/* <div>
                 <label htmlFor="produce">Produce</label>
                 <input
                   value={produce}
@@ -129,7 +127,7 @@ const ProduceForm = () => {
                   id="produce"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
-              </div>
+              </div> */}
 
               <div>
                 <label htmlFor="style">Quantity</label>
@@ -207,8 +205,8 @@ const ProduceForm = () => {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={checkedAvailable}
-                        onChange={handleChangeAvailable}
+                        // checked={checkedAvailable}
+                        // onChange={handleChangeAvailable}
                         inputProps={{ "aria-label": "controlled" }}
                       />
                     }
@@ -217,8 +215,8 @@ const ProduceForm = () => {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={checkedDecorative}
-                        onChange={handleChangeDecorative}
+                        // checked={checkedDecorative}
+                        // onChange={handleChangeDecorative}
                         inputProps={{ "aria-label": "controlled" }}
                       />
                     }
