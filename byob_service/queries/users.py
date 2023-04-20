@@ -17,9 +17,8 @@ class UsersIn(BaseModel):
     avatar_url: Optional[str]
 
 
-
 class UsersOut(BaseModel):
-    user_id: int
+    user_id: Optional[int]
     first_name: str
     last_name: str
     email: str
@@ -37,6 +36,12 @@ class UsersOut(BaseModel):
 
 class UsersOutWithPassword(UsersOut):
     hashed_password: str
+
+
+class DriverUpdate(BaseModel):
+    car_model: str
+    license_plate: str
+    dl_number: str
 
 
 class UsersRepo:
@@ -99,7 +104,6 @@ class UsersRepo:
             elif "phone_number" in str(e):
                 raise ValueError("Phone number already exists")
 
-
     #############################################################################################################
     # GET Username method related to Authenticator in order to Hash Password
     def get(self, username: str) -> Optional[UsersOutWithPassword]:
@@ -135,7 +139,6 @@ class UsersRepo:
         except Exception as e:
             print(e)
             return {"message": "Could not get that user"}
-
 
     #############################################################################################################
     # GET a specific user method for Users using user_id
@@ -173,7 +176,6 @@ class UsersRepo:
             print(e)
             return {"message": "Could not get that user"}
 
-
     #############################################################################################################
     # GET All users method for development purposes
     def get_all(self) -> List[UsersOutWithPassword]:
@@ -206,12 +208,9 @@ class UsersRepo:
             print(e)
             return {"message": "Could not get all users"}
 
-
     #############################################################################################################
     # UPDATE regular user's profile method - ignores all driver line information
-    def update_user_profile(
-        self, user_id: int, user: UsersIn
-    ) -> Optional[UsersOutWithPassword]:
+    def update_user_profile(self, user_id: int, user: UsersIn) -> UsersOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -242,12 +241,11 @@ class UsersRepo:
                             user_id,
                         ],
                     )
-
-                    return self.record_to_user_update(user_id, user)
+                    old_data = user.dict()
+                    return UsersOut(**old_data)
         except Exception as e:
             print(e)
             return {"message": "Could not update Profile"}
-
 
     #############################################################################################################
     # DELETE method for users to no longer be part of application
@@ -266,6 +264,36 @@ class UsersRepo:
         except Exception as e:
             print(e)
             return {"message": "Could not delete Profile"}
+
+    #############################################################################################################
+    # UPDATE driver's profile method
+    def update_driver_profile(
+        self, user_id: int, user: DriverUpdate
+    ) -> DriverUpdate:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE users
+                        SET car_model = %s
+                          , license_plate = %s
+                          , dl_number = %s
+                          , is_driver = true
+                        WHERE id = %s
+                        """,
+                        [
+                            user.car_model,
+                            user.license_plate,
+                            user.dl_number,
+                            user_id,
+                        ],
+                    )
+                    old_data = user.dict()
+                    return DriverUpdate(**old_data)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not update Profile"}
 
     #######################################################################
     # ENCODERS BELOW

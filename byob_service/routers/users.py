@@ -10,7 +10,13 @@ from jwtdown_fastapi.authentication import Token
 from typing import Union, List, Optional
 from authenticator import authenticator
 from pydantic import BaseModel
-from queries.users import UsersIn, UsersOut, UsersOutWithPassword, UsersRepo
+from queries.users import (
+    UsersIn,
+    UsersOut,
+    UsersOutWithPassword,
+    UsersRepo,
+    DriverUpdate,
+)
 
 
 class DuplicateAccountError(ValueError):
@@ -107,7 +113,7 @@ def get_all(
 @router.put("/users/{user_id}", response_model=UsersOut)
 def update_user(
     user_id: int,
-    user: UsersIn,
+    user: UsersOut,
     repo: UsersRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> UsersOut:
@@ -134,4 +140,22 @@ def delete_user(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot delete an account with those credentials",
+        )
+
+
+############################################################################
+# UPDATE driver api endpoint
+@router.patch("/users/{user_id}", response_model=DriverUpdate)
+def update_driver(
+    user_id: int,
+    user: DriverUpdate,
+    repo: UsersRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+) -> DriverUpdate:
+    try:
+        return repo.update_driver_profile(user_id, user)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot update an account with those credentials",
         )
