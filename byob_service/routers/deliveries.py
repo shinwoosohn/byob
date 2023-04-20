@@ -47,9 +47,22 @@ def get_delivery(
 
 
 #######################################################################################################
-# UPDATE Driver Delivery Status
-@router.put("/deliveries/{delivery_id}", response_model=DeliveryOutWithDriver)
-def update_delivery_status(
+# PATCH Accept Driver Delivery Status
+@router.patch("/deliveries/{delivery_id}/accept", response_model=DeliveryUpdate)
+def accept_delivery_status(
+    delivery_id: int,
+    info: DeliveryUpdate,
+    repo: DeliveryRepo = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
+    pass
+
+
+#######################################################################################################
+# PATCH Complete Driver Delivery Status
+@router.patch("drivers/{driver_id}/deliveries/{delivery_id}/complete", response_model=DeliveryUpdate)
+def complete_delivery_status(
+    driver_id: int,
     delivery_id: int,
     info: DeliveryUpdate,
     repo: DeliveryRepo = Depends(),
@@ -60,7 +73,7 @@ def update_delivery_status(
 
 #######################################################################################################
 # GET Driver ALL Deliveries - where driver_id = current user_id
-@router.get("/users/{driver_id}/deliveries", response_model=List[DeliveryOutWithDriver])
+@router.get("/drivers/{driver_id}/deliveries", response_model=List[DeliveryOutWithDriver])
 def get_driver_deliveries(
     driver_id: int,
     repo: DeliveryRepo = Depends(),
@@ -70,9 +83,9 @@ def get_driver_deliveries(
 
 
 #######################################################################################################
-# UPDATE Driver Delivery to DELETE driver_id - removes driver_id and changes status back to pending
-@router.put("/users/{driver_id}/deliveries/{delivery_id}", response_model=DeliveryUpdate)
-def update_driver_delivery(
+# UPDATE Remove Driver Delivery by setting driver_id to null - removes driver_id and changes status back to pending
+@router.put("/drivers/{driver_id}/deliveries/{delivery_id}", response_model=DeliveryUpdate)
+def remove_driver_delivery(
     driver_id: int,
     delivery_id: int,
     info: DeliveryUpdate,
@@ -154,9 +167,9 @@ def get_user_order(
 
 
 #######################################################################################################
-# UPDATE User Single Order Status - where producer_id = current user_id
-@router.put("/users/{producer_id}/orders/{delivery_id}", response_model=OrderAccept)
-def update_order_status(
+# PATCH User Single Order Status - where producer_id = current user_id
+@router.patch("/users/{producer_id}/orders/{delivery_id}", response_model=OrderAccept)
+def complete_order_status(
     producer_id: int,
     delivery_id: int,
     info: OrderAccept,

@@ -39,13 +39,13 @@ class DeliveryOut(BaseModel):
 
 
 class OrderAccept(BaseModel):
-    delivery_id: int
+    delivery_id: Optional[int]
     order_status: str
-    order_quantity: int
+    order_quantity: Optional[int]
 
 
 class DeliveryUpdate(BaseModel):
-    delivery_id: int
+    delivery_id: Optional[int]
     delivery_status: str
     driver_id: Optional[int]
 
@@ -128,7 +128,7 @@ class DeliveryRepo:
                     )
         except Exception as e:
             print(e)
-            raise ValueError("Could not create delivery")
+            raise ValueError("Could not create delivery request")
 
 
     ###################################################################################
@@ -163,7 +163,7 @@ class DeliveryRepo:
                             , pr.is_decorative
                             , pr.is_available
                             , pr.price
-                            , u.id AS driver_id
+                            , d.driver_id
                             , u.phone_number
                             , u.car_model
                             , u.license_plate
@@ -216,9 +216,524 @@ class DeliveryRepo:
 
     ###################################################################################
     # GET Delivery by delivery_id method
+    def get_delivery(self, delivery_id: int) -> DeliveryOutWithDriver:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        # SELECT SQL statement
+                        """
+                        SELECT d.id AS delivery_id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , d.driver_id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        FROM deliveries d
+                        LEFT JOIN produce pr
+                        ON d.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON d.driver_id = u.id
+                        WHERE d.id = %s
+                        """,
+                        [delivery_id]
+                    )
+                    row = cur.fetchone()
+                    return self.delivery_record_to_dict(row, cur.description)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get delivery"}
 
 
+    ###################################################################################
+    # PATCH Delivery by delivery_id method
+    def accept_delivery_status(self, delivery_id: int, delivery: DeliveryUpdate, account_data: dict) -> DeliveryUpdate:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE deliveries
+                        SET delivery_status = 'accepted'
+                        WHERE id = %s
+                        """,
+                        [
+                            delivery.delivery_status,
+                            delivery_id,
+                        ]
+                    )
+                    old_data = delivery.dict()
+                    old_data["driver_id"] = account_data["user_id"]
+                    return DeliveryUpdate(**old_data)
+        except Exception as e:
+            print(e)
+            raise ValueError("Could not accept delivery request")
 
+
+    ###################################################################################
+    # PATCH Delivery by driver_id and delivery_id method
+    def complete_delivery_status(self, driver_id: int, delivery_id: int, delivery: DeliveryUpdate, account_data: dict) -> DeliveryUpdate:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE deliveries
+                        SET delivery_status = 'completed'
+                        WHERE driver_id = %s and id = %s
+                        """,
+                        [
+                            delivery.delivery_status,
+                            delivery_id,
+                        ]
+                    )
+                    driver_id = driver_id
+                    old_data = delivery.dict()
+                    return DeliveryUpdate(driver_id, **old_data)
+        except Exception as e:
+            print(e)
+            raise ValueError("Could not complete delivery request")
+
+
+    ###################################################################################
+    # GET Deliveries by driver_id
+    def get_driver_deliveries(self, driver_id: int) -> List[DeliveryOutWithDriver]:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        # SELECT SQL statement
+                        """
+                        SELECT d.id AS delivery_id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , d.driver_id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        FROM deliveries d
+                        LEFT JOIN produce pr
+                        ON d.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON d.driver_id = u.id
+                        WHERE d.driver_id = %s
+                        GROUP BY d.id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        ORDER BY pr.exp_date DESC
+                        """,
+                        [driver_id]
+                    )
+                    rows = cur.fetchall()
+                    return [
+                        self.delivery_record_to_dict(row, cur.description)
+                        for row in rows
+                    ]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get driver deliveries"}
+
+
+    ###################################################################################
+    # UPDATE Remove Driver Delivery by setting driver_id to null
+    def remove_delivery_status(self, driver_id: int, delivery_id: int, delivery: DeliveryUpdate, account_data: dict) -> DeliveryUpdate:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE deliveries
+                        SET delivery_status = 'pending'
+                            , driver_id = null
+                        WHERE driver_id = %s and id = %s
+                        """,
+                        [
+                            delivery.delivery_status,
+                            delivery.driver_id,
+                            delivery_id,
+                        ]
+                    )
+                    old_data = delivery.dict()
+                    return DeliveryUpdate(**old_data)
+        except Exception as e:
+            print(e)
+            raise ValueError("Could not remove delivery request")
+
+
+    #######################################################################################################
+    # GET User ALL Deliveries - where requestor_id = current user_id
+    def get_user_deliveries(self, user_id: int) -> List[DeliveryOutWithDriver]:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        # SELECT SQL statement
+                        """
+                        SELECT d.id AS delivery_id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , d.driver_id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        FROM deliveries d
+                        LEFT JOIN produce pr
+                        ON d.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON d.driver_id = u.id
+                        WHERE d.requestor_id = %s
+                        GROUP BY d.id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        ORDER BY pr.exp_date DESC
+                        """,
+                        [user_id]
+                    )
+                    rows = cur.fetchall()
+                    return [
+                        self.delivery_record_to_dict(row, cur.description)
+                        for row in rows
+                    ]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get user delivery requests"}
+
+    #######################################################################################################
+    # GET User single Delivery - where requestor_id = current user_id
+    def get_user_delivery(self, user_id: int, delivery_id: int) -> DeliveryOutWithDriver:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        # SELECT SQL statement
+                        """
+                        SELECT d.id AS delivery_id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , d.driver_id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        FROM deliveries d
+                        LEFT JOIN produce pr
+                        ON d.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON d.driver_id = u.id
+                        WHERE d.requestor_id = %s and d.id = %s
+                        """,
+                        [user_id, delivery_id]
+                    )
+                    row = cur.fetchone()
+                    return self.delivery_record_to_dict(row, cur.description)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get user delivery request"}
+
+
+    #######################################################################################################
+    # UPDATE User single Delivery - where requestor_id = current user_id
+
+
+    #######################################################################################################
+    # DELETE User single Delivery - where requestor_id = current user_id
+
+
+    #######################################################################################################
+    # GET User ALL Orders - where producer_id = current user_id
+    def get_user_orders(self, producer_id: int) -> List[DeliveryOutWithDriver]:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        # SELECT SQL statement
+                        """
+                        SELECT d.id AS delivery_id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , d.driver_id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        FROM deliveries d
+                        LEFT JOIN produce pr
+                        ON d.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON d.driver_id = u.id
+                        WHERE d.producer_id = %s
+                        GROUP BY d.id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        ORDER BY pr.exp_date DESC
+                        """,
+                        [producer_id]
+                    )
+                    rows = cur.fetchall()
+                    return [
+                        self.delivery_record_to_dict(row, cur.description)
+                        for row in rows
+                    ]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get user orders"}
+
+
+    #######################################################################################################
+    # GET User Single Order - where producer_id = current user_id
+    def get_user_order(self, producer_id: int, delivery_id: int) -> DeliveryOutWithDriver:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        # SELECT SQL statement
+                        """
+                        SELECT d.id AS delivery_id
+                            , d.posts_id
+                            , d.producer_id
+                            , d.order_quantity
+                            , d.from_address
+                            , d.from_city
+                            , d.from_state
+                            , d.to_address
+                            , d.to_city
+                            , d.to_state
+                            , d.requestor_id
+                            , d.order_status
+                            , d.delivery_status
+                            , d.request_created
+                            , pr.id AS produce_id
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , d.driver_id
+                            , u.phone_number
+                            , u.car_model
+                            , u.license_plate
+                            , u.dl_number
+                        FROM deliveries d
+                        LEFT JOIN produce pr
+                        ON d.produce_id = pr.id
+                        LEFT JOIN users u
+                        ON d.driver_id = u.id
+                        WHERE d.producer_id = %s and d.id = %s
+                        """,
+                        [producer_id, delivery_id]
+                    )
+                    row = cur.fetchone()
+                    return self.delivery_record_to_dict(row, cur.description)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get user order"}
+
+
+    #######################################################################################################
+    # PATCH User Single Order Status - where producer_id = current user_id
+    def complete_order_status(self, producer_id: int, delivery_id: int, delivery: OrderAccept, account_data: dict) -> OrderAccept:
+        try:
+            with pool.connection as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE deliveries
+                        SET order_status = 'ready'
+                        WHERE producer_id = %s and id = %s
+                        """,
+                        [
+                            delivery.order_status,
+                            producer_id,
+                            delivery_id,
+                        ]
+                    )
+                    old_data = delivery.dict()
+                    return OrderAccept(**old_data)
+        except Exception as e:
+            print(e)
+            raise ValueError("Could not complete order request")
 
 
     #*************************************Encoder**********************************************#
@@ -228,5 +743,51 @@ class DeliveryRepo:
         if row is not None:
             delivery = {}
             delivery_fields = [
-                ""
+                "delivery_id",
+                "posts_id",
+                "producer_id",
+                "order_quantity",
+                "from_address",
+                "from_city",
+                "from_state",
+                "to_address",
+                "to_city",
+                "to_state",
+                "requestor_id",
+                "order_status",
+                "delivery_status",
+                "request_created",
             ]
+            for i, column in enumerate(description):
+                if column.name in delivery_fields:
+                    delivery[column.name] = row[i]
+
+            produce = {}
+            produce_fields = [
+                "produce_id",
+                "quantity",
+                "weight",
+                "description",
+                "image_url",
+                "exp_date",
+                "is_decorative",
+                "is_available",
+                "price",
+            ]
+            for i, column in enumerate(description):
+                if column.name in produce_fields:
+                    produce[column.name] = row[i]
+            delivery["produce"] = produce
+
+            driver = {}
+            driver_fields = [
+                "driver_id",
+                "phone_number",
+                "car_model",
+                "license_plate",
+                "dl_number",
+            ]
+            for i, column in enumerate(description):
+                if column.name in driver_fields:
+                    driver[column.name] = row[i]
+            delivery["driver"] = driver
