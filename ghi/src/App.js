@@ -4,7 +4,7 @@ import Signup from "./User/Signup";
 import "./App.css";
 import LoginForm from "./User/LoginForm";
 import TopNavBar from "./Components/topNavBar";
-import PostsList from "./Posts/postsList";
+import PostsList from "./Posts/PostsList";
 import ProduceForm from "./Produce/CreateProduceForm";
 
 function App() {

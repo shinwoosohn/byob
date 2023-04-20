@@ -22,10 +22,13 @@ const ProduceForm = () => {
 
   const [createProduce, result] = useCreateProduceMutation();
 
-  const [checked, setChecked] = React.useState(true);
-
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const [checkedDecorative, setCheckedDecorative] = React.useState(true);
+  const handleChangeDecorative = (event) => {
+    setCheckedDecorative(event.target.checked);
+  };
+  const [checkedAvailable, setCheckedAvailable] = React.useState(true);
+  const handleChangeAvailable = (event) => {
+    setCheckedAvailable(event.target.checked);
   };
 
   const handleProduceChange = (event) => {
@@ -58,15 +61,15 @@ const ProduceForm = () => {
     setExpDate(value);
   };
 
-  const handleIsDecorativeChange = (event) => {
-    // const value = event.target.value;
-    setIsDecorative(!isDecorative);
-  };
+  // const handleIsDecorativeChange = (event) => {
+  //   // const value = event.target.value;
+  //   setIsDecorative(!isDecorative);
+  // };
 
-  const handleIsAvailableChange = (event) => {
-    // const value = event.target.value;
-    setIsAvailable(!isAvailable);
-  };
+  // const handleIsAvailableChange = (event) => {
+  //   // const value = event.target.value;
+  //   setIsAvailable(!isAvailable);
+  // };
 
   const handlePriceChange = (event) => {
     const value = event.target.value;
@@ -74,7 +77,6 @@ const ProduceForm = () => {
   };
 
   const handleReset = () => {
-    setProduce("");
     setQuantity("");
     setWeight("");
     setDescription("");
@@ -95,18 +97,18 @@ const ProduceForm = () => {
     event.preventDefault();
     createProduce(
       {
-        produce: produce,
         quantity: quantity,
         weight: weight,
         description: description,
         imageUrl: imageUrl,
         expDate: expDate,
-        isDecorative: isDecorative,
-        isAvailable: isAvailable,
+        isDecorative: !checkedDecorative,
+        isAvailable: !checkedAvailable,
         price: price,
       },
       users_id
     );
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
   };
 
   return (
@@ -117,27 +119,14 @@ const ProduceForm = () => {
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
               Create A Produce
             </h1>
-            <form onChange={handleSubmit} id="create-produce-form">
-              <div>
-                <label htmlFor="produce">Produce</label>
-                <input
-                  value={produce}
-                  onChange={handleProduceChange}
-                  placeholder="Produce"
-                  required
-                  type="text"
-                  name="produce"
-                  id="produce"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
+            <form onSubmit={handleSubmit} id="create-produce-form">
 
               <div>
                 <label htmlFor="style">Quantity</label>
                 <input
                   value={quantity}
                   onChange={handleQuantityChange}
-                  placeholder="Picture"
+                  placeholder="Quantity"
                   required
                   type="text"
                   name="quantity"
@@ -203,32 +192,20 @@ const ProduceForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Is Decorative</label>
-                <div
-                  onClick={() => {
-                    setIsDecorative(!isDecorative);
-                  }}
-                >
+                <FormGroup>
+                  <FormControlLabel control={
                   <Switch
-                    checked={checked}
-                    onChange={handleChange}
+                    checked={checkedAvailable}
+                    onChange={handleChangeAvailable}
                     inputProps={{ "aria-label": "controlled" }}
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="style">Is Available</label>
-                <div
-                  onClick={() => {
-                    setIsAvailable(!isAvailable);
-                  }}
-                >
+                  />} label="Available" />
+                <FormControlLabel control={
                   <Switch
-                    checked={checked}
-                    onChange={handleChange}
+                    checked={checkedDecorative}
+                    onChange={handleChangeDecorative}
                     inputProps={{ "aria-label": "controlled" }}
-                  />
-                </div>
+                  />}label="Decorative" />
+                </FormGroup>
               </div>
 
               <div>
@@ -244,6 +221,12 @@ const ProduceForm = () => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
+              <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+              Create this produce
+              </button>
             </form>
           </div>
         </div>
