@@ -22,13 +22,18 @@ const ProduceForm = () => {
 
   const [createProduce, result] = useCreateProduceMutation();
 
-  const [checkedDecorative, setCheckedDecorative] = React.useState(true);
+  const [checkedDecorativeDecorative, setCheckedDecorativeDecorative] =
+    React.useState(true);
   const handleChangeDecorative = (event) => {
     setCheckedDecorative(event.target.checked);
   };
   const [checkedAvailable, setCheckedAvailable] = React.useState(true);
-  const handleChangeAvailable = (event) => {
-    setCheckedAvailable(event.target.checked);
+  const handleChangeDecorative = (event) => {
+    setCheckedDecorative(event.target.checked);
+  };
+  const [checkedAvailable, setCheckedAvailable] = React.useState(true);
+  const handleChangeAvailableAvailable = (event) => {
+    setCheckedAvailableAvailable(event.target.checked);
   };
 
   const handleProduceChange = (event) => {
@@ -61,15 +66,15 @@ const ProduceForm = () => {
     setExpDate(value);
   };
 
-  // const handleIsDecorativeChange = (event) => {
-  //   // const value = event.target.value;
-  //   setIsDecorative(!isDecorative);
-  // };
+  // // const handleIsDecorativeChange = (event) => {
+  // //   // const value = event.target.value;
+  // //   setIsDecorative(!isDecorative);
+  // // };
 
-  // const handleIsAvailableChange = (event) => {
-  //   // const value = event.target.value;
-  //   setIsAvailable(!isAvailable);
-  // };
+  // // const handleIsAvailableChange = (event) => {
+  // //   // const value = event.target.value;
+  // //   setIsAvailable(!isAvailable);
+  // // };
 
   const handlePriceChange = (event) => {
     const value = event.target.value;
@@ -104,11 +109,13 @@ const ProduceForm = () => {
         expDate: expDate,
         isDecorative: !checkedDecorative,
         isAvailable: !checkedAvailable,
+        isDecorative: !checkedDecorative,
+        isAvailable: !checkedAvailable,
         price: price,
       },
       users_id
     );
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    console.log("@users_id");
   };
 
   return (
@@ -119,13 +126,27 @@ const ProduceForm = () => {
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
               Create A Produce
             </h1>
-            <form onSubmit={handleSubmit} id="create-produce-form">
+            <form onChange={handleSubmit} id="create-produce-form">
+              <div>
+                <label htmlFor="produce">Produce</label>
+                <input
+                  value={produce}
+                  onChange={handleProduceChange}
+                  placeholder="Produce"
+                  required
+                  type="text"
+                  name="produce"
+                  id="produce"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
 
               <div>
                 <label htmlFor="style">Quantity</label>
                 <input
                   value={quantity}
                   onChange={handleQuantityChange}
+                  placeholder="Quantity"
                   placeholder="Quantity"
                   required
                   type="text"
@@ -193,18 +214,26 @@ const ProduceForm = () => {
 
               <div>
                 <FormGroup>
-                  <FormControlLabel control={
-                  <Switch
-                    checked={checkedAvailable}
-                    onChange={handleChangeAvailable}
-                    inputProps={{ "aria-label": "controlled" }}
-                  />} label="Available" />
-                <FormControlLabel control={
-                  <Switch
-                    checked={checkedDecorative}
-                    onChange={handleChangeDecorative}
-                    inputProps={{ "aria-label": "controlled" }}
-                  />}label="Decorative" />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={checkedAvailable}
+                        onChange={handleChangeAvailable}
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Available"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={checkedDecorative}
+                        onChange={handleChangeDecorative}
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Decorative"
+                  />
                 </FormGroup>
               </div>
 
@@ -222,10 +251,16 @@ const ProduceForm = () => {
                 />
               </div>
               <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
               >
-              Create this produce
+                Create this produce
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Create this produce
               </button>
             </form>
           </div>
