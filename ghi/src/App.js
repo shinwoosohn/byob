@@ -6,9 +6,16 @@ import LoginForm from "./User/LoginForm";
 import TopNavBar from "./Components/topNavBar";
 import PostsList from "./Posts/postsList";
 
+
+
 function App() {
+
+
+  const domain = /https:\/\/[^/]+/;
+  const basename = process.env.PUBLIC_URL.replace(domain, '');
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <TopNavBar />
       <Routes>
         <Route path="/" element={<Signup />}></Route>
