@@ -16,7 +16,7 @@ class DeliveryIn(BaseModel):
     to_address: str
     to_city: str
     to_state: str
-    requestor_id: int
+    requestor_id: Optional[int]
     order_status: Optional[str]
 
 
@@ -567,10 +567,66 @@ class DeliveryRepo:
 
     #######################################################################################################
     # UPDATE User single Delivery - where requestor_id = current user_id
+    def update_user_delivery(self, user_id: int, delivery_id: int, delivery: DeliveryIn) -> DeliveryOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE deliveries
+                        SET posts_id = %s
+                            , produce_id = %s
+                            , producer_id = %s
+                            , order_quantity = %s
+                            , from_address = %s
+                            , from_city = %s
+                            , from_state = %s
+                            , to_address = %s
+                            , to_city = %s
+                            , to_state = %s
+                        WHERE requestor_id = %s and id = %s
+                        """,
+                        [
+                            delivery.posts_id,
+                            delivery.produce_id,
+                            delivery.producer_id,
+                            delivery.order_quantity,
+                            delivery.from_address,
+                            delivery.from_city,
+                            delivery.from_state,
+                            delivery.to_address,
+                            delivery.to_city,
+                            delivery.to_state,
+                            delivery.requestor_id,
+                            delivery_id,
+                        ]
+                    )
+                    delivery_id = delivery_id
+                    old_data = delivery.dict()
+                    old_data["requestor_id"] = user_id
+                    return DeliveryOut(delivery_id=delivery_id, **old_data)
+        except Exception as e:
+            print(e)
+            raise ValueError("Could not update delivery request")
 
 
     #######################################################################################################
     # DELETE User single Delivery - where requestor_id = current user_id
+    def delete_user_delivery(self, user_id: int, delivery_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        DELETE FROM deliveries
+                        WHERE requestor_id = %s and id = %s
+                        """,
+                        [user_id, delivery_id],
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return False
 
 
     #######################################################################################################

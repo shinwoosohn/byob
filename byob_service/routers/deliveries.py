@@ -120,7 +120,7 @@ def get_user_delivery(
 
 #######################################################################################################
 # UPDATE User Single Delivery - where requestor_id = current user_id
-@router.put("/users/{user_id}/deliveries/{delivery_id}", response_model=DeliveryOutWithDriver)
+@router.put("/users/{user_id}/deliveries/{delivery_id}", response_model=DeliveryOut)
 def update_user_delivery(
     user_id: int,
     delivery_id: int,
