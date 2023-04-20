@@ -17,8 +17,14 @@ class UsersIn(BaseModel):
     avatar_url: Optional[str]
 
 
+class DriverInfo(BaseModel)
+    avatar_url: Optional[str]
+    is_driver: Optional[bool]
+    car_model: Optional[str]
+    license_plate: Optional[str]
+    dl_number: Optional[str]
 
-class UsersOut(BaseModel):
+class UsersOut(DriverInfo):
     user_id: int
     first_name: str
     last_name: str
@@ -28,11 +34,6 @@ class UsersOut(BaseModel):
     city: str
     state: str
     username: str
-    avatar_url: Optional[str]
-    is_driver: Optional[bool]
-    car_model: Optional[str]
-    license_plate: Optional[str]
-    dl_number: Optional[str]
 
 
 class UsersOutWithPassword(UsersOut):
