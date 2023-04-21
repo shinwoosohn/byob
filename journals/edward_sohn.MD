@@ -6,6 +6,12 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/21/23
+
+## 4/20/23
+
+We ended up removing the sidebar and integrating its element into the top navbar. I encountered a bug where the avatar_url was not populating as the profile icon on the right of the navbar.
+
 ## 4/19/23
 
 I debugged the two click login problem.
