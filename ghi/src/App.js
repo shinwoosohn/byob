@@ -7,6 +7,7 @@ import TopNavBar from "./Components/topNavBar";
 import PostsList from "./Posts/postsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
+import Footer from "./Components/footer";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -28,6 +29,7 @@ function App() {
           <Route path="/posts" element={<PostsList />}></Route>
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

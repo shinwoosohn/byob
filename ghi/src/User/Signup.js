@@ -41,7 +41,7 @@ function Signup() {
 
   return (
     <div className="w-full h-screen bg-byob-cyan pt-16">
-      <div className="max-w-[1600px] m-auto grid grid-cols-3">
+      <div className="max-w-[1440px] m-auto grid grid-cols-3">
         <div>
           <img src={byobLogo} className="pb-20 w-full" />
           <form onSubmit={handleSubmit} className="w-full max-w-lg">
