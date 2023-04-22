@@ -36,7 +36,7 @@ function Signup() {
   };
 
   if (result.isSuccess) {
-    navigate("/login");
+    navigate("/");
   }
 
   return (
@@ -180,7 +180,7 @@ function Signup() {
             </button>
             <a
               className="inline-block align-baseline text-sm text-gray-500 hover:text-blue-800 pl-4"
-              href="/login/"
+              href="/"
             >
               Already have an account? Login here.
             </a>

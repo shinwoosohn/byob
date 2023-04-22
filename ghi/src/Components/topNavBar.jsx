@@ -23,7 +23,6 @@ function TopNavBar({ token, avatar_url, user_id }) {
   async function handleLogout(e) {
     e.preventDefault();
     await logout();
-    navigate("/login");
   }
 
   useEffect(() => {

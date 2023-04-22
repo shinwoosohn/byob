@@ -9,6 +9,7 @@ import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/produceForm";
 import Footer from "./Components/footer";
+import LandingPage from "./LandingPage";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -24,8 +25,8 @@ function App() {
     <BrowserRouter basename={basename}>
       <TopNavBar />
       <Routes>
-        <Route path="/" element={<Signup />}></Route>
-        <Route path="/login" element={<LoginForm />}></Route>
+        <Route path="/" element={<LandingPage />}></Route>
+        <Route path="signup" element={<Signup />}></Route>
         <Route element={<AuthProvider token={data} />}>
           <Route path="users">
             <Route path=":user_id">
