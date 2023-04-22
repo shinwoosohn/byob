@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import landingPageImg from "../Assets/landingPageImg.png";
 import byobLogo from "../Assets/byobLogo.png";
 import { useNavigate } from "react-router-dom";
+import { useSignupMutation } from "../store/authApi";
 
 function Signup() {
   const navigate = useNavigate();
@@ -15,45 +16,28 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [signup, result] = useSignupMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = {};
-    data.first_name = firstName;
-    data.last_name = lastName;
-    data.email = email;
-    data.phone_number = phoneNumber;
-    data.address = address;
-    data.city = city;
-    data.state = state;
-    data.username = username;
-    data.password = password;
-    data.avatar_url = avatarUrl;
-
-    const userUrl = `${process.env.REACT_APP_BYOB_SERVICE_API_HOST}/users`;
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const response = await fetch(userUrl, fetchConfig);
-    if (response.ok) {
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPhoneNumber("");
-      setAddress("");
-      setCity("");
-      setState("");
-      setUsername("");
-      setPassword("");
-      setAvatarUrl("");
-      navigate("/login/");
-    }
+    await signup({
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone_number: phoneNumber,
+      address: address,
+      city: city,
+      state: state,
+      username: username,
+      password: password,
+      avatar_url: avatarUrl,
+    });
+    event.target.reset();
   };
+
+  if (result.isSuccess) {
+    navigate("/login");
+  }
 
   return (
     <div className="w-full h-screen bg-byob-cyan pt-16">

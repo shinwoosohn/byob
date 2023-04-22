@@ -2,11 +2,7 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  content: [
-    "./src/User/LoginForm.js",
-    "./src/User/Signup.js",
-    "./src/Components/topNavbar.jsx",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
