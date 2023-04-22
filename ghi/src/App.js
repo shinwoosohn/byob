@@ -7,7 +7,7 @@ import TopNavBar from "./Components/topNavBar";
 import PostsList from "./Posts/postsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
-import ProduceForm from "./Produce/ProduceForm";
+import ProduceForm from "./Produce/produceForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
 
