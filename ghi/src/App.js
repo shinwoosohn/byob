@@ -7,6 +7,7 @@ import TopNavBar from "./Components/topNavBar";
 import PostsList from "./Posts/postsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
+import ProduceForm from "./Produce/produceForm";
 import Footer from "./Components/footer";
 
 function App() {
@@ -26,7 +27,21 @@ function App() {
         <Route path="/" element={<Signup />}></Route>
         <Route path="/login" element={<LoginForm />}></Route>
         <Route element={<AuthProvider token={data} />}>
-          <Route path="/posts" element={<PostsList />}></Route>
+          <Route path="users">
+            <Route path=":user_id">
+              {/* <Route index element={<ProfileDetail />} /> */}
+              <Route path="produce">
+                {/* <Route index element={<ProduceList />} /> */}
+                <Route path="new" element={<ProduceForm />} />
+                {/* <Route path=":produce_id" element={<ProduceDetail />} /> */}
+              </Route>
+            </Route>
+          </Route>
+          <Route path="posts">
+            <Route index element={<PostsList />} />
+            {/* <Route path="new" element={<PostsForm />} /> */}
+            {/* <Route path=":posts_id" element={<PostsDetail />} /> */}
+          </Route>
         </Route>
       </Routes>
       <Footer />
