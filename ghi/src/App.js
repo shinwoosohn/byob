@@ -14,6 +14,10 @@ function App() {
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");
 
+  if (data === undefined) {
+    return null;
+  }
+
   return (
     <BrowserRouter basename={basename}>
       <TopNavBar />
