@@ -29,7 +29,7 @@ def create_produce(
 
 ################################################################################
 # GET ALL  produce endpoint
-@router.get("/users/{user_id}/produce/", response_model=Union[List[ProduceGetOut], HttpError])
+@router.get("/users/{user_id}/produce", response_model=Union[List[ProduceGetOut], HttpError])
 def get_all_produce(
     user_id: int,
     repo: ProduceRepo = Depends(),

@@ -12,35 +12,27 @@ export const usersApi = createApi({
       providesTags: ["usersList"],
     }),
     getUsers: builder.query({
-      query: (id) => "/users/" + id,
-    }),
-    createUser: builder.mutation({
-      query: (data) => ({
-        url: "users",
-        body: data,
-        method: "user",
-      }),
-      invalidatesTags: ["usersList"],
+      query: (user_id) => `/users/${user_id}`,
     }),
     updateUsers: builder.mutation({
-      query: (id, data) => ({
-        url: "/users/" + id,
+      query: (user_id, data) => ({
+        url: `/users/${user_id}`,
         body: data,
         method: "put",
       }),
       invalidatesTags: ["usersList"],
     }),
     updateDrivers: builder.mutation({
-      query: (id, data) => ({
-        url: "/users/" + id,
+      query: (user_id, data) => ({
+        url: `/users/${user_id}`,
         body: data,
         method: "patch",
       }),
       invalidatesTags: ["driversList"],
     }),
     deleteUsers: builder.mutation({
-      query: (id) => ({
-        url: "/users/" + id,
+      query: (user_id) => ({
+        url: `/users/${user_id}`,
         method: "delete",
       }),
       invalidatesTags: ["usersList"],

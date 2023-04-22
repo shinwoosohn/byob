@@ -72,13 +72,13 @@ def update_post(
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     try:
-        result = repo.get_post(posts_id)
-        print("******************result", result)
-        if account_data["user_id"] == result.user.user_id:
-            return repo.update_post(info, posts_id, account_data)
-        else:
-            response.status_code = 401
-            return {"message": "You are not authorized to update this post"}
+        # result = repo.get_post(posts_id)
+        # print("******************result", result)
+        # if account_data["user_id"] == result.user.user_id:
+        return repo.update_post(info, posts_id, account_data)
+        # else:
+        #     response.status_code = 401
+        #     return {"message": "You are not authorized to update this post"}
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -89,7 +89,7 @@ def update_post(
 
 ########################################################################################
 # DELETE singular post endpoint
-@router.delete("/posts/{id}}", response_model=Union[bool, Error, HttpError])
+@router.delete("/posts/{posts_id}", response_model=Union[bool, Error, HttpError])
 def delete_post(
     posts_id: int,
     response: Response,
@@ -97,17 +97,17 @@ def delete_post(
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     try:
-        result = repo.get_post(posts_id)
-        if account_data["user_id"] == result.user.user_id:
-            record = repo.delete_post(posts_id)
-            if record is None:
-                response.status_code = 404
-                return {"message": "There is no post to delete"}
-            else:
-                return record
+        # result = repo.get_post(posts_id)
+        # if account_data["user_id"] == result.user.user_id:
+        record = repo.delete_post(posts_id)
+        if record is None:
+            response.status_code = 404
+            return {"message": "There is no post to delete"}
         else:
-            response.status_code = 401
-            return {"message": "You are not authorized to delete this post"}
+            return record
+        # else:
+        #     response.status_code = 401
+        #     return {"message": "You are not authorized to delete this post"}
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
