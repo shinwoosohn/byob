@@ -315,17 +315,3 @@ class UsersRepo:
             license_plate=record[13],
             dl_number=record[14],
         )
-
-    def record_to_user_update(self, record):
-        return UsersOutWithPassword(
-            user_id=record[0],
-            first_name=record[1],
-            last_name=record[2],
-            email=record[3],
-            phone_number=record[4],
-            address=record[5],
-            city=record[6],
-            state=record[7],
-            username=record[8],
-            avatar_url=record[10],
-        )
