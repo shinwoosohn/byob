@@ -4,6 +4,10 @@ from datetime import date
 from queries.pool import pool
 
 
+class Error(BaseModel):
+    message: str
+
+
 class UsersIn(BaseModel):
     first_name: str
     last_name: str
@@ -49,7 +53,7 @@ class UsersRepo:
     # Create method for Users
     def create(
         self, users: UsersIn, hashed_password: str
-    ) -> UsersOutWithPassword:
+    ) -> Union[UsersOutWithPassword, Error]:
         try:
             # connect the database
             with pool.connection() as conn:  # with keyword is called a monitor and a way to not try catch block
@@ -106,7 +110,7 @@ class UsersRepo:
 
     #############################################################################################################
     # GET Username method related to Authenticator in order to Hash Password
-    def get(self, username: str) -> Optional[UsersOutWithPassword]:
+    def get(self, username: str) -> Union[UsersOutWithPassword, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -136,13 +140,12 @@ class UsersRepo:
                     if record is None:
                         return None
                     return self.record_to_user_out(record)
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not get that user"}
 
     #############################################################################################################
     # GET a specific user method for Users using user_id
-    def get_user(self, user_id: int) -> Optional[UsersOutWithPassword]:
+    def get_user(self, user_id: int) -> Union[UsersOutWithPassword, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -172,13 +175,12 @@ class UsersRepo:
                     if record is None:
                         return None
                     return self.record_to_user_out(record)
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not get that user"}
 
     #############################################################################################################
     # GET All users method for development purposes
-    def get_all(self) -> List[UsersOutWithPassword]:
+    def get_all(self) -> Union[List[UsersOutWithPassword], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -204,13 +206,12 @@ class UsersRepo:
                         """
                     )
                     return [self.record_to_user_out(record) for record in cur]
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not get all users"}
 
     #############################################################################################################
     # UPDATE regular user's profile method - ignores all driver line information
-    def update_user_profile(self, user_id: int, user: UsersIn) -> UsersOut:
+    def update_user_profile(self, user_id: int, user: UsersIn) -> Union[UsersOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -243,13 +244,12 @@ class UsersRepo:
                     )
                     old_data = user.dict()
                     return UsersOut(**old_data)
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not update Profile"}
 
     #############################################################################################################
     # DELETE method for users to no longer be part of application
-    def delete_user_profile(self, user_id: int) -> bool:
+    def delete_user_profile(self, user_id: int) -> Union[bool, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -261,15 +261,14 @@ class UsersRepo:
                         [user_id],
                     )
                     return True
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not delete Profile"}
 
     #############################################################################################################
     # UPDATE driver's profile method
     def update_driver_profile(
         self, user_id: int, user: DriverUpdate
-    ) -> DriverUpdate:
+    ) -> Union[DriverUpdate, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -291,8 +290,7 @@ class UsersRepo:
                     )
                     old_data = user.dict()
                     return DriverUpdate(**old_data)
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not update Profile"}
 
     #######################################################################

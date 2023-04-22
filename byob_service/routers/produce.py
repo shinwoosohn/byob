@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, Response, Request
-from typing import Union, List, Optional
+from fastapi import APIRouter, Depends, Response, HTTPException, status
+from typing import Union, List
 from authenticator import authenticator
 from pydantic import BaseModel
-from queries.produce import ProduceIn, ProduceOut, ProduceGetOut, ProduceRepo
+from queries.produce import Error, ProduceIn, ProduceOut, ProduceGetOut, ProduceRepo
 
 router = APIRouter()
 
@@ -11,11 +11,11 @@ class HttpError(BaseModel):
     detail: str
 
 
-@router.post("/users/{user_id}/produce", response_model=ProduceOut | HttpError)
+# Create a produce endpoint
+@router.post("/users/{user_id}/produce", response_model=Union[ProduceOut, Error])
 def create_produce(
     user_id: int,
     produce: ProduceIn,
-    request: Request,
     response: Response,
     repo: ProduceRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
@@ -29,9 +29,7 @@ def create_produce(
 
 ################################################################################
 # GET singular produce endpoint
-@router.get(
-    "/users/{user_id}/produce/{produce_id}", response_model=ProduceGetOut
-)
+@router.get("/users/{user_id}/produce/{produce_id}", response_model=Union[ProduceGetOut, Error])
 def get_produce(
     user_id: int,
     produce_id: int,
@@ -48,23 +46,34 @@ def get_produce(
 
 ################################################################################
 # DELETE singular produce endpoint
-@router.delete("/users/{user_id}/produce/{produce_id}", response_model=bool)
+@router.delete("/users/{user_id}/produce/{produce_id}", response_model=Union[bool, Error, HttpError])
 def delete_produce(
+    user_id: int,
     produce_id: int,
     response: Response,
     repo: ProduceRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    record = repo.delete_produce(produce_id)
-    if record is None:
-        response.status_code = 404
-    else:
-        return record
+    try:
+        if account_data["user_id"] == user_id:
+            record = repo.delete_produce(user_id, produce_id)
+            if record is None:
+                response.status_code = 404
+            else:
+                return record
+        else:
+            response.status_code = 401
+            return {"message": "You are not authorized to delete this produce"}
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot delete post with those credentials",
+        )
 
 
-# ####################################################################
+################################################################################
 # UPDATE singular produce endpoint
-@router.put("/users/{user_id}/produce/{produce_id}", response_model=ProduceOut)
+@router.put("/users/{user_id}/produce/{produce_id}", response_model=Union[ProduceOut, Error, HttpError])
 def update_produce(
     user_id: int,
     produce_id: int,
@@ -74,16 +83,22 @@ def update_produce(
     account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> ProduceOut:
     try:
-        return repo.update_produce(user_id, produce_id, produce)
-    except Exception as e:
-        response.status_code = 400
-        return {"message": "Can not update produce"}
+        if account_data["user_id"] == user_id:
+            return repo.update_produce(user_id, produce_id, produce)
+        else:
+            response.status_code = 401
+            return {"message": "You are not authorized to update this produce"}
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot delete produce with those credentials",
+        )
 
 
 
-# ####################################################################
+################################################################################
 # GET ALL  produce endpoint
-@router.get("/users/{user_id}/produce/", response_model=List[ProduceGetOut])
+@router.get("/users/{user_id}/produce/", response_model=Union[List[ProduceGetOut], HttpError])
 def get_all_produce(
     user_id: int,
     repo: ProduceRepo = Depends(),
