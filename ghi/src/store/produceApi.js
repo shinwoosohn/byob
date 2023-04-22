@@ -12,7 +12,7 @@ export const produceApi = createApi({
       providesTags: ["produceList"],
     }),
     getProduce: builder.query({
-      query: (user_id, id) => `users/${user_id}/produce` + id,
+      query: (user_id, produce_id) => `users/${user_id}/produce/${produce_id}`,
     }),
     createProduce: builder.mutation({
       query: (user_id, data) => ({
@@ -23,16 +23,16 @@ export const produceApi = createApi({
       invalidatesTag: ["produceList"],
     }),
     updateProduce: builder.mutation({
-      query: (user_id, id, data) => ({
-        url: `users/${user_id}/produce` + id,
+      query: (user_id, produce_id, data) => ({
+        url: `users/${user_id}/produce/${produce_id}`,
         body: data,
         method: "put",
       }),
       invalidatesTags: ["produceList"],
     }),
     deleteProduce: builder.mutation({
-      query: (user_id, id) => ({
-        url: `users/${user_id}/produce` + id,
+      query: (user_id, produce_id) => ({
+        url: `users/${user_id}/produce/${produce_id}`,
         method: "delete",
       }),
       invalidatesTags: ["produceList"],
