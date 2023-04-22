@@ -17,7 +17,7 @@ const LoginForm = () => {
     event.target.reset();
 
     if (!response.hasOwnProperty("error")) {
-      navigate("/posts/");
+      navigate("/posts");
     }
   };
 
@@ -63,6 +63,12 @@ const LoginForm = () => {
             >
               Login
             </button>
+            <a
+              className="inline-block align-baseline text-sm text-gray-500 hover:text-blue-800 pl-4"
+              href="/signup"
+            >
+              Dont have an account? Sign up here.
+            </a>
           </form>
           {result.isError && (
             <div className="text-red-500 mt-2">

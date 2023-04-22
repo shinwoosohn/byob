@@ -71,7 +71,7 @@ export const authApi = createApi({
           await queryFulfilled;
           localStorage.removeItem("token"); // remove token from local storage
           sessionStorage.removeItem("token"); // remove token from session storage
-          window.location.href = "/login"; // redirect user to the login page
+          window.location.href = "/"; // redirect user to the landing page
         } catch (error) {
           console.error(error);
         }
