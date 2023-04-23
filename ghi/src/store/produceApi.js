@@ -8,15 +8,15 @@ export const produceApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllProduce: builder.query({
-      query: (user_id) => `users/${user_id}/produce`,
+      query: (user_id) => `/users/${user_id}/produce`,
       providesTags: ["produceList"],
     }),
     getProduce: builder.query({
-      query: (user_id, produce_id) => `users/${user_id}/produce/${produce_id}`,
+      query: (user_id, produce_id) => `/users/${user_id}/produce/${produce_id}`,
     }),
     createProduce: builder.mutation({
       query: (user_id, data) => ({
-        url: `users/${user_id}/produce`,
+        url: `/users/${user_id}/produce`,
         body: data,
         method: "post",
       }),
@@ -24,7 +24,7 @@ export const produceApi = createApi({
     }),
     updateProduce: builder.mutation({
       query: (user_id, produce_id, data) => ({
-        url: `users/${user_id}/produce/${produce_id}`,
+        url: `/users/${user_id}/produce/${produce_id}`,
         body: data,
         method: "put",
       }),
@@ -32,7 +32,7 @@ export const produceApi = createApi({
     }),
     deleteProduce: builder.mutation({
       query: (user_id, produce_id) => ({
-        url: `users/${user_id}/produce/${produce_id}`,
+        url: `/users/${user_id}/produce/${produce_id}`,
         method: "delete",
       }),
       invalidatesTags: ["produceList"],
