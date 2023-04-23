@@ -264,7 +264,7 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in post_fields:
                     post[column.name] = row[i]
-            # post["id"] = post["posts_id"]
+
 
             produce = {}
             produce_fields = [
@@ -282,7 +282,6 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in produce_fields:
                     produce[column.name] = row[i]
-            # produce["id"] = produce["produce_id"]
             post["produce"] = produce
 
             user = {}
@@ -294,6 +293,5 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in user_fields:
                     user[column.name] = row[i]
-            # user["id"] = user["user_id"]
             post["user"] = user
         return post
