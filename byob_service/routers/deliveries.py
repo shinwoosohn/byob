@@ -57,7 +57,7 @@ def get_all_deliveries(
 
 #######################################################################################################
 # GET Singular Delivery
-@router.get("/deliveries/{delivery_id}", response_model=Union[DeliveryOutWithDriver, Error])
+@router.get("/deliveries/{delivery_id}", response_model=DeliveryOutWithDriver)
 def get_delivery(
     delivery_id: int,
     response: Response,
@@ -89,7 +89,7 @@ def accept_delivery_status(
 ):
     try:
         result = repo.get_delivery(delivery_id)
-        if account_data["is_driver"] and result.driver.driver_id is None:
+        if account_data["is_driver"] and result["driver"]["driver_id"] is None:
             if result.order_status == 'ready':
                 return repo.accept_delivery_status(delivery_id, info, account_data)
         else:
@@ -114,8 +114,7 @@ def complete_delivery_status(
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     try:
-        result = repo.get_delivery(delivery_id)
-        if account_data["user_id"] == result.driver.driver_id:  # only possible if accepted first
+        if account_data["user_id"] == driver_id:
             return repo.complete_delivery_status(driver_id, delivery_id, info, account_data)
         else:
             response.status_code = 401
@@ -162,7 +161,7 @@ def remove_driver_delivery(
 ):
     try:
         result = repo.get_delivery(delivery_id)
-        if account_data["user_id"] == result.driver.driver_id:
+        if account_data["user_id"] == result["driver"]["driver_id"]:
             return repo.remove_delivery_status(driver_id, delivery_id, info)
         else:
             response.status_code = 401
@@ -176,7 +175,7 @@ def remove_driver_delivery(
 
 #######################################################################################################
 # GET User ALL Deliveries - where requestor_id = current user_id
-@router.get("/users/{user_id}/deliveries/", response_model=Union[List[DeliveryOutWithDriver], Error, HttpError])
+@router.get("/users/{user_id}/deliveries/", response_model=List[DeliveryOutWithDriver])
 def get_user_deliveries(
     user_id: int,
     response: Response,
@@ -326,7 +325,7 @@ def complete_order_status(
     try:
         if account_data["user_id"] == producer_id:
             result = repo.get_user_order(producer_id, delivery_id)
-            if result.order_status == 'pending':
+            if result["order_status"] == 'pending':
                 return repo.complete_order_status(producer_id, delivery_id, info, account_data)
     except ValueError:
         raise HTTPException(
