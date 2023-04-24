@@ -4,6 +4,10 @@ from datetime import datetime, date
 from queries.pool import pool
 
 
+class Error(BaseModel):
+    message: str
+
+
 class PostsIn(BaseModel):
     text: str
     postimg_url: str
@@ -22,6 +26,7 @@ class PostOut(BaseModel):
 
 class PostProduce(BaseModel):
     produce_id: Optional[int]
+    name: Optional[str]
     quantity: Optional[int]
     weight: Optional[int]
     description: Optional[str]
@@ -43,6 +48,7 @@ class PostsOut(BaseModel):
     post_created: Optional[datetime]
     text: str
     postimg_url: str
+    poster_id: Optional[int]
     produce: Optional[PostProduce]
     user: PostUser
 
@@ -50,7 +56,7 @@ class PostsOut(BaseModel):
 class PostsRepo:
     ####################################################################
     # CREATE posts/listings method
-    def create(self, posts: PostsIn, account_data: dict) -> PostOut:
+    def create(self, posts: PostsIn, account_data: dict) -> Union[PostOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -82,13 +88,13 @@ class PostsRepo:
                         posts_id=posts_id,
                         **old_data,
                     )
-        except Exception as e:
-            print(e)
+        except Exception:
             raise ValueError("Could not create post")
+
 
     ##############################################################################
     # GET post by id not caring about the user
-    def get_post(self, posts_id: int) -> Optional[PostsOut]:
+    def get_post(self, posts_id: int) -> Union[PostsOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -98,7 +104,9 @@ class PostsRepo:
                             , p.post_created
                             , p.text
                             , p.postimg_url
+                            , p.poster_id
                             , pr.id AS produce_id
+                            , pr.name
                             , pr.quantity
                             , pr.weight
                             , pr.description
@@ -121,13 +129,13 @@ class PostsRepo:
                     )
                     row = cur.fetchone()
                     return self.post_record_to_dict(row, cur.description)
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not get that post"}
+
 
     ##############################################################################
     # GET ALL posts for main public feed
-    def get_all_post(self) -> List[PostsOut]:
+    def get_all_post(self) -> Union[List[PostsOut], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -137,7 +145,9 @@ class PostsRepo:
                             , p.post_created
                             , p.text
                             , p.postimg_url
+                            , p.poster_id
                             , pr.id AS produce_id
+                            , pr.name
                             , pr.quantity
                             , pr.weight
                             , pr.description
@@ -158,7 +168,9 @@ class PostsRepo:
                             , p.post_created
                             , p.text
                             , p.postimg_url
+                            , p.poster_id
                             , pr.id
+                            , pr.name
                             , pr.quantity
                             , pr.weight
                             , pr.description
@@ -179,15 +191,15 @@ class PostsRepo:
                         for row in rows
                     ]
 
-        except Exception as e:
-            print(e)
+        except Exception:
             return {"message": "Could not get posts"}
+
 
     ##############################################################################
     # UPDATE post by posts_id
     def update_post(
         self, posts: PostsIn, posts_id: int, account_data: dict
-    ) -> PostOut:
+    ) -> Union[PostOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -214,14 +226,14 @@ class PostsRepo:
                         posts_id=posts_id,
                         **old_data,
                     )
-        except Exception as e:
-            print(e)
+        except Exception:
             raise ValueError("Could not create post")
+
 
     ##############################################################################
     # DELETE post by posts_id
 
-    def delete_post(self, posts_id: int) -> bool:
+    def delete_post(self, posts_id: int) -> Union[bool, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -233,9 +245,9 @@ class PostsRepo:
                         [posts_id],
                     )
                     return True
-        except Exception as e:
-            print(e)
-            return False
+        except Exception:
+            return {"message": "Could not delete post"}
+
 
     # *****************************ENCODER***********************************************************
     # method to call in get_post that structures the data into proper nested dict form
@@ -248,15 +260,17 @@ class PostsRepo:
                 "post_created",
                 "text",
                 "postimg_url",
+                "poster_id",
             ]
             for i, column in enumerate(description):
                 if column.name in post_fields:
                     post[column.name] = row[i]
-            # post["id"] = post["posts_id"]
+
 
             produce = {}
             produce_fields = [
                 "produce_id",
+                "name",
                 "quantity",
                 "weight",
                 "description",
@@ -269,7 +283,6 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in produce_fields:
                     produce[column.name] = row[i]
-            # produce["id"] = produce["produce_id"]
             post["produce"] = produce
 
             user = {}
@@ -281,6 +294,5 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in user_fields:
                     user[column.name] = row[i]
-            # user["id"] = user["user_id"]
             post["user"] = user
         return post
