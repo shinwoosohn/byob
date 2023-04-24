@@ -2,7 +2,91 @@
 
 # Journals
 
-## 4/18/2023 - MVP2 Delivery API Endpoints and Repo Methods
+## 4/22/2023 - Finish debugging Backend and Attempt debugging Frontend
+
+Today, I worked on:
+
+- Attempted debugging some frontend for team related to redux - still fail
+- Debug Delivery API endpoints - Success
+
+I've run myself pretty ragged to get all this functionality flowing, but feels good. The frontend
+bug continues to elude me since we're connecting everything to the proper url, passing correct
+credentials. The issue is the connection is literally not there as there's no visible payload
+using the redux queries and mutations, so we're posting as a blocker now and grabbing help.
+
+It's almost the final stretch and I need to study for my practice final and save up energy for working
+in the week, so I will take tomorrow Sunday off and just work as hard as possible for Monday - Friday.
+
+## 4/21/2023 - Updated backend for authorization checks / FE Debug Authentication
+
+Today, I worked on:
+
+- Looking at others' HMU posts, we realized we're not using our token on FE
+- Create userSlice to set the current user and have access to the token to protect webpages
+- Attempted debugging some frontend for team related to redux - still fail
+
+While debugging the frontend, we came across some Help Me Understand posts in slack and realized
+we were missing a sizeable chunk of the FE authentication functionality. There's a react library
+that can be used for regular react, but we are not using jwtdown-for-react because of redux,
+so we needed to conceptualize what it was doing and apply a similar concept to our app using redux.
+
+Realized our backend api endpoints do not have user checks to make sure only the author of an object
+in our app has authorization to update or delete said object. Updating all backend endpoints for checks
+that need it such as all updates, deletes, and delivery side checking for driver.
+
+## 4/20/2023 - Hooking up Delivery Routers with Repo Methods
+
+Today, I worked on:
+
+- Attempted debugging some frontend for team related to redux - frontend to backend connection fail
+- Update routers with a repo methods for all delivery api endpoints
+
+Just another work day trying to get everything done. The rush is making everyone a little
+faster, but also less attentive, so doing my best to keep communication going among the team
+and making sure everyone knows what others are working on and what needs hands.
+
+Still no luck with the frontend connection. This is becoming a blocker at this point. Testing all
+backend api endpoints and everything is working well except the Deliveries. I know the bug is
+something simple, but going to take a break and finish debugging tomorrow while I help my
+team work on other frontend components. Anything to be productive at this point.
+
+## 4/19/2023 - Updating Backend Delivery related API Endpoint and Repo Methods
+
+Today, I worked on:
+
+- ALL backend api endpoints for delivery related services
+- Debugged some frontend for team related to redux - frontend to backend connection fail
+- Create repo methods' SQL and Encoder for all delivery api endpoints
+
+I'm about 90% done with the delivery backend and starting to go into panic mode
+since we're not as far along on the frontend as I thought we'd be. Redux continues
+to be a headache despite its awesome capabilities. Due to its nuances, I'm constantly
+having to go back and review what was put in the api stores and how data is passed to
+the redux endpoint builds because it needs to match the backend as well.
+
+Between the backend heavily relying on myself and assisting with the frontend debugging,
+I'm starting to be stretched a little thin. It's nothing I'm not used to from my work
+history, but the frontend is not connecting to the backend, so it's a big issue we need to
+solve.
+
+## 4/18/2023 - MVP2 Delivery related API Endpoints and Repo Methods
+
+Today, I worked on:
+
+- ALL backend api endpoints for delivery related services
+- Debugged some frontend for team related to redux - frontend to backend connection fail
+- Updated for update driver api endpoint
+- debug api for update user profile since it wasn't working as intended
+- Create routers with a pass for all delivery api endpoints
+- Create skeleton for repo methods
+
+I decided to tackle the Delivery backend by myself because there's still a lot of frontend work
+that needs to be done and the Delivery services are stretch goal related, so just doing
+my part to make sure our project is as great as possible.
+
+Thankfully a lot of the delivery endpoints are copy and paste and just require logical
+planning first. I have created skeletons for all the work and vetted the parameters that
+will be passed into endpoints and repo methods. Will continue working on this tomorrow.
 
 ## 4/17/2023 - DEBUG Frontend Authentication / Update PostsList component for updates to redux store
 
