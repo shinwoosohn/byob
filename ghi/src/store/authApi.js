@@ -7,8 +7,8 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BYOB_SERVICE_API_HOST,
     credentials: "include",
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+    prepareHeaders: async (headers, { getState }) => {
+      const token = await getState().auth.token;
 
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
@@ -38,8 +38,8 @@ export const authApi = createApi({
       invalidatesTags: ["Token"],
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          await dispatch(setUser(data));
+          await queryFulfilled;
+          await dispatch(authApi.endpoints.getToken.initiate());
         } catch (e) {
           console.error(e);
         }
@@ -54,22 +54,44 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          await dispatch(setUser(data));
+          dispatch(setUser(data));
         } catch (e) {
           console.error(e);
         }
       },
     }),
-    deleteToken: builder.mutation({
+    logout: builder.mutation({
       query: () => ({
         url: "/token",
         method: "delete",
+      }),
+      invalidateTags: ["Token"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          localStorage.removeItem("token"); // remove token from local storage
+          sessionStorage.removeItem("token"); // remove token from session storage
+          window.location.href = "/"; // redirect user to the landing page
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
+    signup: builder.mutation({
+      query: (data) => ({
+        url: "/users",
+        body: data,
+        method: "post",
         credentials: "include",
       }),
-      invalidatesTags: ["Token"],
+      invalidateTags: ["Token"],
     }),
   }),
 });
 
-export const { useLoginMutation, useGetTokenQuery, useDeleteTokenMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useGetTokenQuery,
+  useLogoutMutation,
+  useSignupMutation,
+} = authApi;

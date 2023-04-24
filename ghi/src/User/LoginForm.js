@@ -17,12 +17,12 @@ const LoginForm = () => {
     event.target.reset();
 
     if (!response.hasOwnProperty("error")) {
-      navigate("/posts/");
+      navigate("/posts");
     }
   };
 
   return (
-    <div className="w-full h-screen bg-byob-cyan pt-16">
+    <div className="w-full h-screen bg-byob-cyan pt-16 rounded-b-[180px]">
       <div className="max-w-[1600px] m-auto grid grid-cols-3">
         <div>
           <img src={byobLogo} className="pb-20 w-full" />
@@ -63,6 +63,12 @@ const LoginForm = () => {
             >
               Login
             </button>
+            <a
+              className="inline-block align-baseline text-sm text-gray-500 hover:text-blue-800 pl-4"
+              href="/signup"
+            >
+              Dont have an account? Sign up here.
+            </a>
           </form>
           {result.isError && (
             <div className="text-red-500 mt-2">

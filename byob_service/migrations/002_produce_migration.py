@@ -3,6 +3,7 @@ steps = [
         """
         CREATE TABLE produce (
             id SERIAL PRIMARY KEY NOT NULL,
+            name VARCHAR(100) NOT NULL,
             quantity SMALLINT NOT NULL,
             weight SMALLINT NOT NULL,
             description	VARCHAR(1000) NOT NULL,

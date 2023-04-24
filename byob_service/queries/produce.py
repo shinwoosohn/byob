@@ -3,11 +3,13 @@ from typing import Optional, List, Union
 from queries.pool import pool
 from datetime import date
 
-# from queries.posts import PostsOut
-# from queries.deliveries import DeliveriesOut
+
+class Error(BaseModel):
+    message: str
 
 
 class ProduceIn(BaseModel):
+    name: str
     quantity: int
     weight: int
     description: str
@@ -21,6 +23,7 @@ class ProduceIn(BaseModel):
 
 class ProduceOut(BaseModel):
     produce_id: int
+    name: str
     quantity: int
     weight: int
     description: str
@@ -39,6 +42,7 @@ class ProduceUser(BaseModel):
 
 class ProduceGetOut(BaseModel):
     produce_id: int
+    name: str
     quantity: int
     weight: int
     description: str
@@ -51,9 +55,9 @@ class ProduceGetOut(BaseModel):
 
 
 class ProduceRepo:
-    # ******************************CREATE*PRODUCE******************************************
-
-    def create(self, user_id: int, produce: ProduceIn) -> ProduceOut:
+    ##############################################################################################
+    # CREATE a produce for specific user
+    def create(self, user_id: int, produce: ProduceIn) -> Union[ProduceOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -61,7 +65,8 @@ class ProduceRepo:
                         """
                         INSERT INTO produce
                             (
-                                quantity
+                                name
+                                , quantity
                                 , weight
                                 , description
                                 , image_url
@@ -72,10 +77,11 @@ class ProduceRepo:
                                 , owner_id
                             )
                         VALUES
-                            (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                            (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                         RETURNING id AS produce_id;
                         """,
                         [
+                            produce.name,
                             produce.quantity,
                             produce.weight,
                             produce.description,
@@ -97,17 +103,69 @@ class ProduceRepo:
         except Exception as e:
             raise ValueError("Could not create produce")
 
+
+    ##############################################################################################
+    # GET ALL produce for specific user
+    def get_all_produce(self, user_id: int) -> Union[List[ProduceGetOut], Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT pr.id AS produce_id
+                            , pr.name
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id AS user_id
+                            , u.username
+                        FROM produce pr
+                        LEFT JOIN users u
+                        ON pr.owner_id = u.id
+                        WHERE u.id = %s
+                        GROUP BY pr.id
+                            , pr.name
+                            , pr.quantity
+                            , pr.weight
+                            , pr.description
+                            , pr.image_url
+                            , pr.exp_date
+                            , pr.is_decorative
+                            , pr.is_available
+                            , pr.price
+                            , u.id
+                            , u.username
+                        ORDER BY pr.exp_date DESC
+                        """,
+                        [user_id],
+                    )
+                    rows = cur.fetchall()
+                    return [
+                        self.produce_record_to_dict(row, cur.description)
+                        for row in rows
+                    ]
+
+        except Exception:
+            return {"message": "Could not get list of produce"}
+
+
     ##############################################################################################
     # GET specific produce for specific user
     def get_produce(
         self, user_id: int, produce_id: int
-    ) -> Optional[ProduceGetOut]:
+    ) -> Union[ProduceGetOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
                     result = cur.execute(
                         """
                         SELECT pr.id AS produce_id
+                            , pr.name
                             , pr.quantity
                             , pr.weight
                             , pr.description
@@ -130,20 +188,23 @@ class ProduceRepo:
         except Exception as e:
             return {"message": "Could not get that produce"}
 
-    # ******************************UPDATE*A*PRODUCE*****************************************
+
+    ##############################################################################################
+    # UPDATE a produce for specific user
     def update_produce(
         self,
         user_id: int,
         produce_id: int,
         produce: ProduceIn,
-    ) -> ProduceOut:
+    ) -> Union[ProduceOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
                     result = cur.execute(
                         """
                         UPDATE produce
-                        SET quantity = %s
+                        SET name = %s
+                          ,  quantity = %s
                           ,  weight = %s
                           ,  description = %s
                           ,  image_url = %s
@@ -154,6 +215,7 @@ class ProduceRepo:
                         WHERE owner_id = %s and id = %s
                         """,
                         [
+                            produce.name,
                             produce.quantity,
                             produce.weight,
                             produce.description,
@@ -170,26 +232,27 @@ class ProduceRepo:
                     old_data = produce.dict()
                     old_data["owner_id"] = user_id
                     return ProduceOut(produce_id=produce_id, **old_data)
-        except Exception as e:
+        except Exception:
             raise ValueError("Could not update produce")
+
 
     ######################################################################
     # DELETE specific produce for specific user
-    def delete_produce(self, produce_id: int) -> bool:
+    def delete_produce(self, user_id:int, produce_id: int) -> Union[bool, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
                     cur.execute(
                         """
                         DELETE FROM produce
-                        WHERE id = %s
+                        WHERE owner_id = %s and id = %s
                         """,
-                        [produce_id],
+                        [user_id, produce_id],
                     )
                     return True
-        except Exception as e:
-            print(e)
-            return False
+        except Exception:
+            raise ValueError("Could not delete produce")
+
 
     # *****************************ENCODER***********************************************************
     # method to call in get_produce that structures the data into proper nested dict form
@@ -199,6 +262,7 @@ class ProduceRepo:
             produce = {}
             produce_fields = [
                 "produce_id",
+                "name",
                 "quantity",
                 "weight",
                 "description",
@@ -223,50 +287,3 @@ class ProduceRepo:
             # user["id"] = user["user_id"]
             produce["user"] = user
         return produce
-
-
-    def get_all_produce(self, user_id: int) -> List[ProduceGetOut]:
-        try:
-            with pool.connection() as conn:
-                with conn.cursor() as cur:
-                    cur.execute(
-                        """
-                        SELECT pr.id AS produce_id
-                            , pr.quantity
-                            , pr.weight
-                            , pr.description
-                            , pr.image_url
-                            , pr.exp_date
-                            , pr.is_decorative
-                            , pr.is_available
-                            , pr.price
-                            , u.id AS user_id
-                            , u.username
-                        FROM produce pr
-                        LEFT JOIN users u
-                        ON pr.owner_id = u.id
-                        WHERE u.id = %s
-                        GROUP BY pr.id
-                            , pr.quantity
-                            , pr.weight
-                            , pr.description
-                            , pr.image_url
-                            , pr.exp_date
-                            , pr.is_decorative
-                            , pr.is_available
-                            , pr.price
-                            , u.id
-                            , u.username
-                        ORDER BY pr.exp_date DESC
-                        """,
-                        [user_id],
-                    )
-                    rows = cur.fetchall()
-                    return [
-                        self.produce_record_to_dict(row, cur.description)
-                        for row in rows
-                    ]
-
-        except Exception as e:
-            print(e)
-            return {"message": "Could not get list of produce"}
