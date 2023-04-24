@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useGetUsersQuery } from "../store/usersApi";
 import {
   Card,
@@ -6,13 +7,31 @@ import {
   CardBody,
   CardFooter,
   Typography,
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
 } from "@material-tailwind/react";
 // import produceList from "../Produce/ProduceList";
 
-
+function Icon({ id, open }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`${
+            id === open ? "rotate-180" : ""
+            } h-5 w-5 transition-transform`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+        );
+}
 
 export default function UserProfile(){
-    const { data: userData, isError, isLoading } = useGetUsersQuery
+    const { data: userData, isError, isLoading, user_id} = useGetUsersQuery
     const [produceList, setProduceList] = useState([])
     const [produce, setProduce] = useState('')
     const handleProduceChange = (event) => {
@@ -21,6 +40,11 @@ export default function UserProfile(){
     const { data: produceData} = useGetAllProduceQuery();
         setProduceList(produceData)
 
+    const [open, setOpen] = useState(0);
+
+    const handleOpen = (value) => {
+        setOpen(open === value ? 0 : value);
+    };
 
 
     if (isLoading) {
@@ -61,26 +85,23 @@ export default function UserProfile(){
                     <p>Footer here</p>
                 </CardFooter>
             </Card>
-            // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             <div>
                 <p> List of Produce</p>
-                {/* use this to populate accordian not dropdown select menu */}
-                {/* <select value={produce.description} onChange={handleProduceChange} required id="produce" name="produce" className="form-select">
-                    <option value="">Choose from your produce</option>
-                    {produceList.map(singleProduce => {
-                        return (
-                            <option value={singleProduce.name} key={singleProduce.produce_id}>
-                                {singleProduce.name}
-                            </option>
-                        );
-                    })};
-                </select> */}
                     {/* <produceList /> */}
-                {/* for each produce in produce list, create a item row
-                if item row is clicked on, expand and show buttons to
-                1)create a post for that produce
-                2) create a delivery request for that produce
-                3) delete that produce */}
+                 <div>
+                    {posts.map((post, index) => (
+                        <Accordion
+                            key={index}
+                            open={open === index}
+                            icon={<Icon id={index} open={open} />}
+                        >
+                        <AccordionHeader onClick={() => handleOpen(index)}>
+                            {post.name}
+                        </AccordionHeader>
+                        <AccordionBody>{post.description}</AccordionBody>
+                        </Accordion>
+                    ))}
+                </div>
             </div>
 
             <div>
@@ -93,6 +114,6 @@ export default function UserProfile(){
                 <p> history</p>
                 {/* get all posts, filter by isCompleted ? */}
             </div>
-    </div>
+        </div>
     )
 }
