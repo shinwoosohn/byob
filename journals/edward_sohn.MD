@@ -6,7 +6,17 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/23/23
+
+I finished setting up the landing page, so we can just add any other components if we need to.
+
+## 4/22/23
+
+I continued working on the front end landing page and components. I also worked on a carousel feature that can showcase anything we need to.
+
 ## 4/21/23
+
+I fixed the avatar_url bug and finished up the top navbar. I started on creating landing components like the footer and about us section.
 
 ## 4/20/23
 
