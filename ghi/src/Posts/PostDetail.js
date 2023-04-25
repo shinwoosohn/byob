@@ -16,9 +16,10 @@ import {
     CheckBadgeIcon,
     PhotoIcon,
 } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 
-function ProducePost(){
+function PostDetail(){
 
     const { post_id } = useParams();
     const { data: post, isError, isLoading} = useGetPostsQuery(post_id);
@@ -105,9 +106,9 @@ function ProducePost(){
             </CardBody>
             <CardFooter className="pt-3">
                 {/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Make a link to delivery form !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-                <Button size="lg" fullWidth={true}>
+                <Link size="lg" fullWidth={true}>
                 Make a delivery request!
-                </Button>
+                </Link>
                 {/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
             </CardFooter>
             </Card>
@@ -139,7 +140,7 @@ function ProducePost(){
                         color="blue-gray"
                         className="flex items-center gap-1.5 font-normal"
                     >
-                        <Avatar src="/img/face-2.jpg" alt="user avatar img" className="-mt-0.5 h-5 w-5 text-yellow-700" />
+                        <Avatar src={post.user.avatar_url} alt="user avatar img" className="-mt-0.5 h-5 w-5 text-yellow-700" />
                         User: {post.user.username}
                     </Typography>
                     <Typography
@@ -159,4 +160,4 @@ function ProducePost(){
   }
 };
 
-export default ProducePost;
+export default PostDetail;
