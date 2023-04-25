@@ -27,7 +27,7 @@ const ProduceForm = () => {
 
   const [isAvailable, setIsAvailable] = React.useState(true);
   const handleChangeAvailable = (event) => {
-    setCheckedAvailable(event.target.checked);
+    setIsAvailable(event.target.checked);
   };
 
   const handleNameChange = (event) => {
@@ -85,16 +85,19 @@ const ProduceForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce(user_id, {
-      name: name,
-      quantity: parseInt(quantity),
-      weight: parseInt(weight),
-      description: description,
-      image_url: imageUrl,
-      exp_date: expDate,
-      is_decorative: !isDecorative,
-      is_available: !isAvailable,
-      price: parseFloat(price),
+    createProduce({
+      user_id,
+      data: {
+        name: name,
+        quantity: parseInt(quantity),
+        weight: parseInt(weight),
+        description: description,
+        image_url: imageUrl,
+        exp_date: expDate,
+        is_decorative: !isDecorative,
+        is_available: !isAvailable,
+        price: parseFloat(price),
+      },
     });
   };
 
