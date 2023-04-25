@@ -55,11 +55,13 @@ class PostsOut(BaseModel):
 class PostsRepo:
     ####################################################################
     # CREATE posts/listings method
-    def create(self, posts: PostsIn, account_data: dict) -> Union[PostOut, Error]:
+    def create(
+        self, posts: PostsIn, account_data: dict
+    ) -> Union[PostOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # INSERT SQL statement to create posts
                         """
                         INSERT INTO posts
@@ -90,14 +92,13 @@ class PostsRepo:
         except Exception:
             raise ValueError("Could not create post")
 
-
     ##############################################################################
     # GET post by id not caring about the user
     def get_post(self, posts_id: int) -> Union[PostsOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         SELECT p.id AS posts_id
                             , p.post_created
@@ -130,7 +131,6 @@ class PostsRepo:
                     return self.post_record_to_dict(row, cur.description)
         except Exception:
             return {"message": "Could not get that post"}
-
 
     ##############################################################################
     # GET ALL posts for main public feed
@@ -193,7 +193,6 @@ class PostsRepo:
         except Exception:
             return {"message": "Could not get posts"}
 
-
     ##############################################################################
     # UPDATE post by posts_id
     def update_post(
@@ -202,7 +201,7 @@ class PostsRepo:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # INSERT SQL statement to create posts
                         """
                         UPDATE posts
@@ -228,7 +227,6 @@ class PostsRepo:
         except Exception:
             raise ValueError("Could not create post")
 
-
     ##############################################################################
     # DELETE post by posts_id
 
@@ -247,7 +245,6 @@ class PostsRepo:
         except Exception:
             return {"message": "Could not delete post"}
 
-
     # *****************************ENCODER***********************************************************
     # method to call in get_post that structures the data into proper nested dict form
     def post_record_to_dict(self, row, description):
@@ -264,7 +261,6 @@ class PostsRepo:
             for i, column in enumerate(description):
                 if column.name in post_fields:
                     post[column.name] = row[i]
-
 
             produce = {}
             produce_fields = [

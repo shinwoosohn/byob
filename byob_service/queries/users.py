@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional, List, Union
-from datetime import date
 from queries.pool import pool
 
 
@@ -59,7 +58,7 @@ class UsersRepo:
             with pool.connection() as conn:  # with keyword is called a monitor and a way to not try catch block
                 # get a cursor (something to run SQL with)
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # Insert statement part of SQL execute method
                         # using value syntax '%...'
                         """
@@ -184,7 +183,7 @@ class UsersRepo:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         SELECT id AS user_id
                             , first_name
@@ -211,11 +210,13 @@ class UsersRepo:
 
     #############################################################################################################
     # UPDATE regular user's profile method - ignores all driver line information
-    def update_user_profile(self, user_id: int, user: UsersIn) -> Union[UsersOut, Error]:
+    def update_user_profile(
+        self, user_id: int, user: UsersIn
+    ) -> Union[UsersOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         UPDATE users
                         SET first_name = %s
@@ -253,7 +254,7 @@ class UsersRepo:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         DELETE FROM users
                         WHERE id = %s;

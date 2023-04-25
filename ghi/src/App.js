@@ -10,6 +10,7 @@ import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
+import DeliveryForm from "./Delivery/DeliveryForm";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -43,6 +44,7 @@ function App() {
             {/* <Route path="new" element={<PostsForm />} /> */}
             {/* <Route path=":posts_id" element={<PostsDetail />} /> */}
           </Route>
+          <Route path="delivery" element={<DeliveryForm />} />
         </Route>
       </Routes>
       <Footer />
