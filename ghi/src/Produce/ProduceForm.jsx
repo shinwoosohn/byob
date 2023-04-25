@@ -4,9 +4,8 @@ import { useCreateProduceMutation } from "../store/produceApi";
 import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-// import { Switch } from "@material-tailwind/react";
 import Switch from "@mui/material/Switch";
+import { useNavigate } from "react-router-dom";
 
 const ProduceForm = () => {
   const { user_id } = useParams();
@@ -65,6 +64,8 @@ const ProduceForm = () => {
     setPrice(value);
   };
 
+  const navigate = useNavigate();
+
   const handleReset = () => {
     setName("");
     setQuantity("");
@@ -99,6 +100,8 @@ const ProduceForm = () => {
         price: parseFloat(price),
       },
     });
+    navigate("/user/${user_id}/");
+    // still need to create the user profile path into App.js
   };
 
   return (
