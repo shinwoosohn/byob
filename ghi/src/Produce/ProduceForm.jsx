@@ -20,12 +20,12 @@ const ProduceForm = () => {
 
   const [createProduce, result] = useCreateProduceMutation();
 
-  const [isDecorative, setIsDecorative] = React.useState(true);
+  const [isDecorative, setIsDecorative] = useState(true);
   const handleChangeDecorative = (event) => {
     setIsDecorative(event.target.checked);
   };
 
-  const [isAvailable, setIsAvailable] = React.useState(true);
+  const [isAvailable, setIsAvailable] = useState(true);
   const handleChangeAvailable = (event) => {
     setIsAvailable(event.target.checked);
   };
@@ -85,19 +85,16 @@ const ProduceForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce({
-      user_id,
-      data: {
-        name: name,
-        quantity: parseInt(quantity),
-        weight: parseInt(weight),
-        description: description,
-        image_url: imageUrl,
-        exp_date: expDate,
-        is_decorative: !isDecorative,
-        is_available: !isAvailable,
-        price: parseFloat(price),
-      },
+    createProduce(user_id, {
+      name: name,
+      quantity: parseInt(quantity),
+      weight: parseInt(weight),
+      description: description,
+      image_url: imageUrl,
+      exp_date: expDate,
+      is_decorative: !isDecorative,
+      is_available: !isAvailable,
+      price: parseFloat(price),
     });
   };
 

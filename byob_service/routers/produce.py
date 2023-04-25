@@ -2,7 +2,13 @@ from fastapi import APIRouter, Depends, Response, HTTPException, status
 from typing import Union, List
 from authenticator import authenticator
 from pydantic import BaseModel
-from queries.produce import Error, ProduceIn, ProduceOut, ProduceGetOut, ProduceRepo
+from queries.produce import (
+    Error,
+    ProduceIn,
+    ProduceOut,
+    ProduceGetOut,
+    ProduceRepo,
+)
 
 router = APIRouter()
 
@@ -12,7 +18,9 @@ class HttpError(BaseModel):
 
 
 # Create a produce endpoint
-@router.post("/users/{user_id}/produce", response_model=Union[ProduceOut, Error])
+@router.post(
+    "/users/{user_id}/produce", response_model=Union[ProduceOut, Error]
+)
 def create_produce(
     user_id: int,
     produce: ProduceIn,
@@ -22,14 +30,17 @@ def create_produce(
 ):
     try:
         return repo.create(user_id, produce)
-    except Exception as e:
+    except Exception:
         response.status_code = 400
         return {"message": "Can not create produce"}
 
 
 ################################################################################
 # GET ALL  produce endpoint
-@router.get("/users/{user_id}/produce", response_model=Union[List[ProduceGetOut], HttpError])
+@router.get(
+    "/users/{user_id}/produce",
+    response_model=Union[List[ProduceGetOut], HttpError],
+)
 def get_all_produce(
     user_id: int,
     repo: ProduceRepo = Depends(),
@@ -46,7 +57,10 @@ def get_all_produce(
 
 ################################################################################
 # GET singular produce endpoint
-@router.get("/users/{user_id}/produce/{produce_id}", response_model=Union[ProduceGetOut, Error])
+@router.get(
+    "/users/{user_id}/produce/{produce_id}",
+    response_model=Union[ProduceGetOut, Error],
+)
 def get_produce(
     user_id: int,
     produce_id: int,
@@ -64,7 +78,10 @@ def get_produce(
 
 ################################################################################
 # UPDATE singular produce endpoint
-@router.put("/users/{user_id}/produce/{produce_id}", response_model=Union[ProduceOut, Error, HttpError])
+@router.put(
+    "/users/{user_id}/produce/{produce_id}",
+    response_model=Union[ProduceOut, Error, HttpError],
+)
 def update_produce(
     user_id: int,
     produce_id: int,
@@ -88,7 +105,10 @@ def update_produce(
 
 ################################################################################
 # DELETE singular produce endpoint
-@router.delete("/users/{user_id}/produce/{produce_id}", response_model=Union[bool, Error, HttpError])
+@router.delete(
+    "/users/{user_id}/produce/{produce_id}",
+    response_model=Union[bool, Error, HttpError],
+)
 def delete_produce(
     user_id: int,
     produce_id: int,
