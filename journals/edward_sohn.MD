@@ -6,6 +6,10 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/24/23
+
+I wrote a unit test for the get all users feature. I also worked on the conditional navbar that shows different links depending on if you are logged in (user/driver) or logged out.
+
 ## 4/23/23
 
 I finished setting up the landing page, so we can just add any other components if we need to.
