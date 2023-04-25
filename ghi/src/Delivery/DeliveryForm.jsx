@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useCreateDeliveryMutation } from "../store/deliveryApi";
+import { useCreateRequestMutation } from "../store/requestsApi";
 import { useGetAllPostsQuery } from "../store/postsApi";
 import { useGetAllProduceQuery } from "../store/produceApi";
 
@@ -18,7 +18,7 @@ const DeliveryForm = () => {
   const [toCity, setToCity] = useState("");
   const [toState, setToState] = useState("");
 
-  const [createDelivery, result] = useCreateDeliveryMutation();
+  const [createDelivery, result] = useCreateRequestMutation();
 
   const { data: posts } = useGetAllPostsQuery();
   const { data: produces, user_id } = useGetAllProduceQuery();
