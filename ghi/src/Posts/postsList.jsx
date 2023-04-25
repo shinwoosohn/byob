@@ -77,6 +77,8 @@ const producePost = (post) => {
 function PostsList() {
   const { data: posts, isError, isLoading } = useGetAllPostsQuery();
 
+  console.log(posts);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
