@@ -11,7 +11,7 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
-// import produceList from "../Produce/ProduceList";
+import produceList from "../Produce/ProduceList";
 
 function Icon({ id, open }) {
     return (
@@ -61,18 +61,17 @@ export default function UserProfile(){
         );
     }
     return (
-        // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         <div>
             <Card className="w-96">
                 <CardHeader floated={false} className="h-80">
-                    {/* <img src="/img/team-3.jpg" alt="profile-picture" /> */}
+                    <img src={userData.avatar_url} alt="profile-picture" />
                     <Typography variant="h4" color="blue-gray" className="mb-2">
                         {userData.first_name + " " + userData.last_name}
                     </Typography>
                 </CardHeader>
                 <CardBody className="text-center">
                     <Typography color="blue" className="font-medium" textGradient>
-                    Location: {userData.state + ", " + userData.city}
+                        Location: {userData.state + ", " + userData.city}
                     </Typography>
                     <Typography color="blue" className="font-medium" textGradient>
                         Address: {userData.address}
@@ -82,7 +81,7 @@ export default function UserProfile(){
                     </Typography>
                 </CardBody>
                 <CardFooter className="flex justify-center gap-7 pt-2">
-                    <p>Footer here</p>
+                    <p>Footer here, can add whatever, icons tooltips etc</p>
                 </CardFooter>
             </Card>
             <div>
