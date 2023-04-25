@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./User/Signup";
 import "./App.css";
-
 import TopNavBar from "./Components/topNavBar";
 import PostsList from "./Posts/postsList";
 import PostsDetail from "./Posts/PostsDetail";
@@ -11,7 +9,7 @@ import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
-import DeliveryForm from "./Delivery/DeliveryForm";
+// import DeliveryForm from "./Delivery/DeliveryForm";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -45,7 +43,7 @@ function App() {
             {/* <Route path="new" element={<PostsForm />} /> */}
             <Route path=":posts_id" element={<PostsDetail />} />
           </Route>
-          <Route path="delivery" element={<DeliveryForm />} />
+          {/* <Route path="delivery" element={<DeliveryForm />} /> */}
         </Route>
       </Routes>
       <Footer />
