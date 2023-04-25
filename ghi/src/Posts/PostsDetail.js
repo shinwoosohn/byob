@@ -22,10 +22,11 @@ import { useGetPostsQuery } from "../store/postsApi";
 
 function PostsDetail(){
 
-    const { post_id } = useParams();
-    console.log(post_id)
-    const { data: post, isError, isLoading} = useGetPostsQuery(post_id);
+    const { posts_id } = useParams();
+    console.log(posts_id, "this is posts_id")
+    const { data: posts, isError, isLoading} = useGetPostsQuery(posts_id);
 
+    console.log(posts, "this is posts")
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -41,12 +42,12 @@ function PostsDetail(){
     }
 
 // post with a produce (wireframe 6)
-    if (post.produce.produce_id !== null) {
+    if (posts.produce.produce_id !== null) {
         return (
             <Card className="w-full max-w-[26rem] shadow-lg">
                 <CardHeader floated={false} color="blue-gray">
                     <img
-                    src={post.produce.image_url}
+                    src={posts.postimage_url}
                     alt="ui/ux review check"
                     />
                     <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
@@ -54,11 +55,11 @@ function PostsDetail(){
                 <CardBody>
                     <div className="mb-3 flex items-center justify-between">
                     <Typography variant="h5" color="blue-gray" className="font-medium">
-                        {post.produce.decription}
+                        <span>{posts.produce ? posts.produce.name : ""}</span>
                     </Typography>
                     </div>
                     <Typography color="gray">
-                        {post.text}
+                        <span>{posts.produce ? posts.produce.description : ""}</span>
                     </Typography>
 
                 <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
@@ -67,42 +68,42 @@ function PostsDetail(){
                             className="flex items-center gap-1.5 font-normal"
                         >
                             <CurrencyDollarIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                            Price: {post.produce.price}
+                            <span>Price: {posts.produce ?  posts.produce.price : ""}</span>
                         </Typography>
                         <Typography
                             color="blue-gray"
                             className="flex items-center gap-1.5 font-normal"
                         >
                             <CalendarDaysIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                            Expiration Date: {post.produce.exp_date}
+                            <span>Expiration Date: {posts.produce ? posts.produce.exp_date : ""}</span>
                         </Typography>
                         <Typography
                             color="blue-gray"
                             className="flex items-center gap-1.5 font-normal"
                         >
                             <PhotoIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                            Decorative: {post.produce.is_decorative}
+                            <span>Decorative: {posts.produce ? posts.produce.is_decorative : ""}</span>
                         </Typography>
                         <Typography
                             color="blue-gray"
                             className="flex items-center gap-1.5 font-normal"
                         >
                             <CheckBadgeIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                            {post.produce.is_available}
+                            <span>{posts.produce ? posts.produce.is_available : ""}</span>
                         </Typography>
                         <Typography
                             color="blue-gray"
                             className="flex items-center gap-1.5 font-normal"
                         >
                             <HashtagIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                            Quantity: {post.produce.quantity}
+                            <span>Quantity: {posts.produce ? posts.produce.quantity : ""}</span>
                         </Typography>
                         <Typography
                             color="blue-gray"
                             className="flex items-center gap-1.5 font-normal"
                         >
                             <ScaleIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                        Weight: {post.produce.weight}
+                            <span>Weight: {posts.produce ? posts.produce.weight: ""}</span>
                         </Typography>
                     </div>
                 </CardBody>
@@ -119,7 +120,7 @@ function PostsDetail(){
         <Card className="w-full max-w-[26rem] shadow-lg">
             <CardHeader floated={false} color="blue-gray">
                 <img
-                src={post.produce.image_url}
+                src={posts.produce ? posts.produce.image_url : ""}
                 alt="ui/ux review check"
                 />
                 <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
@@ -127,12 +128,12 @@ function PostsDetail(){
             <CardBody>
                 <div className="mb-3 flex items-center justify-between">
                     <Typography variant="h5" color="blue-gray" className="font-medium">
-                        {post.produce.decription}
+                        <span>{posts.produce ? posts.produce.name : ""}</span>
                     </Typography>
                 </div>
 
                 <Typography color="gray">
-                    {post.text}
+                    <span>{posts.produce ? posts.produce.description : ""}</span>
                 </Typography>
 
                 <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
@@ -141,15 +142,15 @@ function PostsDetail(){
                         color="blue-gray"
                         className="flex items-center gap-1.5 font-normal"
                     >
-                        <Avatar src={post.user.avatar_url} alt="user avatar img" className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                        User: {post.user.username}
+                        <Avatar src={posts.user.avatar_url} alt="user avatar img" className="-mt-0.5 h-5 w-5 text-yellow-700" />
+                       <span>User: {posts.user.username}</span>
                     </Typography>
                     <Typography
                         color="blue-gray"
                         className="flex items-center gap-1.5 font-normal"
                     >
                         <CalendarDaysIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-                        Post created on: {post.post_created}
+                        <span>Post created on: {posts.post_created}</span>
                     </Typography>
 
                 </div>
