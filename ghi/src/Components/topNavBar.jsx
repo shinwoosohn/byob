@@ -8,10 +8,10 @@ import { useLogoutMutation } from "../store/authApi";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function TopNavBar({ token, avatar_url, user_id }) {
+function TopNavBar({ token }) {
   const [nav, setNav] = useState(false);
   const [logo, setLogo] = useState(false);
-  const [logout, isLoading] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
 
