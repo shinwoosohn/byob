@@ -12,7 +12,7 @@ export const postsApi = createApi({
       providesTags: ["postsList"],
     }),
     getPosts: builder.query({
-      query: (id) => "/posts/" + id,
+      query: (posts_id) => `/posts/${posts_id}`,
     }),
     createPosts: builder.mutation({
       query: (data) => ({
@@ -23,16 +23,16 @@ export const postsApi = createApi({
       invalidatesTag: ["postsList"],
     }),
     updatePosts: builder.mutation({
-      query: (id, data) => ({
-        url: "/posts/" + id,
+      query: ({ posts_id, data }) => ({
+        url: `/posts/${posts_id}`,
         body: data,
         method: "put",
       }),
       invalidatesTags: ["postsList"],
     }),
     deletePosts: builder.mutation({
-      query: (id) => ({
-        url: "/posts/" + id,
+      query: (posts_id) => ({
+        url: `/posts/${posts_id}`,
         method: "delete",
       }),
       invalidatesTags: ["postsList"],

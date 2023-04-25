@@ -6,6 +6,7 @@ steps = [
             posts_id INT,
             produce_id INT NOT NULL,
             producer_id INT NOT NULL,
+            order_quantity SMALLINT NOT NULL,
             from_address VARCHAR(1000) NOT NULL,
             from_city VARCHAR(1000) NOT NULL,
             from_state VARCHAR(25) NOT NULL,
@@ -21,6 +22,6 @@ steps = [
         """,
         """
         DROP TABLE deliveries;
-        """
+        """,
     ]
 ]
