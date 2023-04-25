@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./User/Signup";
 import "./App.css";
-import LoginForm from "./User/LoginForm";
+
 import TopNavBar from "./Components/topNavBar";
 import PostsList from "./Posts/postsList";
+import PostsDetail from "./Posts/PostsDetail";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
@@ -42,7 +43,7 @@ function App() {
           <Route path="posts">
             <Route index element={<PostsList />} />
             {/* <Route path="new" element={<PostsForm />} /> */}
-            {/* <Route path=":posts_id" element={<PostsDetail />} /> */}
+            <Route path=":posts_id" element={<PostsDetail />} />
           </Route>
           <Route path="delivery" element={<DeliveryForm />} />
         </Route>

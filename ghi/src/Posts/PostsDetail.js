@@ -17,11 +17,13 @@ import {
     PhotoIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
+import { useGetPostsQuery } from "../store/postsApi";
 
 
-function PostDetail(){
+function PostsDetail(){
 
     const { post_id } = useParams();
+    console.log(post_id)
     const { data: post, isError, isLoading} = useGetPostsQuery(post_id);
 
     if (isLoading) {
@@ -159,4 +161,4 @@ function PostDetail(){
   }
 };
 
-export default PostDetail;
+export default PostsDetail;
