@@ -76,6 +76,7 @@ const producePost = (post) => {
 
 function PostsList() {
   const { data: posts, isError, isLoading } = useGetAllPostsQuery();
+  console.log(data);
 
   console.log(posts);
 
