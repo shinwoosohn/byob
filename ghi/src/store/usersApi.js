@@ -15,7 +15,7 @@ export const usersApi = createApi({
       query: (user_id) => `/users/${user_id}`,
     }),
     updateUsers: builder.mutation({
-      query: (user_id, data) => ({
+      query: ({ user_id, data }) => ({
         url: `/users/${user_id}`,
         body: data,
         method: "put",
@@ -23,7 +23,7 @@ export const usersApi = createApi({
       invalidatesTags: ["usersList"],
     }),
     updateDrivers: builder.mutation({
-      query: (user_id, data) => ({
+      query: ({ user_id, data }) => ({
         url: `/users/${user_id}`,
         body: data,
         method: "patch",

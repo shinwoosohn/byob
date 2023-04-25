@@ -1,7 +1,7 @@
 import { useGetAllPostsQuery } from "../store/postsApi";
 import { Link } from "react-router-dom";
 
-const producePost = ({ post }) => {
+const producePost = (post) => {
   if (post.produce.produce_id !== null) {
     return (
       <div class="max-w-sm w-full lg:max-w-full lg:flex">
@@ -76,6 +76,9 @@ const producePost = ({ post }) => {
 
 function PostsList() {
   const { data: posts, isError, isLoading } = useGetAllPostsQuery();
+  console.log(data);
+
+  console.log(posts);
 
   if (isLoading) {
     return <div>Loading...</div>;

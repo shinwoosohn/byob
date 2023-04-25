@@ -20,14 +20,14 @@ const ProduceForm = () => {
 
   const [createProduce, result] = useCreateProduceMutation();
 
-  const [isDecorative, setIsDecorative] = React.useState(true);
+  const [isDecorative, setIsDecorative] = useState(true);
   const handleChangeDecorative = (event) => {
     setIsDecorative(event.target.checked);
   };
 
-  const [isAvailable, setIsAvailable] = React.useState(true);
+  const [isAvailable, setIsAvailable] = useState(true);
   const handleChangeAvailable = (event) => {
-    setCheckedAvailable(event.target.checked);
+    setIsAvailable(event.target.checked);
   };
 
   const handleNameChange = (event) => {
