@@ -38,7 +38,7 @@ def create_delivery(
 
 #######################################################################################################
 # GET ALL Deliveries
-@router.get("/deliveries", response_model=List[DeliveryOutWithDriver])
+@router.get("/deliveries", response_model=Union[List[DeliveryOutWithDriver], Error])
 def get_all_deliveries(
     response: Response,
     repo: DeliveryRepo = Depends(),
@@ -57,7 +57,7 @@ def get_all_deliveries(
 
 #######################################################################################################
 # GET Singular Delivery
-@router.get("/deliveries/{delivery_id}", response_model=DeliveryOutWithDriver)
+@router.get("/deliveries/{delivery_id}", response_model=Union[DeliveryOutWithDriver, Error])
 def get_delivery(
     delivery_id: int,
     response: Response,
@@ -175,7 +175,7 @@ def remove_driver_delivery(
 
 #######################################################################################################
 # GET User ALL Deliveries - where requestor_id = current user_id
-@router.get("/users/{user_id}/deliveries/", response_model=List[DeliveryOutWithDriver])
+@router.get("/users/{user_id}/deliveries/", response_model=Union[List[DeliveryOutWithDriver], Error, HttpError])
 def get_user_deliveries(
     user_id: int,
     response: Response,
@@ -197,7 +197,7 @@ def get_user_deliveries(
 
 #######################################################################################################
 # GET User Single Delivery - where requestor_id = current user_id
-@router.get("/users/{user_id}/deliveries/{delivery_id}", response_model=DeliveryOutWithDriver)
+@router.get("/users/{user_id}/deliveries/{delivery_id}", response_model=Union[DeliveryOutWithDriver, Error, HttpError])
 def get_user_delivery(
     user_id: int,
     delivery_id: int,

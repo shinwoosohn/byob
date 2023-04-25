@@ -582,7 +582,7 @@ class DeliveryRepo:
 
     #######################################################################################################
     # UPDATE User single Delivery - where requestor_id = current user_id
-    def update_user_delivery(self, user_id: int, delivery_id: int, delivery: DeliveryIn) -> Union[DeliveryOut, Error]:
+    def update_user_delivery(self, user_id: int, delivery_id: int, delivery: DeliveryIn) -> Union[DeliveryOut, ValueError]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -783,7 +783,7 @@ class DeliveryRepo:
 
     #######################################################################################################
     # PATCH User Single Order Status - where producer_id = current user_id
-    def complete_order_status(self, producer_id: int, delivery_id: int, delivery: OrderAccept, account_data: dict) -> Union[OrderAccept, Error]:
+    def complete_order_status(self, producer_id: int, delivery_id: int, delivery: OrderAccept, account_data: dict) -> Union[OrderAccept, ValueError]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
