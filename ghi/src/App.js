@@ -4,7 +4,7 @@ import Signup from "./User/Signup";
 import "./App.css";
 import LoginForm from "./User/LoginForm";
 import TopNavBar from "./Components/topNavBar";
-import PostsList from "./Posts/PostsList";
+import PostsList from "./Posts/postsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
