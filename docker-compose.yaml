@@ -9,14 +9,14 @@ volumes:
     external: true
 
 services:
-  byob_service:
+  byob-service:
     build:
-      context: ./byob_service
+      context: ./byob-service
       dockerfile: ./Dockerfile.dev
     ports:
       - 8000:8000
     volumes:
-      - ./byob_service:/app
+      - ./byob-service:/app
     environment:
       DATABASE_URL: postgresql://byob:password@postgres/byob
       WAIT_HOSTS: postgres:5432
