@@ -11,7 +11,8 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
-import produceList from "../Produce/ProduceList";
+import ProduceList from "../Produce/produceList";
+import PostsDetail from "../Posts/PostsDetail";
 
 function Icon({ id, open }) {
     return (
@@ -31,20 +32,41 @@ function Icon({ id, open }) {
 }
 
 export default function UserProfile(){
-    const { data: userData, isError, isLoading, user_id} = useGetUsersQuery
+    const { data: userData, isError, isLoading} = useGetUsersQuery(user_id)
     const [produceList, setProduceList] = useState([])
-    const [produce, setProduce] = useState('')
-    const handleProduceChange = (event) => {
-        setProduce(event.target.value)
-    }
+    // const [produce, setProduce] = useState('')
+    // const handleProduceChange = (event) => {
+    //     setProduce(event.target.value)
+    // }
     const { data: produceData} = useGetAllProduceQuery();
-        setProduceList(produceData)
+    useEffect(() => { // Use the useEffect hook to set the produceList state after the API call
+        setProduceList(produceData);
+    }, [produceData]);
+
+    const [openProduce, setOpenProduce] = useState(0);
+
+    const handleOpenProduce = (value) => {
+        setOpenProduce(openProduce === value ? 0 : value);
+    };
+
+     const [postsList, setPostsList] = useState([])
+    // const [post, setPost] = useState('')
+    // const handleProduceChange = (event) => {
+    //     setProduce(event.target.value)
+    // }
+    const { data: postsData} = useGetAllPostsQuery();
+    useEffect(() => { // Use the useEffect hook to set the produceList state after the API call
+        setPostsList(postsData);
+    }, [postsData]);
 
     const [open, setOpen] = useState(0);
 
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
+
     };
+
+
 
 
     if (isLoading) {
@@ -85,19 +107,43 @@ export default function UserProfile(){
                 </CardFooter>
             </Card>
             <div>
-                <p> List of Produce</p>
+                <p> List of Posts</p>
                     {/* <produceList /> */}
                  <div>
-                    {posts.map((post, index) => (
+                    {postsList.map((singlePost, index) => (
                         <Accordion
                             key={index}
                             open={open === index}
                             icon={<Icon id={index} open={open} />}
                         >
                         <AccordionHeader onClick={() => handleOpen(index)}>
-                            {post.name}
+                            {singlePost.name}
                         </AccordionHeader>
-                        <AccordionBody>{post.description}</AccordionBody>
+                        <AccordionBody>
+                            <PostsDetail post={singlePost} />
+                        </AccordionBody>
+                        </Accordion>
+                    ))}
+                </div>
+            </div>
+
+            <div>
+                <p> List of Produce</p>
+                    {/* <produceList /> */}
+                 <div>
+                    <ProduceList produceData={produceList} />
+                    {produceList.map((singleProduce, index) => (
+                        <Accordion
+                            key={index}
+                            open={openProduce === index}
+                            icon={<Icon id={index} open={openProduce} />}
+                        >
+                        <AccordionHeader onClick={() => handleOpenProduce(index)}>
+                            {singleProduce.name}
+                        </AccordionHeader>
+                        <AccordionBody>
+                            <ProduceDetail produce={singleProduce} />
+                        </AccordionBody>
                         </Accordion>
                     ))}
                 </div>
