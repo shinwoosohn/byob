@@ -12,66 +12,66 @@ export default function PostForm() {
   const user = useSelector((state) => state.auth.user);
   console.log(user);
   // ^^^ needs to connect to the useGetAllProduceQuery on line 22
-  //   const handleTextStateChange = (event) => {
-  //     setTextState(event.target.value);
-  //   };
-  //   const handlePostImgUrlChange = (event) => {
-  //     setPostImgUrl(event.target.value);
-  //   };
-  //   const handleProduceChange = (event) => {
-  //     setProduce(event.target.value);
-  //   };
+  const handleTextStateChange = (event) => {
+    setTextState(event.target.value);
+  };
+  const handlePostImgUrlChange = (event) => {
+    setPostImgUrl(event.target.value);
+  };
+  const handleProduceChange = (event) => {
+    setProduce(event.target.value);
+  };
 
-  //   const {
-  //     data: produceData,
-  //     isError,
-  //     isLoading,
-  //   } = useGetAllProduceQuery(user.user_id);
-  //   console.log(produceData);
-  //   setProduceList(produceData);
+  const {
+    data: produceData,
+    isError,
+    isLoading,
+  } = useGetAllProduceQuery(user.user_id);
+  console.log(produceData);
+  setProduceList(produceData);
 
-  //   const [createPost, result] = useCreatePostsMutation();
+  const [createPost, result] = useCreatePostsMutation();
 
-  //   const handleReset = () => {
-  //     setTextState("");
-  //     postImgUrl("");
-  //     setProduceList("");
-  //     setProduce("");
-  //   };
+  const handleReset = () => {
+    setTextState("");
+    postImgUrl("");
+    setProduceList("");
+    setProduce("");
+  };
 
-  //   useEffect(() => {
-  //     if (result.isSuccess) {
-  //       handleReset();
-  //     }
-  //   }, [result.isSuccess]);
+  useEffect(() => {
+    if (result.isSuccess) {
+      handleReset();
+    }
+  }, [result.isSuccess]);
 
-  //   const handleSubmit = async (event) => {
-  //     event.preventDefault();
-  //     createPost({
-  //       data: {
-  //         text: textState,
-  //         postimg_url: postImgUrl,
-  //         produce_id: produce,
-  //       },
-  //     });
-  //   };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    createPost({
+      data: {
+        text: textState,
+        postimg_url: postImgUrl,
+        produce_id: produce,
+      },
+    });
+  };
 
-  //   if (isLoading) {
-  //     return <div>Loading...</div>;
-  //   }
-  //   if (isError) {
-  //     return (
-  //       <div
-  //         className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
-  //         role="alert"
-  //       >
-  //         <p className="font-bold">Something went wrong with loading data...</p>
-  //       </div>
-  //     );
-  //   }
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return (
+      <div
+        className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+        role="alert"
+      >
+        <p className="font-bold">Something went wrong with loading data...</p>
+      </div>
+    );
+  }
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-9 sm:py-215 lg:max-w-20xl lg:px-8">
-      {/* <div className="row">
+      <div className="row">
         <div className="offset-3 col-6">
           <div className="shadow p-4 mt-4">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -140,7 +140,7 @@ export default function PostForm() {
             </form>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
