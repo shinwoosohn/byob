@@ -57,11 +57,13 @@ class ProduceGetOut(BaseModel):
 class ProduceRepo:
     ##############################################################################################
     # CREATE a produce for specific user
-    def create(self, user_id: int, produce: ProduceIn) -> Union[ProduceOut, Error]:
+    def create(
+        self, user_id: int, produce: ProduceIn
+    ) -> Union[ProduceOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         INSERT INTO produce
                             (
@@ -100,13 +102,14 @@ class ProduceRepo:
                         produce_id=produce_id,
                         **old_data,
                     )
-        except Exception as e:
+        except Exception:
             raise ValueError("Could not create produce")
-
 
     ##############################################################################################
     # GET ALL produce for specific user
-    def get_all_produce(self, user_id: int) -> Union[List[ProduceGetOut], Error]:
+    def get_all_produce(
+        self, user_id: int
+    ) -> Union[List[ProduceGetOut], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -153,7 +156,6 @@ class ProduceRepo:
         except Exception:
             return {"message": "Could not get list of produce"}
 
-
     ##############################################################################################
     # GET specific produce for specific user
     def get_produce(
@@ -162,7 +164,7 @@ class ProduceRepo:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         SELECT pr.id AS produce_id
                             , pr.name
@@ -185,9 +187,8 @@ class ProduceRepo:
                     )
                     row = cur.fetchone()
                     return self.produce_record_to_dict(row, cur.description)
-        except Exception as e:
+        except Exception:
             return {"message": "Could not get that produce"}
-
 
     ##############################################################################################
     # UPDATE a produce for specific user
@@ -200,7 +201,7 @@ class ProduceRepo:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         UPDATE produce
                         SET name = %s
@@ -235,10 +236,11 @@ class ProduceRepo:
         except Exception:
             raise ValueError("Could not update produce")
 
-
     ######################################################################
     # DELETE specific produce for specific user
-    def delete_produce(self, user_id:int, produce_id: int) -> Union[bool, Error]:
+    def delete_produce(
+        self, user_id: int, produce_id: int
+    ) -> Union[bool, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -252,7 +254,6 @@ class ProduceRepo:
                     return True
         except Exception:
             raise ValueError("Could not delete produce")
-
 
     # *****************************ENCODER***********************************************************
     # method to call in get_produce that structures the data into proper nested dict form

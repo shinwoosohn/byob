@@ -96,11 +96,13 @@ class DeliveryOutWithDriver(BaseModel):
 class DeliveryRepo:
     #######################################################################################################
     # Create a Delivery method
-    def create_delivery(self, delivery: DeliveryIn, account_data: dict) -> Union[DeliveryOut, Error]:
+    def create_delivery(
+        self, delivery: DeliveryIn, account_data: dict
+    ) -> Union[DeliveryOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # INSERT INTO SQL statement to create delivery
                         """
                         INSERT INTO deliveries
@@ -133,7 +135,7 @@ class DeliveryRepo:
                             delivery.to_city,
                             delivery.to_state,
                             account_data["user_id"],
-                        ]
+                        ],
                     )
                     delivery_id = cur.fetchone()[0]
                     old_data = delivery.dict()
@@ -145,14 +147,15 @@ class DeliveryRepo:
         except Exception:
             raise ValueError("Could not create delivery request")
 
-
     #######################################################################################################
     # GET ALL Delivery method
-    def get_all_deliveries(self) -> Union[List[DeliveryOutWithDriver], ValueError]:
+    def get_all_deliveries(
+        self,
+    ) -> Union[List[DeliveryOutWithDriver], ValueError]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # SELECT SQL statement
                         """
                         SELECT d.id AS delivery_id
@@ -229,14 +232,15 @@ class DeliveryRepo:
         except Exception:
             raise ValueError("Could not get deliveries")
 
-
     #######################################################################################################
     # GET Delivery by delivery_id method
-    def get_delivery(self, delivery_id: int) -> Union[DeliveryOutWithDriver, ValueError]:
+    def get_delivery(
+        self, delivery_id: int
+    ) -> Union[DeliveryOutWithDriver, ValueError]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # SELECT SQL statement
                         """
                         SELECT d.id AS delivery_id
@@ -275,21 +279,22 @@ class DeliveryRepo:
                         ON d.driver_id = u.id
                         WHERE d.id = %s;
                         """,
-                        [delivery_id]
+                        [delivery_id],
                     )
                     row = cur.fetchone()
                     return self.delivery_record_to_dict(row, cur.description)
         except Exception:
             raise ValueError("Could not get delivery")
 
-
     #######################################################################################################
     # PATCH Delivery by delivery_id method
-    def accept_delivery_status(self, delivery_id: int, delivery: DeliveryUpdate, account_data: dict) -> Union[DeliveryUpdate, Error]:
+    def accept_delivery_status(
+        self, delivery_id: int, delivery: DeliveryUpdate, account_data: dict
+    ) -> Union[DeliveryUpdate, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         UPDATE deliveries
                         SET delivery_status = 'accepted'
@@ -298,7 +303,7 @@ class DeliveryRepo:
                         [
                             delivery.delivery_status,
                             delivery_id,
-                        ]
+                        ],
                     )
                     old_data = delivery.dict()
                     old_data["driver_id"] = account_data["user_id"]
@@ -306,14 +311,19 @@ class DeliveryRepo:
         except Exception:
             raise ValueError("Could not accept delivery request")
 
-
     #######################################################################################################
     # PATCH Delivery by driver_id and delivery_id method
-    def complete_delivery_status(self, driver_id: int, delivery_id: int, delivery: DeliveryUpdate, account_data: dict) -> Union[DeliveryUpdate, Error]:
+    def complete_delivery_status(
+        self,
+        driver_id: int,
+        delivery_id: int,
+        delivery: DeliveryUpdate,
+        account_data: dict,
+    ) -> Union[DeliveryUpdate, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         UPDATE deliveries
                         SET delivery_status = 'completed'
@@ -322,7 +332,7 @@ class DeliveryRepo:
                         [
                             delivery.delivery_status,
                             delivery_id,
-                        ]
+                        ],
                     )
                     driver_id = driver_id
                     old_data = delivery.dict()
@@ -330,14 +340,15 @@ class DeliveryRepo:
         except Exception:
             raise ValueError("Could not complete delivery request")
 
-
     #######################################################################################################
     # GET Deliveries by driver_id
-    def get_driver_deliveries(self, driver_id: int) -> Union[List[DeliveryOutWithDriver], Error]:
+    def get_driver_deliveries(
+        self, driver_id: int
+    ) -> Union[List[DeliveryOutWithDriver], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # SELECT SQL statement
                         """
                         SELECT d.id AS delivery_id
@@ -406,7 +417,7 @@ class DeliveryRepo:
                             , u.dl_number
                         ORDER BY pr.exp_date DESC;
                         """,
-                        [driver_id]
+                        [driver_id],
                     )
                     rows = cur.fetchall()
                     return [
@@ -416,14 +427,19 @@ class DeliveryRepo:
         except Exception:
             return {"message": "Could not get driver deliveries"}
 
-
     #######################################################################################################
     # UPDATE Remove Driver Delivery by setting driver_id to null
-    def remove_delivery_status(self, driver_id: int, delivery_id: int, delivery: DeliveryUpdate, account_data: dict) -> Union[DeliveryUpdate, Error]:
+    def remove_delivery_status(
+        self,
+        driver_id: int,
+        delivery_id: int,
+        delivery: DeliveryUpdate,
+        account_data: dict,
+    ) -> Union[DeliveryUpdate, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         UPDATE deliveries
                         SET delivery_status = 'pending'
@@ -434,21 +450,22 @@ class DeliveryRepo:
                             delivery.delivery_status,
                             delivery.driver_id,
                             delivery_id,
-                        ]
+                        ],
                     )
                     old_data = delivery.dict()
                     return DeliveryUpdate(**old_data)
         except Exception:
             raise ValueError("Could not remove delivery request")
 
-
     #######################################################################################################
     # GET User ALL Deliveries - where requestor_id = current user_id
-    def get_user_deliveries(self, user_id: int) -> Union[List[DeliveryOutWithDriver], Error]:
+    def get_user_deliveries(
+        self, user_id: int
+    ) -> Union[List[DeliveryOutWithDriver], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # SELECT SQL statement
                         """
                         SELECT d.id AS delivery_id
@@ -517,7 +534,7 @@ class DeliveryRepo:
                             , u.dl_number
                         ORDER BY pr.exp_date DESC;
                         """,
-                        [user_id]
+                        [user_id],
                     )
                     rows = cur.fetchall()
                     return [
@@ -529,11 +546,13 @@ class DeliveryRepo:
 
     #######################################################################################################
     # GET User single Delivery - where requestor_id = current user_id
-    def get_user_delivery(self, user_id: int, delivery_id: int) -> Union[DeliveryOutWithDriver, ValueError]:
+    def get_user_delivery(
+        self, user_id: int, delivery_id: int
+    ) -> Union[DeliveryOutWithDriver, ValueError]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # SELECT SQL statement
                         """
                         SELECT d.id AS delivery_id
@@ -572,21 +591,22 @@ class DeliveryRepo:
                         ON d.driver_id = u.id
                         WHERE d.requestor_id = %s and d.id = %s;
                         """,
-                        [user_id, delivery_id]
+                        [user_id, delivery_id],
                     )
                     row = cur.fetchone()
                     return self.delivery_record_to_dict(row, cur.description)
         except Exception:
             ValueError("Could not get user delivery request")
 
-
     #######################################################################################################
     # UPDATE User single Delivery - where requestor_id = current user_id
-    def update_user_delivery(self, user_id: int, delivery_id: int, delivery: DeliveryIn) -> Union[DeliveryOut, Error]:
+    def update_user_delivery(
+        self, user_id: int, delivery_id: int, delivery: DeliveryIn
+    ) -> Union[DeliveryOut, ValueError]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         UPDATE deliveries
                         SET posts_id = %s
@@ -614,7 +634,7 @@ class DeliveryRepo:
                             delivery.to_state,
                             delivery.requestor_id,
                             delivery_id,
-                        ]
+                        ],
                     )
                     delivery_id = delivery_id
                     old_data = delivery.dict()
@@ -623,14 +643,15 @@ class DeliveryRepo:
         except Exception:
             raise ValueError("Could not update delivery request")
 
-
     #######################################################################################################
     # DELETE User single Delivery - where requestor_id = current user_id
-    def delete_user_delivery(self, user_id: int, delivery_id: int) -> Union[bool, Error]:
+    def delete_user_delivery(
+        self, user_id: int, delivery_id: int
+    ) -> Union[bool, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         DELETE FROM deliveries
                         WHERE requestor_id = %s and id = %s;
@@ -641,14 +662,15 @@ class DeliveryRepo:
         except Exception:
             return False
 
-
     #######################################################################################################
     # GET User ALL Orders - where producer_id = current user_id
-    def get_user_orders(self, producer_id: int) -> Union[List[DeliveryOutWithDriver], Error]:
+    def get_user_orders(
+        self, producer_id: int
+    ) -> Union[List[DeliveryOutWithDriver], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # SELECT SQL statement
                         """
                         SELECT d.id AS delivery_id
@@ -717,7 +739,7 @@ class DeliveryRepo:
                             , u.dl_number
                         ORDER BY pr.exp_date DESC;
                         """,
-                        [producer_id]
+                        [producer_id],
                     )
                     rows = cur.fetchall()
                     return [
@@ -727,14 +749,15 @@ class DeliveryRepo:
         except Exception:
             return {"message": "Could not get user orders"}
 
-
     #######################################################################################################
     # GET User Single Order - where producer_id = current user_id
-    def get_user_order(self, producer_id: int, delivery_id: int) -> Union[DeliveryOutWithDriver, Error]:
+    def get_user_order(
+        self, producer_id: int, delivery_id: int
+    ) -> Union[DeliveryOutWithDriver, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         # SELECT SQL statement
                         """
                         SELECT d.id AS delivery_id
@@ -773,21 +796,26 @@ class DeliveryRepo:
                         ON d.driver_id = u.id
                         WHERE d.producer_id = %s and d.id = %s;
                         """,
-                        [producer_id, delivery_id]
+                        [producer_id, delivery_id],
                     )
                     row = cur.fetchone()
                     return self.delivery_record_to_dict(row, cur.description)
         except Exception:
             return {"message": "Could not get user order"}
 
-
     #######################################################################################################
     # PATCH User Single Order Status - where producer_id = current user_id
-    def complete_order_status(self, producer_id: int, delivery_id: int, delivery: OrderAccept, account_data: dict) -> Union[OrderAccept, Error]:
+    def complete_order_status(
+        self,
+        producer_id: int,
+        delivery_id: int,
+        delivery: OrderAccept,
+        account_data: dict,
+    ) -> Union[OrderAccept, ValueError]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         UPDATE deliveries
                         SET order_status = 'ready'
@@ -797,15 +825,14 @@ class DeliveryRepo:
                             delivery.order_status,
                             producer_id,
                             delivery_id,
-                        ]
+                        ],
                     )
                     old_data = delivery.dict()
                     return OrderAccept(**old_data)
         except Exception:
             raise ValueError("Could not complete order request")
 
-
-    #*************************************Encoder**********************************************#
+    # *************************************Encoder**********************************************#
     # method to translate deliveries into proper dictionary structure
     def delivery_record_to_dict(self, row, description):
         delivery = None
@@ -831,7 +858,6 @@ class DeliveryRepo:
                 if column.name in delivery_fields:
                     delivery[column.name] = row[i]
 
-
             produce = {}
             produce_fields = [
                 "produce_id",
@@ -849,7 +875,6 @@ class DeliveryRepo:
                 if column.name in produce_fields:
                     produce[column.name] = row[i]
             delivery["produce"] = produce
-
 
             driver = {}
             driver_fields = [

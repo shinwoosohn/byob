@@ -43,7 +43,7 @@ function Signup() {
     <div className="w-full h-screen bg-byob-cyan pt-16">
       <div className="max-w-[1440px] m-auto grid grid-cols-3">
         <div>
-          <img src={byobLogo} className="pb-20 w-full" />
+          <img src={byobLogo} className="pb-20 w-full" alt="" />
           <form onSubmit={handleSubmit} className="w-full max-w-lg">
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -186,7 +186,7 @@ function Signup() {
             </a>
           </form>
         </div>
-        <img src={landingPageImg} className="w-full col-span-2 pt-48" />
+        <img src={landingPageImg} className="w-full col-span-2 pt-48" alt="" />
       </div>
     </div>
   );

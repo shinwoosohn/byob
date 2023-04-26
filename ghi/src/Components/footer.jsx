@@ -9,7 +9,7 @@ function Footer() {
       <div className="p-5 max-w-[1440px] mx-auto px-4 gap-8 grid lg:grid-cols-4">
         <div className="">
           <Link to="/">
-            <img src={byobLogo} className="pb-4 w-3/6" />
+            <img src={byobLogo} className="pb-4 w-3/6" alt="" />
           </Link>
           <div className="flex justify-between md:w-[50%] my-2">
             <FaGithubSquare size={30} color="white" />
