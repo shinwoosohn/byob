@@ -51,9 +51,14 @@ export const authApi = createApi({
         credentials: "include",
       }),
       providesTags: ["Token"],
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      async onQueryStarted(args, { dispatch, queryFulfilled, getState }) {
         try {
+          // let currentStore = await getState();
+          // let currentUser = currentStore.auth;
+          // console.log(currentStore);
+          console.log("queryFulfilled", queryFulfilled);
           const { data } = await queryFulfilled;
+          console.log(data);
           dispatch(setUser(data));
         } catch (e) {
           console.error(e);

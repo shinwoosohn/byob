@@ -8,7 +8,10 @@ export const produceApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllProduce: builder.query({
-      query: (user_id) => `/users/${user_id}/produce`,
+      query: (user_id) => {
+        console.log("getAllProduce");
+        return `/users/${user_id}/produce`;
+      },
       providesTags: ["produceList"],
     }),
     getProduce: builder.query({

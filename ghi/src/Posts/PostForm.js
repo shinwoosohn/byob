@@ -10,7 +10,7 @@ export default function PostForm() {
   const [produceList, setProduceList] = useState([]);
   const [produce, setProduce] = useState("");
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
+  console.log("User", user);
   // ^^^ needs to connect to the useGetAllProduceQuery on line 22
   const handleTextStateChange = (event) => {
     setTextState(event.target.value);
@@ -26,8 +26,8 @@ export default function PostForm() {
     data: produceData,
     isError,
     isLoading,
-  } = useGetAllProduceQuery(user.user_id);
-  console.log(produceData);
+  } = useGetAllProduceQuery(user.user_id, { skip: !user.user_id });
+  console.log("ProduceData", produceData);
   setProduceList(produceData);
 
   const [createPost, result] = useCreatePostsMutation();
@@ -35,7 +35,7 @@ export default function PostForm() {
   const handleReset = () => {
     setTextState("");
     postImgUrl("");
-    setProduceList("");
+    setProduceList([]);
     setProduce("");
   };
 
@@ -89,16 +89,17 @@ export default function PostForm() {
                   className="form-select"
                 >
                   <option value="">Choose from your produce</option>
-                  {produceList.map((singleProduce) => {
-                    return (
-                      <option
-                        key={singleProduce.produce_id}
-                        value={singleProduce.produce_id}
-                      >
-                        {singleProduce.name}
-                      </option>
-                    );
-                  })}
+                  {produceList &&
+                    produceList.map((singleProduce) => {
+                      return (
+                        <option
+                          key={singleProduce.produce_id}
+                          value={singleProduce.produce_id}
+                        >
+                          {singleProduce.name}
+                        </option>
+                      );
+                    })}
                   ;
                 </select>
               </div>
