@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./User/Signup";
 import "./App.css";
-import TopNavBar from "./Components/topNavBar";
+import NavBar from "./NavBar";
 import PostsList from "./Posts/postsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
@@ -22,7 +22,7 @@ function App() {
 
   return (
     <BrowserRouter basename={basename}>
-      <TopNavBar />
+      <NavBar isLoggedIn={data} />
       <Routes>
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="signup" element={<Signup />}></Route>
