@@ -28,14 +28,14 @@ function App() {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="signup" element={<Signup />}></Route>
         <Route element={<AuthProvider token={data} />}>
-          <Route path="users/:user_id">
-            {/* <Route path=":user_id"> */}
-            {/* <Route index element={<ProfileDetail />} /> */}
-            <Route path="produce">
-              {/* <Route index element={<ProduceList />} /> */}
-              <Route path="new" element={<ProduceForm />} />
-              {/* <Route path=":produce_id" element={<ProduceDetail />} /> */}
-              {/* </Route> */}
+          <Route path="users">
+            <Route path=":user_id">
+              {/* <Route index element={<ProfileDetail />} /> */}
+              <Route path="produce">
+                {/* <Route index element={<ProduceList />} /> */}
+                <Route path="new" element={<ProduceForm />} />
+                {/* <Route path=":produce_id" element={<ProduceDetail />} /> */}
+              </Route>
             </Route>
           </Route>
           <Route path="posts">
