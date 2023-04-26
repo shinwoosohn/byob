@@ -8,7 +8,7 @@ import { useLogoutMutation } from "../store/authApi";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function TopNavBar({ token }) {
+function TopNavBar({ token, user_id, producer_id, driver_id }) {
   const [nav, setNav] = useState(false);
   const [logo, setLogo] = useState(false);
   const [logout] = useLogoutMutation();
@@ -46,7 +46,9 @@ function TopNavBar({ token }) {
         <div className="flex justify-end">
           <ul className="hidden md:flex">
             <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
-              <Link to="/users/${user_id}/produce/new">Create Produce</Link>
+              <Link to={`/users/${user.user_id}/produce/new`}>
+                Create Produce
+              </Link>
             </li>
             <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
               <Link to="/posts/new">Create Post</Link>
@@ -55,10 +57,12 @@ function TopNavBar({ token }) {
               <Link to="/deliveries/new">Request Delivery</Link>
             </li>
             <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
-              <Link to="/users/${producer_id}/orders">Your Orders</Link>
+              <Link to={`/users/${user.user_id}/orders`}>Your Orders</Link>
             </li>
             <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
-              <Link to="/users/${user_id}/deliveries">Your Requests</Link>
+              <Link to={`/users/${user.user_id}/deliveries`}>
+                Your Requests
+              </Link>
             </li>
             {user.is_driver && (
               <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
@@ -67,7 +71,7 @@ function TopNavBar({ token }) {
             )}
             {user.is_driver && (
               <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
-                <Link to="/drivers/${driver_id}/deliveries">
+                <Link to={`/drivers/${user.user_id}/deliveries`}>
                   Driver Pickups
                 </Link>
               </li>
@@ -118,24 +122,39 @@ function TopNavBar({ token }) {
                 : "absolute left-[-100%]"
             }
           >
-            <ul className="">
-              <a href="/posts">
-                <img
-                  src={byobIcon}
-                  alt="/"
-                  className="max-h-[50px] max-w-[50px] mb-6"
-                />
-              </a>
-              <li className="px-4 text-xl mb-6 border-b">
-                <Link to="/posts">Create a Post</Link>
+            <ul className="hidden md:flex">
+              <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
+                <Link to={`/users/${user.user_id}/produce/new`}>
+                  Create Produce
+                </Link>
               </li>
-              <li className="px-4 text-xl mb-6 border-b">
-                <Link to="/deliveries">Create a Delivery</Link>
+              <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
+                <Link to="/posts/new">Create Post</Link>
               </li>
-              <li className="px-4 text-xl mb-6 border-b">
-                <Link to="/deliveries">View Deliveries</Link>
+              <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
+                <Link to="/deliveries/new">Request Delivery</Link>
               </li>
-              <li className="px-4 text-xl mb-6 border-b">
+              <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
+                <Link to={`/users/${user.user_id}/orders`}>Your Orders</Link>
+              </li>
+              <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
+                <Link to={`/users/${user.user_id}/deliveries`}>
+                  Your Requests
+                </Link>
+              </li>
+              {user.is_driver && (
+                <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
+                  <Link to="/deliveries">Driver Deliveries</Link>
+                </li>
+              )}
+              {user.is_driver && (
+                <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
+                  <Link to={`/drivers/${user.user_id}/deliveries`}>
+                    Driver Pickups
+                  </Link>
+                </li>
+              )}
+              <li className="flex justify-center items-center px-4 text-[#203330] bg-byob-cyan font-bold rounded-lg">
                 <button
                   className="button__input"
                   id="logout"
