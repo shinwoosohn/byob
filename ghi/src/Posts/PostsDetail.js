@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
     Avatar,
     Button,
@@ -16,7 +16,6 @@ import {
     CheckBadgeIcon,
     PhotoIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
 import { useGetPostsQuery } from "../store/postsApi";
 
 
@@ -25,6 +24,7 @@ function PostsDetail(){
     const { posts_id } = useParams();
     console.log(posts_id, "this is posts_id")
     const { data: posts, isError, isLoading} = useGetPostsQuery(posts_id);
+    const navigate = useNavigate()
 
     console.log(posts, "this is posts")
     if (isLoading) {
@@ -108,7 +108,7 @@ function PostsDetail(){
                     </div>
                 </CardBody>
                 <CardFooter className="pt-3">
-                    <Button size="lg" fullWidth={true} component={Link} to="/deliveries">
+                    <Button size="lg" fullWidth={true} onClick={(e) => console.log("clicked", e)}>
                         Make a delivery request!
                     </Button>
                 </CardFooter>
