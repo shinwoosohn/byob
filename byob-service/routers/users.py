@@ -77,7 +77,9 @@ async def get_token(
 
 ############################################################################
 # GET regular user_profile api endpoint
-@router.get("/users/{user_id}", response_model=Union[UsersOutWithPassword, HttpError])
+@router.get(
+    "/users/{user_id}", response_model=Union[UsersOutWithPassword, HttpError]
+)
 def get_one_user(
     user_id: int,
     repo: UsersRepo = Depends(),
@@ -94,7 +96,9 @@ def get_one_user(
 
 ############################################################################
 # GET All users api endpoint for development purposes
-@router.get("/users", response_model=Union[List[UsersOutWithPassword], HttpError])
+@router.get(
+    "/users", response_model=Union[List[UsersOutWithPassword], HttpError]
+)
 def get_all(
     repo: UsersRepo = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
@@ -145,7 +149,9 @@ def delete_user(
 
 ############################################################################
 # UPDATE driver api endpoint
-@router.patch("/users/{user_id}", response_model=Union[DriverUpdate, HttpError])
+@router.put(
+    "/users/{user_id}/driver", response_model=Union[DriverUpdate, HttpError]
+)
 def update_driver(
     user_id: int,
     user: DriverUpdate,

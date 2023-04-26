@@ -1,44 +1,26 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const deliveryApi = createApi({
-  reducerPath: "delivery",
+  reducerPath: "deliveries",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BYOB_SERVICE_API_HOST,
     credentials: "include",
   }),
   endpoints: (builder) => ({
-    getAllDelivery: builder.query({
-      query: (user_id) => `/users/${user_id}/delivery`,
+    getAllDeliveries: builder.query({
+      query: () => `/deliveries`,
       providesTags: ["deliveryList"],
     }),
 
     getDelivery: builder.query({
-      query: (user_id, delivery_id) =>
-        `/users/${user_id}/delivery/${delivery_id}`,
+      query: (delivery_id) => `/deliveries/${delivery_id}`,
     }),
 
-    createDelivery: builder.mutation({
-      query: (user_id, data) => ({
-        url: `/users/${user_id}/delivery`,
+    acceptDelivery: builder.mutation({
+      query: ({ delivery_id, data }) => ({
+        url: `/deliveries/${delivery_id}/accept`,
         body: data,
-        method: "post",
-      }),
-      invalidatesTags: ["deliveryList"],
-    }),
-
-    updateDelivery: builder.mutation({
-      query: (user_id, delivery_id, data) => ({
-        url: `/users/${user_id}/delivery/${delivery_id}`,
-        body: data,
-        method: "put",
-      }),
-      invalidatesTags: ["deliveryList"],
-    }),
-
-    deleteDelivery: builder.mutation({
-      query: (user_id, delivery_id) => ({
-        url: `/users/${user_id}/delivery/${delivery_id}`,
-        method: "delete",
+        method: "patch",
       }),
       invalidatesTags: ["deliveryList"],
     }),
@@ -48,7 +30,5 @@ export const deliveryApi = createApi({
 export const {
   useGetAllDeliveryQuery,
   useGetDeliveryQuery,
-  useCreateDeliveryMutation,
-  useUpdateDeliveryMutation,
-  useDeleteDeliveryMutation,
+  useAcceptDeliveryMutation,
 } = deliveryApi;

@@ -23,7 +23,7 @@ export const postsApi = createApi({
       invalidatesTag: ["postsList"],
     }),
     updatePosts: builder.mutation({
-      query: (posts_id, data) => ({
+      query: ({ posts_id, data }) => ({
         url: `/posts/${posts_id}`,
         body: data,
         method: "put",

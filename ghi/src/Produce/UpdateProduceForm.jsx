@@ -8,7 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 // import { Switch } from "@material-tailwind/react";
 import Switch from "@mui/material/Switch";
 
-const ProduceForm = () => {
+const UpdateProduceForm = () => {
   const { user_id } = useParams();
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -16,18 +16,20 @@ const ProduceForm = () => {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [expDate, setExpDate] = useState("");
+  const [isDecorative, setIsDecorative] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(false);
   const [price, setPrice] = useState("");
 
   const [createProduce, result] = useCreateProduceMutation();
 
-  const [isDecorative, setIsDecorative] = useState(true);
+  const [checkedDecorative, setCheckedDecorative] = React.useState(true);
   const handleChangeDecorative = (event) => {
-    setIsDecorative(event.target.checked);
+    setCheckedDecorative(event.target.checked);
   };
 
-  const [isAvailable, setIsAvailable] = useState(true);
+  const [checkedAvailable, setCheckedAvailable] = React.useState(true);
   const handleChangeAvailable = (event) => {
-    setIsAvailable(event.target.checked);
+    setCheckedAvailable(event.target.checked);
   };
 
   const handleNameChange = (event) => {
@@ -85,19 +87,16 @@ const ProduceForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce({
-      user_id,
-      data: {
-        name: name,
-        quantity: parseInt(quantity),
-        weight: parseInt(weight),
-        description: description,
-        image_url: imageUrl,
-        exp_date: expDate,
-        is_decorative: !isDecorative,
-        is_available: !isAvailable,
-        price: parseFloat(price),
-      },
+    createProduce(user_id, {
+      name: name,
+      quantity: parseInt(quantity),
+      weight: parseInt(weight),
+      description: description,
+      image_url: imageUrl,
+      exp_date: expDate,
+      is_decorative: !checkedDecorative,
+      is_available: !checkedAvailable,
+      price: parseFloat(price),
     });
   };
 
@@ -199,7 +198,7 @@ const ProduceForm = () => {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={isAvailable}
+                        checked={checkedAvailable}
                         onChange={handleChangeAvailable}
                         inputProps={{ "aria-label": "controlled" }}
                       />
@@ -209,7 +208,7 @@ const ProduceForm = () => {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={isDecorative}
+                        checked={checkedDecorative}
                         onChange={handleChangeDecorative}
                         inputProps={{ "aria-label": "controlled" }}
                       />
@@ -247,4 +246,4 @@ const ProduceForm = () => {
   );
 };
 
-export default ProduceForm;
+export default UpdateProduceForm;
