@@ -84,7 +84,7 @@ def get_delivery(
 
 #######################################################################################################
 # PATCH Accept Driver Delivery Status
-@router.patch(
+@router.put(
     "/deliveries/{delivery_id}/accept",
     response_model=Union[DeliveryUpdate, Error, HttpError],
 )
@@ -116,7 +116,7 @@ def accept_delivery_status(
 
 #######################################################################################################
 # PATCH Complete Driver Delivery Status
-@router.patch(
+@router.put(
     "drivers/{driver_id}/deliveries/{delivery_id}/complete",
     response_model=Union[DeliveryUpdate, Error, HttpError],
 )
@@ -175,7 +175,7 @@ def get_driver_deliveries(
 #######################################################################################################
 # UPDATE Remove Driver Delivery by setting driver_id to null - removes driver_id and changes status back to pending
 @router.put(
-    "/drivers/{driver_id}/deliveries/{delivery_id}",
+    "/drivers/{driver_id}/deliveries/{delivery_id}/remove",
     response_model=Union[DeliveryUpdate, Error, HttpError],
 )
 def remove_driver_delivery(
@@ -371,7 +371,7 @@ def get_user_order(
 
 #######################################################################################################
 # PATCH User Single Order Status - where producer_id = current user_id
-@router.patch(
+@router.put(
     "/users/{producer_id}/orders/{delivery_id}",
     response_model=Union[OrderAccept, HttpError],
 )

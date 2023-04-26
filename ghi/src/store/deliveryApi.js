@@ -20,7 +20,7 @@ export const deliveryApi = createApi({
       query: ({ delivery_id, data }) => ({
         url: `/deliveries/${delivery_id}/accept`,
         body: data,
-        method: "patch",
+        method: "put",
       }),
       invalidatesTags: ["deliveryList"],
     }),

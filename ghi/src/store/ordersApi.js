@@ -20,7 +20,7 @@ export const ordersApi = createApi({
       query: ({ producer_id, delivery_id, data }) => ({
         url: `/users/${producer_id}/orders/${delivery_id}`,
         body: data,
-        method: "patch",
+        method: "put",
       }),
       invalidatesTags: ["ordersList"],
     }),

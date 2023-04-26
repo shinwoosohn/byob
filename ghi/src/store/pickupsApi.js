@@ -16,14 +16,14 @@ export const pickupsApi = createApi({
       query: ({ driver_id, delivery_id, data }) => ({
         url: `/drivers/${driver_id}/deliveries/${delivery_id}/complete`,
         body: data,
-        method: "patch",
+        method: "put",
       }),
       invalidatesTags: ["pickupsList"],
     }),
 
     removeDriverDelivery: builder.mutation({
       query: ({ driver_id, delivery_id, data }) => ({
-        url: `/drivers/${driver_id}/deliveries/${delivery_id}`,
+        url: `/drivers/${driver_id}/deliveries/${delivery_id}/remove`,
         body: data,
         method: "put",
       }),
