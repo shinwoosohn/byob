@@ -6,6 +6,7 @@ import PostsList from "./Posts/postsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
+import PostForm from "./Posts/PostForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
 // import DeliveryForm from "./Delivery/DeliveryForm";
@@ -39,7 +40,7 @@ function App() {
           </Route>
           <Route path="posts">
             <Route index element={<PostsList />} />
-            {/* <Route path="new" element={<PostsForm />} /> */}
+            <Route path="new" element={<PostForm />} />
             {/* <Route path=":posts_id" element={<PostsDetail />} /> */}
           </Route>
           {/* <Route path="delivery" element={<DeliveryForm />} /> */}
