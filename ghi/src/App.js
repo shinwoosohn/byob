@@ -8,6 +8,7 @@ import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
+import UpdateProduceForm from "./Produce/UpdateProduceForm";
 // import DeliveryForm from "./Delivery/DeliveryForm";
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
               <Route path="produce">
                 {/* <Route index element={<ProduceList />} /> */}
                 <Route path="new" element={<ProduceForm />} />
+                <Route path=":produce_id" element={<UpdateProduceForm />} />
                 {/* <Route path=":produce_id" element={<ProduceDetail />} /> */}
               </Route>
             </Route>

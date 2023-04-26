@@ -86,7 +86,7 @@ const ProduceForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce({
+    await createProduce({
       user_id,
       data: {
         name: name,
@@ -100,7 +100,7 @@ const ProduceForm = () => {
         price: parseFloat(price),
       },
     });
-    navigate("/user/${user_id}/");
+    navigate(`/user/${user_id}/`);
     // still need to create the user profile path into App.js
   };
 
