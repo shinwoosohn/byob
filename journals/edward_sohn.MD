@@ -6,6 +6,10 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/25/23
+
+We finished deployment with caprover with the assistance of Rosheen. I finished the conditional navbar feature and the driver signup overlay form feature. It was a bandaid fix because the solution requires mapping out an entire new backend, which we do not have time for.
+
 ## 4/24/23
 
 I wrote a unit test for the get all users feature. I also worked on the conditional navbar that shows different links depending on if you are logged in (user/driver) or logged out.
