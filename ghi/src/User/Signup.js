@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import landingPageImg from "../Assets/landingPageImg.png";
 import byobLogo from "../Assets/byobLogo.png";
 import { useNavigate } from "react-router-dom";
-import { useSignupMutation } from "../store/authApi";
+import { useLoginMutation, useSignupMutation } from "../store/authApi";
+import { useUpdateDriversMutation } from "../store/usersApi";
+import { useSelector } from "react-redux";
 
-function Signup() {
+function Signup({ user_id }) {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -16,7 +18,14 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
-  const [signup, result] = useSignupMutation();
+  const [carModel, setCarModel] = useState("");
+  const [licensePlate, setLicensePlate] = useState("");
+  const [dlNumber, setDlNumber] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [signup] = useSignupMutation();
+  const data = useSelector((state) => state.auth.user);
+  const [driversignup] = useUpdateDriversMutation({ user_id, data });
+  const [login] = useLoginMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,11 +42,29 @@ function Signup() {
       avatar_url: avatarUrl,
     });
     event.target.reset();
+
+    const response = await login({ username: username, password: password });
+    if (!response.hasOwnProperty("error")) {
+      setIsModalOpen(true);
+    }
   };
 
-  if (result.isSuccess) {
-    navigate("/");
-  }
+  const handleUserToDriverSubmit = async (event) => {
+    console.log("--------------------------------------------");
+    event.preventDefault();
+    const response = await driversignup({
+      user_id: data.user_id,
+      data: {
+        car_model: carModel,
+        license_plate: licensePlate,
+        dl_number: dlNumber,
+      },
+    });
+    if (!response.hasOwnProperty("error")) {
+      setIsModalOpen(false);
+      navigate("/");
+    }
+  };
 
   return (
     <div className="w-full h-screen bg-byob-cyan pt-16">
@@ -185,6 +212,69 @@ function Signup() {
               Already have an account? Login here.
             </a>
           </form>
+          {isModalOpen && (
+            <>
+              <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                  <form className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                      <h3 className="text-3xl font-semibold">
+                        Would you like to sign up as a driver?
+                      </h3>
+                    </div>
+                    <div className="relative p-6 flex-auto">
+                      <input
+                        onChange={(e) => setCarModel(e.target.value)}
+                        value={carModel}
+                        placeholder="Car Model"
+                        required
+                        type="text"
+                        name="carModel"
+                        id="carModel"
+                        className="form-control pl-2 py-2 justify-center pr-2"
+                      />
+                      <input
+                        onChange={(e) => setLicensePlate(e.target.value)}
+                        value={licensePlate}
+                        placeholder="License Plate"
+                        required
+                        type="text"
+                        name="licensePlate"
+                        id="licensePlate"
+                        className="form-control pl-2 py-2 justify-center pr-2"
+                      />
+                      <input
+                        onChange={(e) => setDlNumber(e.target.value)}
+                        value={dlNumber}
+                        placeholder="Driver License #"
+                        required
+                        type="text"
+                        name="dlNumber"
+                        id="dlNumber"
+                        className="form-control pl-2 py-2 justify-center pr-2"
+                      />
+                    </div>
+                    <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        type="button"
+                        onClick={handleUserToDriverSubmit}
+                      >
+                        YES
+                      </button>
+                      <a
+                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        href="/"
+                      >
+                        NO
+                      </a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            </>
+          )}
         </div>
         <img src={landingPageImg} className="w-full col-span-2 pt-48" alt="" />
       </div>
