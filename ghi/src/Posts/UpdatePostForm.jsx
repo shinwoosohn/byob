@@ -1,16 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useCreatePostsMutation } from "../store/postsApi";
+import { useParams } from "react-router-dom";
+import { useUpdatePostsMutation } from "../store/postsApi";
 import { useGetAllProduceQuery } from "../store/produceApi";
 import { useSelector } from "react-redux";
 
-export default function PostForm() {
+export default function UpdatePostForm() {
+  const { posts_id } = useParams();
   const [textState, setTextState] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
   const [produce, setProduce] = useState("");
   const user = useSelector((state) => state.auth.user);
-  console.log("User", user);
-  // ^^^ needs to connect to the useGetAllProduceQuery on line 22
+
   const handleTextStateChange = (event) => {
     setTextState(event.target.value);
   };
@@ -28,7 +29,7 @@ export default function PostForm() {
   } = useGetAllProduceQuery(user.user_id, { skip: !user.user_id });
   console.log("ProduceData", produceData);
 
-  const [createPost, result] = useCreatePostsMutation();
+  const [updatePost, result] = useUpdatePostsMutation(posts_id);
 
   const handleReset = () => {
     setTextState("");
@@ -44,10 +45,13 @@ export default function PostForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createPost({
-      text: textState,
-      postimg_url: postImgUrl,
-      produce_id: produce,
+    updatePost({
+      posts_id,
+      data: {
+        text: textState,
+        postimg_url: postImgUrl,
+        produce_id: produce,
+      },
     });
   };
 
@@ -70,10 +74,10 @@ export default function PostForm() {
         <div className="offset-3 col-6">
           <div className="shadow p-4 mt-4">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-              Create A Post
+              Update A Post
             </h1>
 
-            <form onSubmit={handleSubmit} id="create-post-form">
+            <form onSubmit={handleSubmit} id="update-post-form">
               <div>
                 <select
                   value={produce.produce_id}
@@ -131,7 +135,7 @@ export default function PostForm() {
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
               >
-                Create this post
+                Update post
               </button>
             </form>
           </div>

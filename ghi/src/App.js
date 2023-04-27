@@ -10,6 +10,7 @@ import PostForm from "./Posts/PostForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
 import UpdateProduceFrom from "./Produce/UpdateProduceForm";
+import UpdatePostForm from "./Posts/UpdatePostForm";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -44,7 +45,10 @@ function App() {
           <Route path="posts">
             <Route index element={<PostsList />} />
             <Route path="new" element={<PostForm />} />
-            {/* <Route path=":posts_id" element={<PostsDetail />} /> */}
+            <Route path=":posts_id">
+              {/* <Route index element={<PostsDetail />} /> */}
+              <Route path="update" element={<UpdatePostForm />} />
+            </Route>
           </Route>
           {/* <Route path="delivery" element={<DeliveryForm />} /> */}
         </Route>
