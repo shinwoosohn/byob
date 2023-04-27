@@ -90,7 +90,7 @@ function TopNavBar({ token }) {
           <div className="hidden md:flex">
             <BiSearch className="mr-3" size={30} />
             <button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-              <Link to={`/user/${user.user_id}`}>
+              <Link to={`/users/${user.user_id}`}>
                 {user.avatar_url != null ? (
                   <img
                     className="h-8 w-8 rounded-full"

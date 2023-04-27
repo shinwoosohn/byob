@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./User/Signup";
 import "./App.css";
 import NavBar from "./NavBar";
-import PostsList from "./Posts/postsList";
+import PostsList from "./Posts/PostsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";

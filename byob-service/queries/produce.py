@@ -225,13 +225,12 @@ class ProduceRepo:
                             produce.is_decorative,
                             produce.is_available,
                             produce.price,
-                            produce.owner_id,
+                            user_id,
                             produce_id,
                         ],
                     )
                     produce_id = produce_id
                     old_data = produce.dict()
-                    old_data["owner_id"] = user_id
                     return ProduceOut(produce_id=produce_id, **old_data)
         except Exception:
             raise ValueError("Could not update produce")
