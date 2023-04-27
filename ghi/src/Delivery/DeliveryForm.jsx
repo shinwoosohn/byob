@@ -1,14 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useCreateRequestMutation } from "../store/requestsApi";
-import { useGetAllPostsQuery } from "../store/postsApi";
-import { useGetAllProduceQuery } from "../store/produceApi";
+import { useGetAllPostsQuery, useGetPostsQuery } from "../store/postsApi";
+import { useGetAllProduceQuery, useGetProduceQuery } from "../store/produceApi";
+import { useSelector } from "react-redux";
 
 const DeliveryForm = () => {
   const [post, setPost] = useState("");
   //
   const [produce, setProduce] = useState("");
-  const [producer, setProducer] = useState("");
+  const [producer, setProducer] = useState(""); // <<---- Don't need a form input. Set based on post / produce
   //
   const [orderQuantity, setOrderQuantity] = useState("");
   const [fromAddress, setFromAddress] = useState("");
@@ -18,11 +19,28 @@ const DeliveryForm = () => {
   const [toCity, setToCity] = useState("");
   const [toState, setToState] = useState("");
 
+  const user = useSelector((state) => state.auth.user);
+
   const [createRequest, result] = useCreateRequestMutation();
 
   const { data: postData } = useGetAllPostsQuery();
+  const { data: singlePostData } = useGetPostsQuery(post, {
+    skip: !post,
+  }); // <<---- Use for poster_id = producer_id
 
-  const { data: produceData } = useGetAllProduceQuery(user_id);
+  const { data: produceData } = useGetAllProduceQuery(user.user_id, {
+    skip: !user.user_id,
+  });
+  const { data: singleProduceData } = useGetProduceQuery(
+    {
+      // <<---- if no post: Use for owner_id = producer_id
+      user_id: user.user_id,
+      produce_id: produce,
+    },
+    {
+      skip: !produce,
+    }
+  );
 
   const handlePostChange = (event) => {
     const value = event.target.value;
@@ -34,10 +52,10 @@ const DeliveryForm = () => {
     setProduce(value);
   };
 
-  const handleProducerChange = (event) => {
-    const value = event.target.value;
-    setProducer(value);
-  };
+  // const handleProducerChange = (event) => {
+  //   const value = event.target.value;
+  //   setProducer(value);
+  // };
 
   const handleOrderQuantityChange = (event) => {
     const value = event.target.value;
@@ -158,7 +176,21 @@ const DeliveryForm = () => {
               </div>
 
               <div>
-                <label htmlFor="produce">From Address</label>
+                <label htmlFor="orderQuantity">Order Quantity</label>
+                <input
+                  value={orderQuantity}
+                  onChange={handleOrderQuantityChange}
+                  placeholder="Order Quantity"
+                  required
+                  type="text"
+                  name="orderQuantity"
+                  id="orderQuantity"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="fromAddress">From Address</label>
                 <input
                   value={fromAddress}
                   onChange={handleFromAddress}
@@ -172,7 +204,7 @@ const DeliveryForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">From City</label>
+                <label htmlFor="fromCity">From City</label>
                 <input
                   value={fromCity}
                   onChange={handleFromCity}
@@ -186,7 +218,7 @@ const DeliveryForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">From State</label>
+                <label htmlFor="fromState">From State</label>
                 <input
                   value={fromState}
                   onChange={handleFromState}
@@ -200,7 +232,7 @@ const DeliveryForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">To Address</label>
+                <label htmlFor="toAddress">To Address</label>
                 <input
                   value={toAddress}
                   onChange={handleToAddress}
@@ -214,7 +246,7 @@ const DeliveryForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">To City</label>
+                <label htmlFor="toCity">To City</label>
                 <input
                   value={toCity}
                   onChange={handleToCity}
@@ -228,7 +260,7 @@ const DeliveryForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">To State</label>
+                <label htmlFor="toState">To State</label>
                 <input
                   value={toState}
                   onChange={handleToState}
