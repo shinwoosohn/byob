@@ -20,7 +20,7 @@ function App() {
   const { data } = useGetTokenQuery();
 
   const domain = /https:\/\/[^/]+/;
-  const basename = process.env.PUBLIC_URL.replace(domain, "byob");
+  const basename = process.env.PUBLIC_URL.replace(domain, "");
 
   if (data === undefined) {
     return null;
@@ -30,32 +30,33 @@ function App() {
     <BrowserRouter basename={basename}>
       <NavBar isLoggedIn={data} />
       <Routes>
-        <Route path="/" element={<LandingPage />}></Route>
-        <Route path="signup" element={<Signup />}></Route>
-        <Route element={<AuthProvider token={data} />}>
-          <Route path="users">
-            <Route path=":user_id">
-              <Route index element={<ProfileDetail />} />
-              <Route path="produce">
-                <Route index element={<ProduceList />} />
-                <Route path="new" element={<ProduceForm />} />
-                <Route path=":produce_id">
-                  <Route index element={<ProduceDetail />} />
-                  <Route path="update" element={<UpdateProduceFrom />} />
+        <Route path="/" element={<LandingPage />}>
+          <Route path="signup" element={<Signup />}></Route>
+          <Route element={<AuthProvider token={data} />}>
+            <Route path="users">
+              <Route path=":user_id">
+                <Route index element={<ProfileDetail />} />
+                <Route path="produce">
+                  <Route index element={<ProduceList />} />
+                  <Route path="new" element={<ProduceForm />} />
+                  <Route path=":produce_id">
+                    <Route index element={<ProduceDetail />} />
+                    <Route path="update" element={<UpdateProduceFrom />} />
+                  </Route>
                 </Route>
               </Route>
             </Route>
-          </Route>
-          <Route path="posts">
-            <Route index element={<PostsList />} />
-            <Route path="new" element={<PostForm />} />
-            <Route path=":posts_id">
-              <Route index element={<PostsDetail />} />
-              <Route path="update" element={<UpdatePostForm />} />
+            <Route path="posts">
+              <Route index element={<PostsList />} />
+              <Route path="new" element={<PostForm />} />
+              <Route path=":posts_id">
+                <Route index element={<PostsDetail />} />
+                <Route path="update" element={<UpdatePostForm />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="deliveries">
-            {/* <Route path="new" element={<DeliveryForm />} /> */}
+            <Route path="deliveries">
+              {/* <Route path="new" element={<DeliveryForm />} /> */}
+            </Route>
           </Route>
         </Route>
       </Routes>
