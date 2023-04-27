@@ -5,7 +5,7 @@ import { FaGithubSquare, FaInstagram, FaTwitterSquare } from "react-icons/fa";
 
 function Footer() {
   return (
-    <div className="bottom-0 w-full bg-[#203330] py-10 mt-24">
+    <div className="bottom-0 w-full bg-[#203330] py-10">
       <div className="p-5 max-w-[1440px] mx-auto px-4 gap-8 grid lg:grid-cols-4">
         <div className="">
           <Link to="/">
@@ -39,7 +39,7 @@ function Footer() {
             <h6 className="text-white font-medium py-2">Community</h6>
             <ul className="text-white">
               <li className="py-2 text-sm">
-                <a href="/" target="_blank" rel="noopener noreferrer">
+                <a href="/signup" target="_blank" rel="noopener noreferrer">
                   Join Us!
                 </a>
               </li>
