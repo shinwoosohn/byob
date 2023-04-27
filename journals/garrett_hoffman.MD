@@ -2,6 +2,58 @@
 
 # Journals
 
+## 4/26/2023 - Work on getting all MVP1 Forms - Create / Update
+
+Today, I worked on:
+
+- Debug and update the Create and Update produce forms with David
+- Update the create post form and create the update post form ... lol
+- Assist with teammates debugging other components
+- Debug backend Update produce api method using an incorrect reference and not setting the update
+
+I don;t want to go into too much info. Such is life and I'm still learning a lot. I'm simply
+trying to manage my attitude with working through the pain. With Alex - SEIR's help and James-Instructor,
+we were able to debug most of our MVP1 bugs and have a fully functional SPA.
+
+I'm going to try pushing it tonight because we only have 2 days left, but Friday should be dedicated to
+deployment, so there's only one proper day left. I'll be working on the Delivery Create and Update
+forms and see how far I get. We'd like a form to create a delivery request through another post, and
+I think the best way would be a separate component and a new nested route.
+
+## 4/25/2023 - Team worked on Deployment
+
+Today, I worked on:
+
+- Team worked on linting and clearing deployment issues
+- Properly deploy, but with a bug related to URL routes not including the full basename
+  - replaces '/byob/' with '/' for some reason
+
+Working through the pain today. There's still a fair amount to do, so we're working on deployment
+today to make sure we're able to view all our webpages properly. We discovered a bug related to
+a portion of the basename gets replaced, but it may simply be prefixing '/byob/' to all our links.
+
+Trying to remain positive, but stress and pain aren't a good mix. The SEIRs and instructors are awesome
+and there's a lot of talented persons in our Cohort, so some other classmates assisted in our
+deployment due to my situation. I'm very grateful.
+
+## 4/24/2023 - Work on Delivery Related Redux Stores and go to ER
+
+Today, I worked on:
+
+- Practice final - went pretty well
+- Debugging some frontend for team related to redux - success
+- Finish creating the rest of the delivery related API stores
+- Update other api stores for correct referencing relating to redux passing an obj as single param
+
+Worked with James - Instructor to debug frontend issue. Always always always small issues, but
+they are based in fundamentals, so working through the thought process was very beneficial. The issue
+was structuring the data correctly and passing everything through the rtk query as an obj {}.
+
+After taking a short break, I started experiencing severe pain 9/10 for multiple hours before making
+the decision to go to the ER finding out I have a kidney stone. I had pretty big plans to get through
+work, but this definitely threw a wrench in my plans. I'll be in constant pain the rest of the week
+during this final stretch. Classic timing.
+
 ## 4/22/2023 - Finish debugging Backend and Attempt debugging Frontend
 
 Today, I worked on:
