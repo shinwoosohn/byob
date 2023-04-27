@@ -9,6 +9,7 @@ import ProduceForm from "./Produce/ProduceForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
 import UpdateProduceFrom from "./Produce/UpdateProduceForm";
+import DriverDeliveriesCard from "./Delivery/DriverDeliveriesCard";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="signup" element={<Signup />}></Route>
         <Route element={<AuthProvider token={data} />}>
+          <Route path="deliveries" element={<DriverDeliveriesCard />}></Route>
           <Route path="users">
             <Route path=":user_id">
               {/* <Route index element={<ProfileDetail />} /> */}

@@ -5,51 +5,56 @@ import {
   CardFooter,
   Typography,
   Button,
-  IconButton,
 } from "@material-tailwind/react";
-import { StarIcon, HeartIcon } from "@heroicons/react/24/solid";
+import {
+  TruckIcon,
+  MapPinIcon,
+  EllipsisVerticalIcon,
+} from "@heroicons/react/24/outline";
+import { Avatar } from "@mui/material";
 
 export default function DriverDeliveriesCard() {
   return (
-    <Card className="w-full max-w-[26rem] shadow-lg">
-      <CardHeader floated={false} color="blue-gray">
-        <img
-          src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-          alt="ui/ux review check"
-        />
-        <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
-        <IconButton
-          size="sm"
-          color="red"
-          variant="text"
-          className="!absolute top-4 right-4 rounded-full"
-        >
-          <HeartIcon className="h-6 w-6" />
-        </IconButton>
-      </CardHeader>
-      <CardBody>
-        <div className="mb-3 flex items-center justify-between">
-          <Typography variant="h5" color="blue-gray" className="font-medium">
-            Wooden House, Florida
-          </Typography>
-          <Typography
-            color="blue-gray"
-            className="flex items-center gap-1.5 font-normal"
-          >
-            <StarIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
-            5.0
-          </Typography>
-        </div>
-        <Typography color="gray">
-          Enter a freshly updated and thoughtfully furnished peaceful home
-          surrounded by ancient trees, stone walls, and open meadows.
-        </Typography>
-      </CardBody>
-      <CardFooter className="pt-3">
-        <Button size="lg" fullWidth={true}>
-          Reserve
-        </Button>
-      </CardFooter>
-    </Card>
+    <div className="pb-20">
+      <Card className="w-full max-w-[600px] max-h-[400px] shadow-lg rounded-lg">
+        <CardHeader className="flex items-center justify-center rounded-t-lg py-2 bg-[#EDCADA]">
+          <Typography className="font-bold text-lg">Decorative</Typography>
+        </CardHeader>
+        <CardBody>
+          <div className="flex items-center justify-between">
+            <Avatar src="/img/face-2.jpg" alt="avatar" variant="circular" />
+            <Typography variant="h5" color="blue-gray" className="font-medium">
+              123 Main St, Los Angeles, CA, 12345
+            </Typography>
+            <Typography
+              color="blue-gray"
+              className="flex items-center gap-1.5 font-normal"
+            >
+              <TruckIcon className="h-5 w-5 text-green-700" />
+            </Typography>
+          </div>
+          <div className="flex items-center justify-end">
+            <EllipsisVerticalIcon className="h-5 w-5 text-black" />
+          </div>
+          <div className="flex items-center justify-between">
+            <Avatar src="/img/face-2.jpg" alt="avatar" variant="circular" />
+            <Typography variant="h5" color="blue-gray" className="font-medium">
+              312 California Blvd, Los Angeles, CA, 12345
+            </Typography>
+            <Typography
+              color="blue-gray"
+              className="flex items-center gap-1.5 font-normal"
+            >
+              <MapPinIcon className="h-5 w-5 text-red-700" />
+            </Typography>
+          </div>
+        </CardBody>
+        <CardFooter divider className="">
+          <Button size="lg" fullWidth={true} className="pt-2 pb-2">
+            Accept
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
