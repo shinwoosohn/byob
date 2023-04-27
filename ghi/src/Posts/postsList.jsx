@@ -4,17 +4,17 @@ import { useGetAllPostsQuery } from "../store/postsApi";
 const producePost = (post) => {
   if (post.produce.produce_id !== null) {
     return (
-      <div class="max-w-sm w-full lg:max-w-full lg:flex">
+      <div className="max-w-sm w-full lg:max-w-full lg:flex">
         <div
-          class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+          className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
           style={{ backgroundImage: `url(${post.produce.image_url})` }}
           title={post.produce.description}
         ></div>
-        <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-          <div class="mb-8">
-            <p class="text-sm text-gray-600 flex items-center">
+        <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+          <div className="mb-8">
+            <p className="text-sm text-gray-600 flex items-center">
               <svg
-                class="fill-current text-gray-500 w-3 h-3 mr-2"
+                className="fill-current text-gray-500 w-3 h-3 mr-2"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
@@ -23,23 +23,23 @@ const producePost = (post) => {
               {post.produce.exp_date} || {post.produce.is_decorative} ||{" "}
               {post.produce.is_available}
             </p>
-            <div class="text-gray-900 font-bold text-xl mb-2">
+            <div className="text-gray-900 font-bold text-xl mb-2">
               <p>Quantity: {post.produce.quantity}</p>
               <p>Weight: {post.produce.weight}</p>
               <p>Description: {post.produce.description}</p>
               <p>Price: {post.produce.price}</p>
             </div>
-            <p class="text-gray-700 text-base">{post.text}</p>
+            <p className="text-gray-700 text-base">{post.text}</p>
           </div>
-          <div class="flex items-center">
+          <div className="flex items-center">
             <img
-              class="w-10 h-10 rounded-full mr-4"
+              className="w-10 h-10 rounded-full mr-4"
               src={post.user.avatar_url}
               alt={post.user.username}
             />
-            <div class="text-sm">
-              <p class="text-gray-900 leading-none">{post.user.username}</p>
-              <p class="text-gray-600">{post.post_created}</p>
+            <div className="text-sm">
+              <p className="text-gray-900 leading-none">{post.user.username}</p>
+              <p className="text-gray-600">{post.post_created}</p>
             </div>
           </div>
         </div>
@@ -47,25 +47,25 @@ const producePost = (post) => {
     );
   } else {
     return (
-      <div class="max-w-sm w-full lg:max-w-full lg:flex">
+      <div className="max-w-sm w-full lg:max-w-full lg:flex">
         <div
-          class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+          className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
           style={{ backgroundImage: `url(${post.postimg_url})` }}
           title={post.text}
         ></div>
-        <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-          <div class="mb-8">
-            <p class="text-gray-700 text-base">{post.text}</p>
+        <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+          <div className="mb-8">
+            <p className="text-gray-700 text-base">{post.text}</p>
           </div>
-          <div class="flex items-center">
+          <div className="flex items-center">
             <img
-              class="w-10 h-10 rounded-full mr-4"
+              className="w-10 h-10 rounded-full mr-4"
               src={post.user.avatar_url}
               alt={post.user.username}
             />
-            <div class="text-sm">
-              <p class="text-gray-900 leading-none">{post.user.username}</p>
-              <p class="text-gray-600">{post.post_created}</p>
+            <div className="text-sm">
+              <p className="text-gray-900 leading-none">{post.user.username}</p>
+              <p className="text-gray-600">{post.post_created}</p>
             </div>
           </div>
         </div>
@@ -83,15 +83,15 @@ function PostsList() {
   if (isError) {
     return (
       <div
-        className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+        classNameName="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
         role="alert"
       >
-        <p className="font-bold">Something went wrong with loading data...</p>
+        <p classNameName="font-bold">Something went wrong with loading data...</p>
       </div>
     );
   }
   return (
-    <div className="flex flex-col space-y-6">
+    <div classNameName="flex flex-col space-y-6">
       {posts.map((post) => producePost(post))}
     </div>
   );
