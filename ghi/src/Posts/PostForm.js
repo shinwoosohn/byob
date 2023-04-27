@@ -9,8 +9,7 @@ export default function PostForm() {
   const [postImgUrl, setPostImgUrl] = useState("");
   const [produce, setProduce] = useState("");
   const user = useSelector((state) => state.auth.user);
-  console.log("User", user);
-  // ^^^ needs to connect to the useGetAllProduceQuery on line 22
+
   const handleTextStateChange = (event) => {
     setTextState(event.target.value);
   };

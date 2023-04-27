@@ -74,13 +74,13 @@ build-byob-service-service:
   only:
     - main # We want to deploy only to merges to main
 
-# Run the unit tests
-# api-unit-test-job:
-#   image: python:3-bullseye
-#   stage: test
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd byob-service
-#     - pip install -r requirements.txt
-#     - python -m pytest
+Run the unit tests
+api-unit-test-job:
+  image: python:3-bullseye
+  stage: test
+  needs:
+    - lint-test-job
+  script:
+    - cd byob-service
+    - pip install -r requirements.txt
+    - python -m pytest
