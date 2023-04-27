@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useCreateRequestMutation } from "../store/requestsApi";
-// import { useGetAllPostsQuery } from "../store/postsApi";
-// import { useGetAllProduceQuery } from "../store/produceApi";
+import { useGetAllPostsQuery } from "../store/postsApi";
+import { useGetAllProduceQuery } from "../store/produceApi";
 
 const DeliveryForm = () => {
   const [post, setPost] = useState("");
@@ -20,9 +20,9 @@ const DeliveryForm = () => {
 
   const [createRequest, result] = useCreateRequestMutation();
 
-  // const { data: posts } = useGetAllPostsQuery();
+  const { data: postData } = useGetAllPostsQuery();
 
-  // const { data: produce } = useGetAllProduceQuery(user_id);
+  const { data: produceData } = useGetAllProduceQuery(user_id);
 
   const handlePostChange = (event) => {
     const value = event.target.value;
@@ -121,9 +121,8 @@ const DeliveryForm = () => {
                   name="posts"
                   className="form-select"
                 >
-                  <option value="">Choose from your posts</option>
-                  {/* posting coming from state above. needs to be connect to get useallpost query method line 22 */}
-                  {posting.map((post) => {
+                  <option value="">Choose from all posts</option>
+                  {postData.map((post) => {
                     return (
                       <option value={post.post_id} key={post.post_id}>
                         {post.post_id}
@@ -137,20 +136,20 @@ const DeliveryForm = () => {
               <div>
                 <select
                   value={produce}
-                  onChange={handlePostChange}
+                  onChange={handleProduceChange}
                   required
-                  id="posts"
-                  name="posts"
+                  id="produce"
+                  name="produce"
                   className="form-select"
                 >
                   <option value="">Choose from your Produce</option>
-                  {produceList.map((produce) => {
+                  {produceData.map((produce) => {
                     return (
                       <option
                         value={produce.produce_id}
                         key={produce.produce_id}
                       >
-                        {produce.produce_id}
+                        {produce.name}
                       </option>
                     );
                   })}
