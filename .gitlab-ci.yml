@@ -18,10 +18,10 @@ build-front-end-job:
   needs:
     - lint-test-job
   variables:
-#     # If either of these variables is defined in the GitLab
-#     # CI/CD variables, that value will override the value here.
-#     # You need to substitute in your real values for
-#     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
+    #     # If either of these variables is defined in the GitLab
+    #     # CI/CD variables, that value will override the value here.
+    #     # You need to substitute in your real values for
+    #     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
     PUBLIC_URL: https://byob1.gitlab.io/byob
     REACT_APP_BYOB_SERVICE_API_HOST: https://byob-service.dec-pt-8.mod3projects.com
   script:
@@ -74,7 +74,7 @@ build-byob-service-service:
   only:
     - main # We want to deploy only to merges to main
 
-Run the unit tests
+# Run the unit tests
 api-unit-test-job:
   image: python:3-bullseye
   stage: test
