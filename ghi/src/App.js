@@ -20,7 +20,7 @@ function App() {
   const { data } = useGetTokenQuery();
 
   const domain = /https:\/\/[^/]+/;
-  const basename = process.env.PUBLIC_URL.replace(domain, "byob");
+  const basename = process.env.PUBLIC_URL.replace(domain, "");
 
   if (data === undefined) {
     return null;
