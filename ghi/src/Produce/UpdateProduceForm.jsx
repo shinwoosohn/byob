@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import {
   useUpdateProduceMutation,
-  useDeleteProduceMutation,
 } from "../store/produceApi";
 import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
