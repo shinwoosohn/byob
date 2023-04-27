@@ -9,21 +9,21 @@ client = TestClient(app)
 
 class MockUsersQueries:
     def create(fake_create_user_data):
-        return [all_users_mock]
-
-
-fake_create_user_data={
-    "user_id": 1,
-    "first_name": "Joe",
-    "last_name": "Mama",
-    "email": "joe@mama.com",
-    "phone_number": "1234567890",
-    "address": "123 Main Street",
-    "city": "San Diego",
-    "state": "California",
-    "username": "JoeMama123",
-    "hashed_password": "asdfasdfasdfasd",
-    "avatar_url": "JoeProfilePic.jpeg"}
+        return [
+            fake_create_user_data={
+                "user_id": 1,
+                "first_name": "Joe",
+                "last_name": "Johnson",
+                "email": "joe@johnson.com",
+                "phone_number": "1234567890",
+                "address": "123 Main Street",
+                "city": "San Diego",
+                "state": "California",
+                "username": "JoeJohnson123",
+                "hashed_password": "$2b$12$esVcCggUoG7xmv2HogSqSuCOq/7QidUvxcAtVzuVSRYnA690O2s86",
+                "avatar_url": "JoeProfilePic.jpeg",
+            }
+        ]
 
 
 def account_override():
