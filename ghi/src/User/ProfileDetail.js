@@ -84,7 +84,7 @@ export default function ProfileDetail(){
         <div>
             <Card className="w-96">
                 <CardHeader floated={false} className="h-80">
-                    <img src={userData.avatar_url} alt="profile-picture" />
+                    <img src={userData.avatar_url} alt="profile-avatar" />
                     <Typography variant="h4" color="blue-gray" className="mb-2">
                         {userData.first_name + " " + userData.last_name}
                     </Typography>
@@ -108,7 +108,7 @@ export default function ProfileDetail(){
                 <p> List of your posts</p>
                  <div>
                     {postsData && (
-                        postsData.filter((singlePost)=>{return singlePost.user.user_id==userId}).map((singlePost, index) => (
+                        postsData.filter((singlePost)=>{return singlePost.user.user_id===userId}).map((singlePost, index) => (
                             <Accordion
                                 key={index}
                                 open={open === index}

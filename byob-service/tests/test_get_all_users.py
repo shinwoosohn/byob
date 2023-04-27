@@ -7,7 +7,7 @@ client = TestClient(app)
 
 
 class FakeUserRepo:
-    def get_all_users(self):
+    def get_all(self):
         return [
             {
                 "user_id": 1,

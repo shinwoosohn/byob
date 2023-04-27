@@ -30,7 +30,7 @@ function ProduceDetail({singleProduce}){
             <CardHeader floated={false} color="blue-gray">
                 <img
                 src={singleProduce.image_url}
-                alt="picture of produce"
+                alt="produce"
                 />
                 <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
             </CardHeader>
