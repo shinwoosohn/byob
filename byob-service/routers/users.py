@@ -149,8 +149,8 @@ def delete_user(
 
 ############################################################################
 # UPDATE driver api endpoint
-@router.patch(
-    "/users/{user_id}", response_model=Union[DriverUpdate, HttpError]
+@router.put(
+    "/users/{user_id}/driver", response_model=Union[DriverUpdate, HttpError]
 )
 def update_driver(
     user_id: int,

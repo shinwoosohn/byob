@@ -24,9 +24,9 @@ export const usersApi = createApi({
     }),
     updateDrivers: builder.mutation({
       query: ({ user_id, data }) => ({
-        url: `/users/${user_id}`,
+        url: `/users/${user_id}/driver`,
         body: data,
-        method: "patch",
+        method: "put",
       }),
       invalidatesTags: ["driversList"],
     }),
@@ -43,7 +43,6 @@ export const usersApi = createApi({
 export const {
   useGetAllUsersQuery,
   useGetUsersQuery,
-  useCreateUserMutation,
   useUpdateUsersMutation,
   useUpdateDriversMutation,
   useDeleteUsersMutation,
