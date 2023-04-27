@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import landingPageImg from "../Assets/landingPageImg.png";
 import byobLogo from "../Assets/byobLogo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation, useSignupMutation } from "../store/authApi";
 import { useUpdateDriversMutation } from "../store/usersApi";
 import { useSelector } from "react-redux";
@@ -50,7 +50,6 @@ function Signup({ user_id }) {
   };
 
   const handleUserToDriverSubmit = async (event) => {
-    console.log("--------------------------------------------");
     event.preventDefault();
     const response = await driversignup({
       user_id: data.user_id,
@@ -205,12 +204,12 @@ function Signup({ user_id }) {
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
               Sign Up
             </button>
-            <a
+            <Link
               className="inline-block align-baseline text-sm text-gray-500 hover:text-blue-800 pl-4"
-              href="/"
+              to="/"
             >
               Already have an account? Login here.
-            </a>
+            </Link>
           </form>
           {isModalOpen && (
             <>
@@ -262,12 +261,12 @@ function Signup({ user_id }) {
                       >
                         YES
                       </button>
-                      <a
+                      <Link
                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        href="/"
+                        to="/"
                       >
                         NO
-                      </a>
+                      </Link>
                     </div>
                   </form>
                 </div>

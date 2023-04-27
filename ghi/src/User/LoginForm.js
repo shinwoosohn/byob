@@ -3,16 +3,22 @@ import { useState } from "react";
 import { useLoginMutation } from "../store/authApi";
 import landingPageImg from "../Assets/landingPageImg.png";
 import byobLogo from "../Assets/byobLogo.png";
+import { Link, useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const LoginForm = ({ token }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [login, result] = useLoginMutation();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await login({ username: username, password: password });
+    const response = await login({ username: username, password: password });
     event.target.reset();
+    if (token) {
+      navigate("/posts");
+    }
   };
 
   return (
@@ -57,12 +63,12 @@ const LoginForm = () => {
             >
               Login
             </button>
-            <a
+            <Link
               className="inline-block align-baseline text-sm text-gray-500 hover:text-blue-800 pl-4"
-              href="/signup"
+              to="/signup"
             >
               Dont have an account? Sign up here.
-            </a>
+            </Link>
           </form>
           {result.isError && (
             <div className="text-red-500 mt-2">

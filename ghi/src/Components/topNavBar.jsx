@@ -5,14 +5,14 @@ import byobIcon from "../Assets/byobIcon.png";
 import { AiOutlineClose } from "react-icons/ai";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { useLogoutMutation } from "../store/authApi";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function TopNavBar({ token }) {
   const [nav, setNav] = useState(false);
   const [logo, setLogo] = useState(false);
   const [logout] = useLogoutMutation();
-  const navigate = useNavigate();
+
   const user = useSelector((state) => state.auth.user);
 
   const handleNav = () => {
@@ -25,23 +25,17 @@ function TopNavBar({ token }) {
     await logout();
   }
 
-  useEffect(() => {
-    if (token === null) {
-      navigate("/");
-    }
-  }, [token, navigate]);
-
   return (
     <div className="w-full h-20 bg-byob-cyan">
       <div className="flex justify-between items-center h-20 px-4 max-w-[1440px] mx-auto bg-byob-cyan">
         <div>
-          <a href="/posts">
+          <Link to="/posts">
             <img
               src={byobIcon}
               alt=""
               className={logo ? "hidden" : "max-h-[50px] max-w-[50px]"}
             />
-          </a>
+          </Link>
         </div>
         <div className="flex justify-end">
           <ul className="hidden md:flex">
@@ -77,14 +71,16 @@ function TopNavBar({ token }) {
               </li>
             )}
             <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
-              <button
-                className="button__input"
-                id="logout"
-                type="submit"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              <Link to="/">
+                <button
+                  className="button__input"
+                  id="logout"
+                  type="submit"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </Link>
             </li>
           </ul>
           <div className="hidden md:flex">

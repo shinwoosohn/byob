@@ -40,7 +40,6 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
           await dispatch(authApi.endpoints.getToken.initiate());
-          window.location.href = "/posts";
         } catch (e) {
           console.error(e);
         }
@@ -72,7 +71,6 @@ export const authApi = createApi({
           await queryFulfilled;
           localStorage.removeItem("token"); // remove token from local storage
           sessionStorage.removeItem("token"); // remove token from session storage
-          window.location.href = "/"; // redirect user to the landing page
         } catch (error) {
           console.error(error);
         }
