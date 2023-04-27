@@ -17,6 +17,6 @@ steps = [
         """,
         """
         DROP TABLE produce;
-        """
+        """,
     ]
 ]

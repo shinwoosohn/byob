@@ -40,6 +40,7 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
           await dispatch(authApi.endpoints.getToken.initiate());
+          window.location.href = "/posts";
         } catch (e) {
           console.error(e);
         }

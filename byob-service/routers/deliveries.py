@@ -38,7 +38,9 @@ def create_delivery(
 
 #######################################################################################################
 # GET ALL Deliveries
-@router.get("/deliveries", response_model=Union[List[DeliveryOutWithDriver], Error])
+@router.get(
+    "/deliveries", response_model=Union[List[DeliveryOutWithDriver], Error]
+)
 def get_all_deliveries(
     response: Response,
     repo: DeliveryRepo = Depends(),
@@ -57,7 +59,10 @@ def get_all_deliveries(
 
 #######################################################################################################
 # GET Singular Delivery
-@router.get("/deliveries/{delivery_id}", response_model=Union[DeliveryOutWithDriver, Error])
+@router.get(
+    "/deliveries/{delivery_id}",
+    response_model=Union[DeliveryOutWithDriver, Error],
+)
 def get_delivery(
     delivery_id: int,
     response: Response,
@@ -79,7 +84,10 @@ def get_delivery(
 
 #######################################################################################################
 # PATCH Accept Driver Delivery Status
-@router.patch("/deliveries/{delivery_id}/accept", response_model=Union[DeliveryUpdate, Error, HttpError])
+@router.patch(
+    "/deliveries/{delivery_id}/accept",
+    response_model=Union[DeliveryUpdate, Error, HttpError],
+)
 def accept_delivery_status(
     delivery_id: int,
     response: Response,
@@ -90,11 +98,15 @@ def accept_delivery_status(
     try:
         result = repo.get_delivery(delivery_id)
         if account_data["is_driver"] and result["driver"]["driver_id"] is None:
-            if result.order_status == 'ready':
-                return repo.accept_delivery_status(delivery_id, info, account_data)
+            if result.order_status == "ready":
+                return repo.accept_delivery_status(
+                    delivery_id, info, account_data
+                )
         else:
             response.status_code = 401
-            return {"message": "You are unable to accept this delivery request"}
+            return {
+                "message": "You are unable to accept this delivery request"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -104,7 +116,10 @@ def accept_delivery_status(
 
 #######################################################################################################
 # PATCH Complete Driver Delivery Status
-@router.patch("drivers/{driver_id}/deliveries/{delivery_id}/complete", response_model=Union[DeliveryUpdate, Error, HttpError])
+@router.patch(
+    "drivers/{driver_id}/deliveries/{delivery_id}/complete",
+    response_model=Union[DeliveryUpdate, Error, HttpError],
+)
 def complete_delivery_status(
     driver_id: int,
     delivery_id: int,
@@ -115,10 +130,14 @@ def complete_delivery_status(
 ):
     try:
         if account_data["user_id"] == driver_id:
-            return repo.complete_delivery_status(driver_id, delivery_id, info, account_data)
+            return repo.complete_delivery_status(
+                driver_id, delivery_id, info, account_data
+            )
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to complete this delivery request"}
+            return {
+                "message": "You are not authorized to complete this delivery request"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -128,7 +147,10 @@ def complete_delivery_status(
 
 #######################################################################################################
 # GET Driver ALL Deliveries - where driver_id = current user_id
-@router.get("/drivers/{driver_id}/deliveries", response_model=Union[List[DeliveryOutWithDriver], Error, HttpError])
+@router.get(
+    "/drivers/{driver_id}/deliveries",
+    response_model=Union[List[DeliveryOutWithDriver], Error, HttpError],
+)
 def get_driver_deliveries(
     driver_id: int,
     response: Response,
@@ -140,7 +162,9 @@ def get_driver_deliveries(
             return repo.get_driver_deliveries(driver_id)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to view these driver deliveries"}
+            return {
+                "message": "You are not authorized to view these driver deliveries"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -150,7 +174,10 @@ def get_driver_deliveries(
 
 #######################################################################################################
 # UPDATE Remove Driver Delivery by setting driver_id to null - removes driver_id and changes status back to pending
-@router.put("/drivers/{driver_id}/deliveries/{delivery_id}", response_model=Union[DeliveryUpdate, Error, HttpError])
+@router.put(
+    "/drivers/{driver_id}/deliveries/{delivery_id}",
+    response_model=Union[DeliveryUpdate, Error, HttpError],
+)
 def remove_driver_delivery(
     driver_id: int,
     delivery_id: int,
@@ -165,7 +192,9 @@ def remove_driver_delivery(
             return repo.remove_delivery_status(driver_id, delivery_id, info)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to remove this driver delivery"}
+            return {
+                "message": "You are not authorized to remove this driver delivery"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -175,7 +204,10 @@ def remove_driver_delivery(
 
 #######################################################################################################
 # GET User ALL Deliveries - where requestor_id = current user_id
-@router.get("/users/{user_id}/deliveries/", response_model=Union[List[DeliveryOutWithDriver], Error, HttpError])
+@router.get(
+    "/users/{user_id}/deliveries/",
+    response_model=Union[List[DeliveryOutWithDriver], Error, HttpError],
+)
 def get_user_deliveries(
     user_id: int,
     response: Response,
@@ -187,7 +219,9 @@ def get_user_deliveries(
             return repo.get_user_deliveries(user_id)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to view this user's delivery requests"}
+            return {
+                "message": "You are not authorized to view this user's delivery requests"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -197,7 +231,10 @@ def get_user_deliveries(
 
 #######################################################################################################
 # GET User Single Delivery - where requestor_id = current user_id
-@router.get("/users/{user_id}/deliveries/{delivery_id}", response_model=Union[DeliveryOutWithDriver, Error, HttpError])
+@router.get(
+    "/users/{user_id}/deliveries/{delivery_id}",
+    response_model=Union[DeliveryOutWithDriver, Error, HttpError],
+)
 def get_user_delivery(
     user_id: int,
     delivery_id: int,
@@ -210,7 +247,9 @@ def get_user_delivery(
             return repo.get_user_delivery(user_id, delivery_id)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to view this user's delivery request"}
+            return {
+                "message": "You are not authorized to view this user's delivery request"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -220,7 +259,10 @@ def get_user_delivery(
 
 #######################################################################################################
 # UPDATE User Single Delivery - where requestor_id = current user_id
-@router.put("/users/{user_id}/deliveries/{delivery_id}", response_model=Union[DeliveryOut, Error, HttpError])
+@router.put(
+    "/users/{user_id}/deliveries/{delivery_id}",
+    response_model=Union[DeliveryOut, Error, HttpError],
+)
 def update_user_delivery(
     user_id: int,
     delivery_id: int,
@@ -234,7 +276,9 @@ def update_user_delivery(
             return repo.update_user_delivery(user_id, delivery_id, info)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to edit this user's delivery request"}
+            return {
+                "message": "You are not authorized to edit this user's delivery request"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -244,7 +288,10 @@ def update_user_delivery(
 
 #######################################################################################################
 # DELETE User Single Delivery - where requestor_id = current user_id
-@router.delete("/users/{user_id}/deliveries/{delivery_id}", response_model=Union[bool, Error, HttpError])
+@router.delete(
+    "/users/{user_id}/deliveries/{delivery_id}",
+    response_model=Union[bool, Error, HttpError],
+)
 def delete_user_delivery(
     user_id: int,
     delivery_id: int,
@@ -257,7 +304,9 @@ def delete_user_delivery(
             return repo.delete_user_delivery(user_id, delivery_id)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to delete this user's delivery request"}
+            return {
+                "message": "You are not authorized to delete this user's delivery request"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -265,10 +314,12 @@ def delete_user_delivery(
         )
 
 
-
 #######################################################################################################
 # GET User ALL Orders - where producer_id = current user_id
-@router.get("/users/{producer_id}/orders", response_model=Union[List[DeliveryOutWithDriver], Error, HttpError])
+@router.get(
+    "/users/{producer_id}/orders",
+    response_model=Union[List[DeliveryOutWithDriver], Error, HttpError],
+)
 def get_user_orders(
     producer_id: int,
     response: Response,
@@ -280,7 +331,9 @@ def get_user_orders(
             return repo.get_user_orders(producer_id)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to view this user's orders"}
+            return {
+                "message": "You are not authorized to view this user's orders"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -290,7 +343,10 @@ def get_user_orders(
 
 #######################################################################################################
 # GET User Single Order - where producer_id = current user_id
-@router.get("/users/{producer_id}/orders/{delivery_id}", response_model=Union[DeliveryOutWithDriver, Error, HttpError])
+@router.get(
+    "/users/{producer_id}/orders/{delivery_id}",
+    response_model=Union[DeliveryOutWithDriver, Error, HttpError],
+)
 def get_user_order(
     producer_id: int,
     delivery_id: int,
@@ -303,7 +359,9 @@ def get_user_order(
             return repo.get_user_order(producer_id, delivery_id)
         else:
             response.status_code = 401
-            return {"message": "You are not authorized to view this user's order"}
+            return {
+                "message": "You are not authorized to view this user's order"
+            }
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -313,7 +371,10 @@ def get_user_order(
 
 #######################################################################################################
 # PATCH User Single Order Status - where producer_id = current user_id
-@router.patch("/users/{producer_id}/orders/{delivery_id}", response_model=Union[OrderAccept, HttpError])
+@router.patch(
+    "/users/{producer_id}/orders/{delivery_id}",
+    response_model=Union[OrderAccept, HttpError],
+)
 def complete_order_status(
     producer_id: int,
     delivery_id: int,
@@ -325,8 +386,10 @@ def complete_order_status(
     try:
         if account_data["user_id"] == producer_id:
             result = repo.get_user_order(producer_id, delivery_id)
-            if result["order_status"] == 'pending':
-                return repo.complete_order_status(producer_id, delivery_id, info, account_data)
+            if result["order_status"] == "pending":
+                return repo.complete_order_status(
+                    producer_id, delivery_id, info, account_data
+                )
     except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
