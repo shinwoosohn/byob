@@ -78,9 +78,9 @@ build-byob-service-service:
 api-unit-test-job:
   image: python:3-bullseye
   stage: test
-  # variables:
-  #   DATABASE_URL: "${DATABASE_URL}"
-  #   SIGNING_KEY: "${SIGNING_KEY}"
+  variables:
+    DATABASE_URL: "${DATABASE_URL}"
+    SIGNING_KEY: "${SIGNING_KEY}"
   needs:
     - lint-test-job
   script:

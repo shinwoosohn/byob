@@ -3,10 +3,8 @@ import { useState } from "react";
 import { useLoginMutation } from "../store/authApi";
 import landingPageImg from "../Assets/landingPageImg.png";
 import byobLogo from "../Assets/byobLogo.png";
-import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [login, result] = useLoginMutation();
