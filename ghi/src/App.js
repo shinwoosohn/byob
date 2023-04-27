@@ -8,7 +8,7 @@ import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
-// import DeliveryForm from "./Delivery/DeliveryForm";
+import UpdateProduceFrom from "./Produce/UpdateProduceForm";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -27,14 +27,17 @@ function App() {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="signup" element={<Signup />}></Route>
         <Route element={<AuthProvider token={data} />}>
-          <Route path="users/:user_id">
-            {/* <Route path=":user_id"> */}
-            {/* <Route index element={<ProfileDetail />} /> */}
-            <Route path="produce">
-              {/* <Route index element={<ProduceList />} /> */}
-              <Route path="new" element={<ProduceForm />} />
-              {/* <Route path=":produce_id" element={<ProduceDetail />} /> */}
-              {/* </Route> */}
+          <Route path="users">
+            <Route path=":user_id">
+              {/* <Route index element={<ProfileDetail />} /> */}
+              <Route path="produce">
+                {/* <Route index element={<ProduceList />} /> */}
+                <Route path="new" element={<ProduceForm />} />
+                <Route path=":produce_id">
+                  {/* <Route index element={<ProduceDetail />} /> */}
+                  <Route path="update" element={<UpdateProduceFrom />} />
+                </Route>
+              </Route>
             </Route>
           </Route>
           <Route path="posts">
