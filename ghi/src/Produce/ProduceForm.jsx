@@ -4,8 +4,6 @@ import { useCreateProduceMutation } from "../store/produceApi";
 import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-// import { Switch } from "@material-tailwind/react";
 import Switch from "@mui/material/Switch";
 
 const ProduceForm = () => {
@@ -18,7 +16,7 @@ const ProduceForm = () => {
   const [expDate, setExpDate] = useState("");
   const [price, setPrice] = useState("");
 
-  const [createProduce, result] = useCreateProduceMutation();
+  const [createProduce, result] = useCreateProduceMutation(user_id);
 
   const [isDecorative, setIsDecorative] = useState(true);
   const handleChangeDecorative = (event) => {
@@ -85,16 +83,19 @@ const ProduceForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce(user_id, {
-      name: name,
-      quantity: parseInt(quantity),
-      weight: parseInt(weight),
-      description: description,
-      image_url: imageUrl,
-      exp_date: expDate,
-      is_decorative: !isDecorative,
-      is_available: !isAvailable,
-      price: parseFloat(price),
+    createProduce({
+      user_id,
+      data: {
+        name: name,
+        quantity: parseInt(quantity),
+        weight: parseInt(weight),
+        description: description,
+        image_url: imageUrl,
+        exp_date: expDate,
+        is_decorative: isDecorative,
+        is_available: isAvailable,
+        price: parseFloat(price),
+      },
     });
   };
 
