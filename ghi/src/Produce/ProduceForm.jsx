@@ -4,8 +4,6 @@ import { useCreateProduceMutation } from "../store/produceApi";
 import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-// import { Switch } from "@material-tailwind/react";
 import Switch from "@mui/material/Switch";
 
 const ProduceForm = () => {
@@ -94,8 +92,8 @@ const ProduceForm = () => {
         description: description,
         image_url: imageUrl,
         exp_date: expDate,
-        is_decorative: !isDecorative,
-        is_available: !isAvailable,
+        is_decorative: isDecorative,
+        is_available: isAvailable,
         price: parseFloat(price),
       },
     });
