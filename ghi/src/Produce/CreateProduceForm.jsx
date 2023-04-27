@@ -4,33 +4,36 @@ import { useCreateProduceMutation } from "../store/produceApi";
 import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+
+// import { Switch } from "@material-tailwind/react";
 import Switch from "@mui/material/Switch";
 
 const ProduceForm = () => {
-  const { user_id } = useParams();
-  const [name, setName] = useState("");
+  const { users_id } = useParams();
+  const [produce, setProduce] = useState("");
   const [quantity, setQuantity] = useState("");
   const [weight, setWeight] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [expDate, setExpDate] = useState("");
+  const [isDecorative, setIsDecorative] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(false);
   const [price, setPrice] = useState("");
 
-  const [createProduce, result] = useCreateProduceMutation(user_id);
+  const [createProduce, result] = useCreateProduceMutation();
 
-  const [isDecorative, setIsDecorative] = useState(true);
+  const [checkedDecorative, setCheckedDecorative] = React.useState(true);
   const handleChangeDecorative = (event) => {
-    setIsDecorative(event.target.checked);
+    setCheckedDecorative(event.target.checked);
   };
-
-  const [isAvailable, setIsAvailable] = useState(true);
+  const [checkedAvailable, setCheckedAvailable] = React.useState(true);
   const handleChangeAvailable = (event) => {
-    setIsAvailable(event.target.checked);
+    setCheckedAvailable(event.target.checked);
   };
 
-  const handleNameChange = (event) => {
+  const handleProduceChange = (event) => {
     const value = event.target.value;
-    setName(value);
+    setProduce(value);
   };
 
   const handleQuantityChange = (event) => {
@@ -58,13 +61,22 @@ const ProduceForm = () => {
     setExpDate(value);
   };
 
+  // const handleIsDecorativeChange = (event) => {
+  //   // const value = event.target.value;
+  //   setIsDecorative(!isDecorative);
+  // };
+
+  // const handleIsAvailableChange = (event) => {
+  //   // const value = event.target.value;
+  //   setIsAvailable(!isAvailable);
+  // };
+
   const handlePriceChange = (event) => {
     const value = event.target.value;
     setPrice(value);
   };
 
   const handleReset = () => {
-    setName("");
     setQuantity("");
     setWeight("");
     setDescription("");
@@ -83,20 +95,20 @@ const ProduceForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce({
-      user_id,
-      data: {
-        name: name,
-        quantity: parseInt(quantity),
-        weight: parseInt(weight),
+    createProduce(
+      {
+        quantity: quantity,
+        weight: weight,
         description: description,
-        image_url: imageUrl,
-        exp_date: expDate,
-        is_decorative: isDecorative,
-        is_available: isAvailable,
-        price: parseFloat(price),
+        imageUrl: imageUrl,
+        expDate: expDate,
+        isDecorative: !checkedDecorative,
+        isAvailable: !checkedAvailable,
+        price: price,
       },
-    });
+      users_id
+    );
+    console.log("@users_id")
   };
 
   return (
@@ -108,19 +120,6 @@ const ProduceForm = () => {
               Create A Produce
             </h1>
             <form onSubmit={handleSubmit} id="create-produce-form">
-              <div>
-                <label htmlFor="produce">Name</label>
-                <input
-                  value={name}
-                  onChange={handleNameChange}
-                  placeholder="Name"
-                  required
-                  type="text"
-                  name="name"
-                  id="name"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
 
               <div>
                 <label htmlFor="style">Quantity</label>
@@ -185,7 +184,7 @@ const ProduceForm = () => {
                   onChange={handleExpDateChange}
                   placeholder="Expiration Date"
                   required
-                  type="date"
+                  type="text"
                   name="expirationDate"
                   id="expirationDate"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -194,26 +193,18 @@ const ProduceForm = () => {
 
               <div>
                 <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={isAvailable}
-                        onChange={handleChangeAvailable}
-                        inputProps={{ "aria-label": "controlled" }}
-                      />
-                    }
-                    label="Available"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={isDecorative}
-                        onChange={handleChangeDecorative}
-                        inputProps={{ "aria-label": "controlled" }}
-                      />
-                    }
-                    label="Decorative"
-                  />
+                  <FormControlLabel control={
+                  <Switch
+                    checked={checkedAvailable}
+                    onChange={handleChangeAvailable}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />} label="Available" />
+                <FormControlLabel control={
+                  <Switch
+                    checked={checkedDecorative}
+                    onChange={handleChangeDecorative}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />}label="Decorative" />
                 </FormGroup>
               </div>
 
@@ -227,15 +218,14 @@ const ProduceForm = () => {
                   type="text"
                   name="price"
                   id="price"
-                  pattern="^\d{1,3}(?:,\d{3})*\.\d{2}$"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
               <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
               >
-                Create this produce
+              Create this produce
               </button>
             </form>
           </div>

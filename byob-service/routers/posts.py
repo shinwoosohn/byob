@@ -63,7 +63,9 @@ def get_post(
 
 ########################################################################################
 # PUT singular post/listing endpoint
-@router.put("/posts/{posts_id}", response_model=Union[PostOut, Error, HttpError])
+@router.put(
+    "/posts/{posts_id}", response_model=Union[PostOut, Error, HttpError]
+)
 def update_post(
     posts_id: int,
     response: Response,
@@ -85,10 +87,11 @@ def update_post(
         )
 
 
-
 ########################################################################################
 # DELETE singular post endpoint
-@router.delete("/posts/{posts_id}", response_model=Union[bool, Error, HttpError])
+@router.delete(
+    "/posts/{posts_id}", response_model=Union[bool, Error, HttpError]
+)
 def delete_post(
     posts_id: int,
     response: Response,

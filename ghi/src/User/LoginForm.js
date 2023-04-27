@@ -13,19 +13,15 @@ const LoginForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await login({ username: username, password: password });
+    await login({ username: username, password: password });
     event.target.reset();
-
-    if (!response.hasOwnProperty("error")) {
-      navigate("/posts");
-    }
   };
 
   return (
     <div className="w-full h-screen bg-byob-cyan pt-16 rounded-b-[180px]">
-      <div className="max-w-[1600px] m-auto grid grid-cols-3">
+      <div className="max-w-[1440px] m-auto grid grid-cols-3">
         <div>
-          <img src={byobLogo} className="pb-20 w-full" />
+          <img src={byobLogo} className="pb-20 w-full" alt="" />
           <form onSubmit={handleSubmit} className="w-full max-w-lg">
             <div className="mb-4">
               <label
@@ -76,7 +72,7 @@ const LoginForm = () => {
             </div>
           )}
         </div>
-        <img src={landingPageImg} className="w-full col-span-2 pt-48" />
+        <img src={landingPageImg} className="w-full col-span-2 pt-48" alt="" />
       </div>
     </div>
   );
