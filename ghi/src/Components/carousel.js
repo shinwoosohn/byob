@@ -30,16 +30,10 @@ function Carousel() {
               style={{ backfaceVisibility: "hidden" }}
             >
               <img
-                src="https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg"
+                src="https://images.pexels.com/photos/1084542/pexels-photo-1084542.jpeg"
                 className="block w-full rounded-[50px]"
                 alt="..."
               />
-              <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
-                <h5 className="text-xl">First slide label</h5>
-                <p>
-                  Some representative placeholder content for the first slide.
-                </p>
-              </div>
             </div>
             <div
               className={`relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none ${
@@ -49,16 +43,10 @@ function Carousel() {
               style={{ backfaceVisibility: "hidden" }}
             >
               <img
-                src="https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg"
+                src="https://images.pexels.com/photos/1084540/pexels-photo-1084540.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 className="block w-full rounded-[50px]"
                 alt="..."
               />
-              <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
-                <h5 className="text-xl">Second slide label</h5>
-                <p>
-                  Some representative placeholder content for the second slide.
-                </p>
-              </div>
             </div>
 
             <div
@@ -69,16 +57,10 @@ function Carousel() {
               style={{ backfaceVisibility: "hidden" }}
             >
               <img
-                src="https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg"
+                src="https://images.pexels.com/photos/9414270/pexels-photo-9414270.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 className="block w-full rounded-[50px]"
                 alt="..."
               />
-              <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
-                <h5 className="text-xl">Third slide label</h5>
-                <p>
-                  Some representative placeholder content for the third slide.
-                </p>
-              </div>
             </div>
 
             <div
@@ -89,16 +71,10 @@ function Carousel() {
               style={{ backfaceVisibility: "hidden" }}
             >
               <img
-                src="https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg"
+                src="https://images.pexels.com/photos/6508419/pexels-photo-6508419.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 className="block w-full rounded-[50px]"
                 alt="..."
               />
-              <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
-                <h5 className="text-xl">Fourth slide label</h5>
-                <p>
-                  Some representative placeholder content for the fourth slide.
-                </p>
-              </div>
             </div>
           </div>
 
