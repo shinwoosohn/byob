@@ -18,7 +18,7 @@ const ProduceForm = () => {
   const [expDate, setExpDate] = useState("");
   const [price, setPrice] = useState("");
 
-  const [createProduce, result] = useCreateProduceMutation();
+  const [createProduce, result] = useCreateProduceMutation(user_id);
 
   const [isDecorative, setIsDecorative] = useState(true);
   const handleChangeDecorative = (event) => {
