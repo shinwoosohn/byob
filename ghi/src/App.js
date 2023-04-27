@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./User/Signup";
 import "./App.css";
 import NavBar from "./NavBar";
-import PostsList from "./Posts/PostsList";
+import PostsList from "./Posts/postsList";
 import { useGetTokenQuery } from "./store/authApi";
 import AuthProvider from "./utils/AuthProvider";
 import ProduceForm from "./Produce/ProduceForm";
@@ -13,7 +13,7 @@ import UpdateProduceFrom from "./Produce/UpdateProduceForm";
 import ProduceDetail from "./Produce/ProduceDetail";
 import ProfileDetail from "./User/ProfileDetail";
 import PostsDetail from "./Posts/PostsDetail";
-import ProduceList from "./Produce/ProduceList";
+import ProduceList from "./Produce/produceList";
 import UpdatePostForm from "./Posts/UpdatePostForm";
 
 function App() {
