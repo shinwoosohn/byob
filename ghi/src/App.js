@@ -9,6 +9,7 @@ import ProduceForm from "./Produce/ProduceForm";
 import Footer from "./Components/footer";
 import LandingPage from "./LandingPage";
 import UpdateProduceFrom from "./Produce/UpdateProduceForm";
+import DeliveryForm from "./Delivery/DeliveryForm";
 
 function App() {
   const { data } = useGetTokenQuery();
@@ -45,7 +46,10 @@ function App() {
             {/* <Route path="new" element={<PostsForm />} /> */}
             {/* <Route path=":posts_id" element={<PostsDetail />} /> */}
           </Route>
-          {/* <Route path="delivery" element={<DeliveryForm />} /> */}
+          <Route path="deliveries">
+            {/* <Route index element={<DeliveryForm />} /> */}
+            <Route path="new" element={<DeliveryForm />} />
+          </Route>
         </Route>
       </Routes>
       <Footer />
