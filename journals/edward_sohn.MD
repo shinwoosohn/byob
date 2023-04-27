@@ -6,6 +6,10 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/26/23
+
+We fixed the profile page bug where produce list and post list were not populating correctly. We also fixed the update forms for post and produce as well.
+
 ## 4/25/23
 
 We finished deployment with caprover with the assistance of Rosheen. I finished the conditional navbar feature and the driver signup overlay form feature. It was a bandaid fix because the solution requires mapping out an entire new backend, which we do not have time for.
