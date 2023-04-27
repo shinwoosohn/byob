@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 export default function PostForm() {
   const [textState, setTextState] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
-  const [produceList, setProduceList] = useState([]);
   const [produce, setProduce] = useState("");
   const user = useSelector((state) => state.auth.user);
   console.log("User", user);
@@ -28,14 +27,12 @@ export default function PostForm() {
     isLoading,
   } = useGetAllProduceQuery(user.user_id, { skip: !user.user_id });
   console.log("ProduceData", produceData);
-  setProduceList(produceData);
 
   const [createPost, result] = useCreatePostsMutation();
 
   const handleReset = () => {
     setTextState("");
     postImgUrl("");
-    setProduceList([]);
     setProduce("");
   };
 
@@ -89,8 +86,8 @@ export default function PostForm() {
                   className="form-select"
                 >
                   <option value="">Choose from your produce</option>
-                  {produceList &&
-                    produceList.map((singleProduce) => {
+                  {produceData &&
+                    produceData.map((singleProduce) => {
                       return (
                         <option
                           key={singleProduce.produce_id}
