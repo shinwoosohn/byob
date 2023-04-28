@@ -36,7 +36,6 @@ class PostProduce(BaseModel):
     is_available: Optional[bool]
     price: Optional[float]
 
-
 class PostUser(BaseModel):
     user_id: int
     username: str
