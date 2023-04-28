@@ -108,7 +108,7 @@ export default function ProfileDetail() {
           {postsData &&
             postsData
               .filter((singlePost) => {
-                return singlePost.user.user_id === userId;
+                return singlePost.user.user_id == userId;
               })
               .map((singlePost, index) => (
                 <Accordion
