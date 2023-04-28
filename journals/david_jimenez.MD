@@ -1,5 +1,121 @@
 ## Journal
 
+### Friday April 28, 2023
+
+Today we are presenting our demo project. We have a minor bug but should be good. We are merging our Journals and the ReadMe
+
+### Thursday April 27, 2023
+
+Today I added some final features
+
+- Added update produce/posts accessibility
+- Fixed some deployment features
+- Added update buttons to our users produce and posts
+
+I got a successful test on fetching a single post so i went with that
+
+```
+from fastapi.testclient import TestClient
+from main import app
+from authenticator import authenticator
+from queries.posts import PostsRepo
+
+
+client = TestClient(app)
+
+
+class PostsQueries:
+    def get_post(self, posts_id: 2):
+        post_mock = {
+            "posts_id": 2,
+            "post_created": "2023-04-27T02:59:05.555073",
+            "text": "string",
+            "postimg_url": "string",
+            "poster_id": 2,
+            "produce": {
+                "produce_id": 2,
+                "name": "string",
+                "quantity": 20,
+                "weight": 20,
+                "description": "string",
+                "image_url": "string",
+                "exp_date": "2023-04-28",
+                "is_decorative": True,
+                "is_available": True,
+                "price": 20.22,
+            },
+            "user": {
+                "user_id": 2,
+                "username": "string",
+                "avatar_url": "string",
+            },
+        }
+
+        return post_mock
+
+
+def fake_get_current_account_data():
+    return {
+        "user_id": 2,
+        "first_name": "string",
+        "last_name": "string",
+        "email": "string",
+        "phone_number": "string",
+        "address": "string",
+        "city": "string",
+        "state": "string",
+        "username": "string",
+        "avatar_url": "string",
+        "is_driver": True,
+        "car_model": "string",
+        "license_plate": "string",
+        "dl_number": "string",
+        "hashed_password": "$2b$12$esVcCggUoG7xmv2HogSqSuCOq/7QidUvxcAtVzuVSRYnA690O2s86",
+    }
+
+
+def test_get_post_protected():
+    app.dependency_overrides[PostsRepo] = PostsQueries
+    app.dependency_overrides[
+        authenticator.try_get_current_account_data
+    ] = fake_get_current_account_data
+
+    response = client.get("/posts/2")
+
+    app.dependency_overrides = {}
+
+    # Assert
+    assert response.status_code == 200
+    assert response.json() == {
+        "posts_id": 2,
+        "post_created": "2023-04-27T02:59:05.555073",
+        "text": "string",
+        "postimg_url": "string",
+        "poster_id": 2,
+        "produce": {
+            "produce_id": 2,
+            "name": "string",
+            "quantity": 20,
+            "weight": 20,
+            "description": "string",
+            "image_url": "string",
+            "exp_date": "2023-04-28",
+            "is_decorative": True,
+            "is_available": True,
+            "price": 20.22,
+        },
+        "user": {"user_id": 2, "username": "string", "avatar_url": "string"},
+    }
+
+
+```
+
+### Wednesday April 26, 2023
+
+Today I started working on my unit test.
+I have not gotten a successful test on the create produce api...
+I will try again tomorrow
+
 ### Tuesday April 25,2023
 
 Today I continued working on the unit test for create produce and believe it is is complete
@@ -12,7 +128,72 @@ Other things done
 
 ### Monday April 24,2023
 
+- Fixed some merge conflicts
+- debugging
+
 ### Friday April 21, 2023
+
+created a delivery api in out store folder [REDUX]
+
+```
+
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const deliveryApi = createApi({
+  reducerPath: "delivery",
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_BYOB_SERVICE_API_HOST,
+    credentials: "include",
+  }),
+  endpoints: (builder) => ({
+    getAllDelivery: builder.query({
+      query: (user_id) => `/users/${user_id}/delivery`,
+      providesTags: ["deliveryList"],
+    }),
+
+    getDelivery: builder.query({
+      query: (user_id, delivery_id) =>
+        `/users/${user_id}/delivery/${delivery_id}`,
+    }),
+
+    createDelivery: builder.mutation({
+      query: (user_id, data) => ({
+        url: `/users/${user_id}/delivery`,
+        body: data,
+        method: "post",
+      }),
+      invalidatesTags: ["deliveryList"],
+    }),
+
+    updateDelivery: builder.mutation({
+      query: (user_id, delivery_id, data) => ({
+        url: `/users/${user_id}/delivery/${delivery_id}`,
+        body: data,
+        method: "put",
+      }),
+      invalidatesTags: ["deliveryList"],
+    }),
+
+    deleteDelivery: builder.mutation({
+      query: (user_id, delivery_id) => ({
+        url: `/users/${user_id}/delivery/${delivery_id}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["deliveryList"],
+    }),
+  }),
+});
+
+export const {
+  useGetAllDeliveryQuery,
+  useGetDeliveryQuery,
+  useCreateDeliveryMutation,
+  useUpdateDeliveryMutation,
+  useDeleteDeliveryMutation,
+} = deliveryApi;
+
+
+```
 
 ### Thursday April 20, 2023
 
@@ -22,12 +203,12 @@ Had some tailwind issues. Turns out i did not complete the set up - I was missin
 ```
 /** @type {import('tailwindcss').Config} */
 const colors = require("tailwindcss/colors");
-const withMT = require("@material-tailwind/react/utils/withMT");
+const withMT = require("@material-tailwind/react/utils/withMT"); <---- Missing this
 
 module.exports = {
   content: [
     "..."
-    "./src/**/*.{js,jsx,ts,tsx}",    <----THIS
+    "./src/**/*.{js,jsx,ts,tsx}",    <---- Missing this as well
   ],
   theme: {
     extend: {
@@ -45,12 +226,16 @@ module.exports = {
 
 created the delivery form with drop down for post and produce that pulls data from the User data
 
+No screenshots of it on our site. Delivery was part of our stretch Goals and we do not have it
+functional on our site
+
 ### Tuesday April 18, 2023
 
 Todays main focus was on creating a form for users to create a produce to add to their inventory
 
 I created a file **_CreateProduceForm_** under the **_Produce_** directory in the **_src_** directory
 
+```
 **_The Good_**
 
 - Form is up and appears on the website
@@ -59,11 +244,12 @@ I created a file **_CreateProduceForm_** under the **_Produce_** directory in th
 
 **_The Bad_**
 
-- When creating the
+- When creating the produce we encountered an **unprocessable entity error**
+```
 
 ### Monday April 17, 2023
 
-Sick day. Did not do much
+Sick day. Did not do much but help debug
 
 ### Wednesday April 12, 2023 **_Spring Break_**
 
@@ -196,7 +382,26 @@ FastApi Doc is working
 
 ### Tuesday April 4, 2023
 
-- Worked on FrontEnd Sign up
+- Worked on FrontEnd Sign up CSS
+- Create our staple color and gave it our custom name so we didn't have to type #dfebe9 every time
+
+```
+/** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");  <----- Imported this
+
+module.exports = {
+  content: [],
+  theme: {
+    extend: {
+      colors: {
+        "byob-cyan": "#dfebe9", <----- Created this
+      },
+    },
+  },
+  plugins: [],
+};
+
+```
 
 ### Monday April 3, 2023
 
@@ -370,3 +575,13 @@ steps = [
     ]
 ]
 ```
+
+### Tuesday March 28, 2023 - Wednesday March 22,2023
+
+Throughout this time we did a lot of planning
+We made
+
+- an excel sheet with our endpoints, migrations, schema's, and our MVP
+- Excalidraw for user story and what we wanted our website to look like
+- Our excalidraw crashed on us and erased our work
+- We moved from Excalidraw to Figma for our wireframe
