@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser } from "./user";
+import { setUser, logoutUser } from "./user";
 
 export const authApi = createApi({
   reducerPath: "authentication",
@@ -40,7 +40,6 @@ export const authApi = createApi({
         try {
           await queryFulfilled;
           await dispatch(authApi.endpoints.getToken.initiate());
-          window.location.href = "/posts";
         } catch (e) {
           console.error(e);
         }
@@ -66,13 +65,11 @@ export const authApi = createApi({
         url: "/token",
         method: "delete",
       }),
-      invalidateTags: ["Token"],
+      invalidatesTags: ["Token"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          localStorage.removeItem("token"); // remove token from local storage
-          sessionStorage.removeItem("token"); // remove token from session storage
-          window.location.href = "/"; // redirect user to the landing page
+          dispatch(logoutUser());
         } catch (error) {
           console.error(error);
         }
@@ -85,7 +82,7 @@ export const authApi = createApi({
         method: "post",
         credentials: "include",
       }),
-      invalidateTags: ["Token"],
+      invalidatesTags: ["Token"],
     }),
   }),
 });
