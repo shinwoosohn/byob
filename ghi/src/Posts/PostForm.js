@@ -77,7 +77,6 @@ export default function PostForm() {
                 <select
                   value={produce.produce_id}
                   onChange={handleProduceChange}
-                  required
                   id="produce"
                   name="produce"
                   className="form-select"
