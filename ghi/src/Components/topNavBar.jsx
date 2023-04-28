@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import byobIcon from "../Assets/byobIcon.png";
 import { AiOutlineClose } from "react-icons/ai";

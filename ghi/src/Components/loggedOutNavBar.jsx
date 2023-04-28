@@ -5,12 +5,10 @@ import byobIcon from "../Assets/byobIcon.png";
 import { AiOutlineClose } from "react-icons/ai";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 function LoggedOutNavBar({ token }) {
   const [nav, setNav] = useState(false);
   const [logo, setLogo] = useState(false);
-  const user = useSelector((state) => state.auth.user);
 
   const handleNav = () => {
     setNav(!nav);
