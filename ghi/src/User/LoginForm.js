@@ -11,7 +11,6 @@ const LoginForm = ({ token }) => {
   const [login, result] = useLoginMutation();
 
   const navigate = useNavigate();
-  console.log(token);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

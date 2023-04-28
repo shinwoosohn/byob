@@ -1,15 +1,20 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useUpdatePostsMutation } from "../store/postsApi";
+import {
+  useUpdatePostsMutation,
+  useDeletePostsMutation,
+} from "../store/postsApi";
 import { useGetAllProduceQuery } from "../store/produceApi";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function UpdatePostForm() {
   const { posts_id } = useParams();
   const [textState, setTextState] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
   const [produce, setProduce] = useState("");
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
 
   const handleTextStateChange = (event) => {
@@ -29,6 +34,7 @@ export default function UpdatePostForm() {
   } = useGetAllProduceQuery(user.user_id, { skip: !user.user_id });
 
   const [updatePost, result] = useUpdatePostsMutation(posts_id);
+  const [deletePost, deleteResult] = useDeletePostsMutation(posts_id);
 
   const handleReset = () => {
     setTextState("");
@@ -37,10 +43,11 @@ export default function UpdatePostForm() {
   };
 
   useEffect(() => {
-    if (result.isSuccess) {
+    if (result.isSuccess || deleteResult.isSuccess) {
       handleReset();
+      navigate("/posts");
     }
-  }, [result.isSuccess]);
+  }, [result.isSuccess, deleteResult.isSuccess]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -52,6 +59,11 @@ export default function UpdatePostForm() {
         produce_id: produce,
       },
     });
+  };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    deletePost(posts_id);
   };
 
   if (isLoading) {
@@ -76,7 +88,7 @@ export default function UpdatePostForm() {
               Update A Post
             </h1>
 
-            <form onSubmit={handleSubmit} id="update-post-form">
+            <form id="update-post-form">
               <div>
                 <select
                   value={produce.produce_id}
@@ -131,10 +143,18 @@ export default function UpdatePostForm() {
               </div>
 
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
               >
                 Update post
+              </button>
+              <button
+                onClick={handleDelete}
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Delete post
               </button>
             </form>
           </div>

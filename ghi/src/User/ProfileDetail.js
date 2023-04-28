@@ -98,7 +98,9 @@ export default function ProfileDetail() {
             Phone number: {userData.phone_number}
           </Typography>
         </CardBody>
-        <CardFooter className="flex justify-center gap-7 pt-2"></CardFooter>
+        <CardFooter className="flex justify-center gap-7 pt-2">
+          <p></p>
+        </CardFooter>
       </Card>
       <div>
         <p> List of your posts</p>
