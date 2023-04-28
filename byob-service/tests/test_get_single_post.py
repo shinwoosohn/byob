@@ -25,13 +25,13 @@ class PostsQueries:
                 "exp_date": "2023-04-28",
                 "is_decorative": True,
                 "is_available": True,
-                "price": 20.22
+                "price": 20.22,
             },
             "user": {
                 "user_id": 2,
                 "username": "string",
-                "avatar_url": "string"
-            }
+                "avatar_url": "string",
+            },
         }
 
         return post_mock
@@ -55,7 +55,6 @@ def fake_get_current_account_data():
         "dl_number": "string",
         "hashed_password": "$2b$12$esVcCggUoG7xmv2HogSqSuCOq/7QidUvxcAtVzuVSRYnA690O2s86",
     }
-
 
 
 def test_get_post_protected():
@@ -86,11 +85,7 @@ def test_get_post_protected():
             "exp_date": "2023-04-28",
             "is_decorative": True,
             "is_available": True,
-            "price": 20.22
+            "price": 20.22,
         },
-        "user": {
-            "user_id": 2,
-            "username": "string",
-            "avatar_url": "string"
-        }
+        "user": {"user_id": 2, "username": "string", "avatar_url": "string"},
     }
