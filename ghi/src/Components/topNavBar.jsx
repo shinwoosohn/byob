@@ -1,11 +1,11 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import byobIcon from "../Assets/byobIcon.png";
 import { AiOutlineClose } from "react-icons/ai";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { useLogoutMutation } from "../store/authApi";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function TopNavBar({ token }) {
@@ -13,6 +13,7 @@ function TopNavBar({ token }) {
   const [logo, setLogo] = useState(false);
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
+
   const user = useSelector((state) => state.auth.user);
 
   const handleNav = () => {
@@ -22,26 +23,24 @@ function TopNavBar({ token }) {
 
   async function handleLogout(e) {
     e.preventDefault();
-    await logout();
-  }
+    const response = await logout();
 
-  useEffect(() => {
-    if (token === null) {
+    if (!response.hasOwnProperty("error")) {
       navigate("/");
     }
-  }, [token, navigate]);
+  }
 
   return (
     <div className="w-full h-20 bg-byob-cyan">
       <div className="flex justify-between items-center h-20 px-4 max-w-[1440px] mx-auto bg-byob-cyan">
         <div>
-          <a href="/posts">
+          <Link to="/posts">
             <img
               src={byobIcon}
               alt=""
               className={logo ? "hidden" : "max-h-[50px] max-w-[50px]"}
             />
-          </a>
+          </Link>
         </div>
         <div className="flex justify-end">
           <ul className="hidden md:flex">

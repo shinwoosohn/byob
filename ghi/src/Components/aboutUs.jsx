@@ -39,7 +39,7 @@ const AboutUs = () => {
             <div className="p-4 pb-6 flex justify-center flex-col items-center">
               <img
                 className="rounded-lg md:block hidden"
-                src="https://i.gyazo.com/9e2dd929892f8bbdd8a27ed8d7cea4f3.png"
+                src="https://i.gyazo.com/99d70b7b6195325bb0d3f12901391590.jpg"
                 alt="Garrett featured Img"
               />
               <p className="font-medium text-xl leading-5 text-gray-800 mt-4">
