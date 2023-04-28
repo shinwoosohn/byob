@@ -2,6 +2,42 @@
 
 # Journals
 
+## 4/28/2023 - Finalizing Deployment and Graded Walkthrough
+
+Today, I worked on:
+
+- Attempting to debug a deployment 404 random get to a /string - fail
+- Finish Readme API outline
+
+The project is finally done, but the website is still in heavy construction mode. Now that we don't
+have a graded deadline hanging over and have a GLORY deadline, we need to focus much more.
+FOR THE GLORY!!!
+
+This project has taught me a lot, both about working in a team development environment and my own
+passion for development. I really enjoy python backend and feel strongly about my ability to successfully
+comprehend error codes and debug. I will do my best to explore my capability in this high focus
+frontend final Stretch Goal week.
+
+## 4/27/2023 - Finalizing Deployment
+
+Today, I worked on:
+
+- Clear routing bug on deployment related to using anchor tags - Success
+- Full Test deployment with limited to no bugs or console errors - Success
+- Write Readme API endpoints dropdowns with inputs/ outputs - Success
+- Add Update buttons to detail cards to access the update forms - Success
+- Add delete buttons to Update forms to delete the object - Success
+
+We were able to clear all functionality bugs today and do a full deployment test without any minimal
+bugs and it feels good. The CSS is still in a construction state, but the grading should only be done
+on a level checking the CRUD functionality, so all our members are covered. It was a team effort where
+SEIRs not having much redux experience came into play, so everyone get to test ideas.
+
+The deployment bugs related to anchor tags which are hard href's, so switching to the JSX Link appropriate
+tag solved all the issues. Initially thought it was an issue with the basename since it was replacing the portion
+after our domain with blank; however it wraps all our links, so using the react hooks properly solved all issues.
+There are still some small final updates for the walkthrough, but taking a break because we earned it.
+
 ## 4/26/2023 - Work on getting all MVP1 Forms - Create / Update
 
 Today, I worked on:
@@ -11,7 +47,7 @@ Today, I worked on:
 - Assist with teammates debugging other components
 - Debug backend Update produce api method using an incorrect reference and not setting the update
 
-I don;t want to go into too much info. Such is life and I'm still learning a lot. I'm simply
+I don't want to go into too much info. Such is life and I'm still learning a lot. I'm simply
 trying to manage my attitude with working through the pain. With Alex - SEIR's help and James-Instructor,
 we were able to debug most of our MVP1 bugs and have a fully functional SPA.
 
