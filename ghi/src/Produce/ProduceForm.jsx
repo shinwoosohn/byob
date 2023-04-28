@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import { useNavigate } from "react-router-dom";
 
 const ProduceForm = () => {
   const { user_id } = useParams();
@@ -15,6 +16,7 @@ const ProduceForm = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [expDate, setExpDate] = useState("");
   const [price, setPrice] = useState("");
+  const navigate = useNavigate();
 
   const [createProduce, result] = useCreateProduceMutation(user_id);
 
@@ -78,8 +80,9 @@ const ProduceForm = () => {
   useEffect(() => {
     if (result.isSuccess) {
       handleReset();
+      navigate("/posts");
     }
-  }, [result.isSuccess]);
+  }, [result.isSuccess, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

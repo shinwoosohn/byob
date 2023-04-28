@@ -2,11 +2,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import {
   useUpdateProduceMutation,
+  useDeleteProduceMutation,
 } from "../store/produceApi";
 import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import { useNavigate } from "react-router-dom";
 
 const UpdateProduceFrom = () => {
   const { user_id, produce_id } = useParams();
@@ -17,8 +19,13 @@ const UpdateProduceFrom = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [expDate, setExpDate] = useState("");
   const [price, setPrice] = useState("");
+  const navigate = useNavigate();
 
   const [updateProduce, result] = useUpdateProduceMutation({
+    user_id,
+    produce_id,
+  });
+  const [deleteProduce, deleteResult] = useDeleteProduceMutation({
     user_id,
     produce_id,
   });
@@ -81,10 +88,11 @@ const UpdateProduceFrom = () => {
   };
 
   useEffect(() => {
-    if (result.isSuccess) {
+    if (result.isSuccess || deleteResult.isSuccess) {
       handleReset();
+      navigate("/posts");
     }
-  }, [result.isSuccess]);
+  }, [result.isSuccess, deleteResult.isSuccess, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -105,9 +113,13 @@ const UpdateProduceFrom = () => {
     });
   };
 
-  // async function handleDeleteProduce(produce) {
-  //   const
-  // }
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    deleteProduce({
+      user_id,
+      produce_id,
+    });
+  };
 
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-9 sm:py-215 lg:max-w-20xl lg:px-8">
@@ -117,9 +129,9 @@ const UpdateProduceFrom = () => {
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
               Update A Produce
             </h1>
-            <form onSubmit={handleSubmit} id="create-produce-form">
+            <form id="update-produce-form">
               <div>
-                <label htmlFor="produce">Name</label>
+                <label htmlFor="name">Name</label>
                 <input
                   value={name}
                   onChange={handleNameChange}
@@ -133,7 +145,7 @@ const UpdateProduceFrom = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Quantity</label>
+                <label htmlFor="quantity">Quantity</label>
                 <input
                   value={quantity}
                   onChange={handleQuantityChange}
@@ -147,7 +159,7 @@ const UpdateProduceFrom = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Weight</label>
+                <label htmlFor="weight">Weight</label>
                 <input
                   value={weight}
                   onChange={handleWeightChange}
@@ -161,7 +173,7 @@ const UpdateProduceFrom = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Description</label>
+                <label htmlFor="description">Description</label>
                 <input
                   value={description}
                   onChange={handleDescriptionChange}
@@ -175,7 +187,7 @@ const UpdateProduceFrom = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Image Url</label>
+                <label htmlFor="imageUrl">Image Url</label>
                 <input
                   value={imageUrl}
                   onChange={handleImageUrlChange}
@@ -189,7 +201,7 @@ const UpdateProduceFrom = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Expiration Date</label>
+                <label htmlFor="expirationDate">Expiration Date</label>
                 <input
                   value={expDate}
                   onChange={handleExpDateChange}
@@ -228,7 +240,7 @@ const UpdateProduceFrom = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Price</label>
+                <label htmlFor="price">Price</label>
                 <input
                   value={price}
                   onChange={handlePriceChange}
@@ -244,21 +256,22 @@ const UpdateProduceFrom = () => {
 
               <div>
                 <button
+                  onClick={handleSubmit}
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 >
-                  Update
+                  Update Produce
                 </button>
               </div>
 
               <div>
-                {/* <button
+                <button
+                  onClick={handleDelete}
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                  onClick={handleDeleteProduce}
                 >
-                  Delete
-                </button> */}
+                  Delete Produce
+                </button>
               </div>
             </form>
           </div>
