@@ -3,11 +3,11 @@ import LoginForm from "./User/LoginForm";
 import AboutUs from "./Components/aboutUs";
 import Carousel from "./Components/carousel";
 
-function LandingPage() {
+function LandingPage({ token }) {
   return (
     <div>
       <div>
-        <LoginForm />
+        <LoginForm token={token} />
       </div>
       <div>
         <AboutUs />
