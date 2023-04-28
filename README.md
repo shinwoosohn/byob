@@ -1,149 +1,611 @@
-# Module3 Project Gamma
+# BYOB
 
-Test for Approval Issue
+**Team:**
 
-## Getting started
+- Edward Sohn - Software Developer
+- Garrett Hoffman - Software Developer
+- Timi Thompson - Software Developer
+- David Jimenez - Software Developer
 
-You have a project repository, now what? The next section
-lists all of the deliverables that are due at the end of the
-week. Below is some guidance for getting started on the
-tasks for this week.
+## Design
 
-## Install Extensions
+Project Link: https://byob1.gitlab.io/byob
 
-- Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
-- Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
+Introducing BYOB, Bring your own backyard, a community-focused React application that aims to connect backyard gardeners with a platform to share their produce. BYOB is built using FastAPI and PostgreSQL to provide a robust and scalable backend architecture.
 
-## Deliverables
+BYOB leverages Redux and RTK Query to manage state and provide efficient data fetching, ensuring a seamless front-end experience for users. The use of Tailwind also ensures a clean and modern user interface that is both responsive and user-friendly.
 
-- [ ] Wire-frame diagrams
-- [ ] API documentation
-- [ ] Project is deployed to Render.com/GitLab-pages
-- [ ] GitLab issue board is setup and in use
-- [ ] Journals
+The application's main feature is the ability for users to create posts about the produce they grow in their backyards. The community-focused platform aims to promote sharing and community-building around the shared interest of homegrown produce. Users can create an account to join the community, create posts, and interact with other users by sharing each other's crops through a delivery system. (In construction now)
 
-## Project layout
+BYOB's backend architecture consists of a FastAPI server that provides endpoints for CRUD operations on the PostgreSQL database. The server's modularity allows for easy scaling and maintenance, while the use of database migrations ensures data consistency and schema updates.
 
-The layout of the project is just like all of the projects
-you did with `docker-compose` in module #2. You will create
-a directory in the root of the repository for each service
-that you add to your project just like those previous
-projects were setup.
+Overall, BYOB provides a seamless user experience while promoting community building around the shared interest of homegrown produce.
 
-### Directories
+## BYOB Wireframe Design
 
-Several directories have been added to your project. The
-directories `docs` and `journals` are places for you and
-your team-mates to, respectively, put any documentation
-about your project that you create and to put your
-project-journal entries. See the _README.md_ file in each
-directory for more info.
+#### User Sign Up and Login
 
-The other directories, `ghi` and `sample_service`, are
-sample services, that you can start building off of or use
-as a reference point.
+![User Sign Up and Login](https://i.gyazo.com/1a98b5fa7f344c06ed9243b50f0c9a0c.png)
 
-Inside of `ghi` is a minimal React app that has an "under
-construction" page. It is setup similarly to all of the
-other React projects that you have worked on.
+#### List of Posts and Post Detail
 
-Inside of `sample_service` is a minimal FastAPI application.
-"Where are all the files?" you might ask? Well, the
-`main.py` file is the whole thing, and go take look inside
-of it... There's not even much in there..., hmm? That is
-FastAPI, we'll learn more about it in the coming days. Can
-you figure out what this little web-application does even
-though you haven't learned about FastAPI yet?
+![List of Posts and Post Detail](https://i.gyazo.com/3f124e450d9a2d18d75870845fdc04fb.png)
 
-Also in `sample_service` is a directory for your migrations.
-If you choose to use PostgreSQL, then you'll want to use
-migrations to control your database. Unlike Django, where
-migrations were automatically created for you, you'll write
-yours by hand using DDL. Don't worry about not knowing what
-DDL means; we have you covered. There's a sample migration
-in there that creates two tables so you can see what they
-look like.
+#### Create/Update Post/Produce Forms
 
-The sample Dockerfile and Dockerfile.dev run your migrations
-for you automatically.
+![Create/Update Post/Produce Forms](https://i.gyazo.com/1c7a3a1c899efef62b892cf2e8cb9766.png)
 
-### Other files
+#### Profile Page
 
-The following project files have been created as a minimal
-starting point. Please follow the guidance for each one for
-a most successful project.
+![Profile Page](https://i.gyazo.com/0c89bbe89609c16aab9e4e2bc266e52e.png)
 
-- `docker-compose.yaml`: there isn't much in here, just a
-  **really** simple UI and FastAPI service. Add services
-  (like a database) to this file as you did with previous
-  projects in module #2.
-- `.gitlab-ci.yml`: This is your "ci/cd" file where you will
-  configure automated unit tests, code quality checks, and
-  the building and deployment of your production system.
-  Currently, all it does is deploy an "under construction"
-  page to your production UI on GitLab and a sample backend
-  to Render.com. We will learn much more about this file.
-- `.gitignore`: This is a file that prevents unwanted files
-  from getting added to your repository, files like
-  `pyc` files, `__pycache__`, etc. We've set it up so that
-  it has a good default configuration for Python projects.
+## Getting Started
 
-## How to complete the initial deploy
+Please have Docker Desktop downloaded before continuing with the following directions listed below.
 
-There will be further guidance on completing the initial
-deployment, but it just consists of these steps:
+#### Cloning the Repository
 
-### Setup GitLab repo/project
+1. Inside your terminal, change to a directory that you would like to clone this project into.
 
-- make sure this project is in a group. If it isn't, stop
-  now and move it to a GitLab group
-- remove the fork relationship: In GitLab go to:
+2. In your terminal, type: `git clone https://gitlab.com/byob1/byob.git`
 
-  Settings -> General -> Advanced -> Remove fork relationship
+3. Switch into the project directory:
 
-- add these GitLab CI/CD variables:
-  - PUBLIC_URL : this is your gitlab pages URL
-  - SAMPLE_SERVICE_API_HOST: enter "blank" for now
+#### Starting up Docker
 
-#### Your GitLab pages URL
+After running the commands above, type and press enter after each command listed below:
 
-You can't find this in GitLab until after you've done a deploy
-but you can figure it out yourself from your GitLab project URL.
+1. `docker volume create byob-data`
 
-If this is your project URL
+2. `docker volume create pg-admin`
 
-https://gitlab.com/GROUP_NAME/PROJECT_NAME
+3. `docker-compose build`
 
-then your GitLab pages URL will be
+4. `docker-compose up`
 
-https://GROUP_NAME.gitlab.io/PROJECT_NAME
+After successfully following the steps outlined above, you should see all 4 containers running.
 
-### Create render.com account and application
+![Successful Docker containers](https://i.gyazo.com/7bb313354f6a532e06edbbec816f74ba.png)
 
-- create account on render.com
-- one person create a group and invite all other members
-- create a new "Web Service"
-  - authenticate with GitLab and choose your project
-  - Enter fields:
-    - Name: name of your service
-    - Root Directory: the directory of your service in your git repo.
-      For this example use "sample_service".
-    - Environment: Docker
-    - Plan Type: Free
-  - click the "Create Web Service" button to create it
-  - the build will succeed and it will look like the server is running,
-    most likely, in 6-10 minutes, it will fail.
-  - click "Manual Deploy" -> "Deploy latest commit" and the service
-    should deploy successfully.
+#### Localhost Resources
 
-### Update GitLab CI/CD variables
+- The port to view the React-based Front end is located at `http:localhost:3000`
+- The port to view the FastAPI Documentation is located at `http:localhost:8000/docs`
+- The port settings for the Database is located at `http:localhost:15432`
 
-Copy the service URL for your new render.com service and then paste
-that into the value for the SAMPLE_SERVICE_API_HOST CI/CD variable
-in GitLab.
+## API Outline
 
-### Deploy it
+**FastAPI Endpoints:**
+| Action | Method | URL |
+|:---:|:---:|:---:|
+| List of User| GET | http://localhost:8000/users |
+| Create new User | POST | http://localhost:8000/users |
+| Get User | GET | http://localhost:8000/users/{user_id} |
+| Update User | PUT | http://localhost:8000/users/{user_id} |
+| Update Driver | PUT | http://localhost:8000/users/{user_id}/driver |
+| Delete User | DELETE | http://localhost:8000/users/{user_id} |
 
-Merge a change into main to kick off the initial deploy. Once the build pipeline
-finishes you should be able to see an "under construction" page on your GitLab
-pages site.
+<details>
+  <summary markdown="span">GET: List of User </summary>
+Returns:
+
+```
+[
+  {
+    "user_id": 1,
+    "first_name": "string",
+    "last_name": "string",
+    "email": "string",
+    "phone_number": "string",
+    "address": "string",
+    "city": "string",
+    "state": "string",
+    "username": "string",
+    "avatar_url": "string",
+    "is_driver": false,
+    "car_model": null,
+    "license_plate": null,
+    "dl_number": null,
+    "hashed_password": "$2b$12$0uc66BkfeTcMpGDiXtbgeezjP8B5RXNYXQ7oq4hKVHb83LNgvQEGu"
+  },
+  {
+    "user_id": 3,
+    "first_name": "string1",
+    "last_name": "string1",
+    "email": "string1",
+    "phone_number": "string1",
+    "address": "string1",
+    "city": "string1",
+    "state": "string1",
+    "username": "string1",
+    "avatar_url": "string1",
+    "is_driver": false,
+    "car_model": null,
+    "license_plate": null,
+    "dl_number": null,
+    "hashed_password": "$2b$12$p6sNpik.8kNxd9E6/hvdfe2RDYU3yK9Yztzkq4Cpokz7SYyzyNZCS"
+  }
+]
+```
+
+</details>
+
+<details>
+  <summary markdown="span">POST: Creating a new User</summary>
+Request Body:
+
+```
+{
+  "first_name": "string",
+  "last_name": "string",
+  "email": "string",
+  "phone_number": "string",
+  "address": "string",
+  "city": "string",
+  "state": "string",
+  "username": "string",
+  "password": "string",
+  "avatar_url": "string"
+}
+```
+
+Returns:
+
+```
+{
+  "access_token": "string",
+  "token_type": "Bearer",
+  "account": {
+    "user_id": 0,
+    "first_name": "string",
+    "last_name": "string",
+    "email": "string",
+    "phone_number": "string",
+    "address": "string",
+    "city": "string",
+    "state": "string",
+    "username": "string",
+    "avatar_url": "string",
+    "is_driver": true,
+    "car_model": "string",
+    "license_plate": "string",
+    "dl_number": "string"
+  }
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">GET: User Detail</summary>
+Returns:
+
+```
+{
+  "user_id": 1,
+  "first_name": "string",
+  "last_name": "string",
+  "email": "string",
+  "phone_number": "string",
+  "address": "string",
+  "city": "string",
+  "state": "string",
+  "username": "string",
+  "avatar_url": "string",
+  "is_driver": false,
+  "car_model": null,
+  "license_plate": null,
+  "dl_number": null,
+  "hashed_password": "$2b$12$0uc66BkfeTcMpGDiXtbgeezjP8B5RXNYXQ7oq4hKVHb83LNgvQEGu"
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">PUT: Update User Detail</summary>
+Returns:
+
+```
+{
+  "user_id": 1,
+  "first_name": "string",
+  "last_name": "string",
+  "email": "string",
+  "phone_number": "string",
+  "address": "string",
+  "city": "string",
+  "state": "string",
+  "username": "string",
+  "avatar_url": "string",
+  "is_driver": true,
+  "car_model": "string",
+  "license_plate": "string",
+  "dl_number": "string"
+}
+```
+
+Returns:
+
+```
+{
+  "user_id": 1,
+  "first_name": "string",
+  "last_name": "string",
+  "email": "string",
+  "phone_number": "string",
+  "address": "string",
+  "city": "string",
+  "state": "string",
+  "username": "string",
+  "avatar_url": "string",
+  "is_driver": true,
+  "car_model": "string",
+  "license_plate": "string",
+  "dl_number": "string"
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">PUT: Update Driver Detail</summary>
+Returns:
+
+```
+{
+  "car_model": "string",
+  "license_plate": "string",
+  "dl_number": "string"
+}
+```
+
+Returns:
+
+```
+{
+  "car_model": "string",
+  "license_plate": "string",
+  "dl_number": "string"
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">DELETE: Delete User </summary>
+Returns:
+
+```
+true
+```
+
+</details>
+
+|         Action          | Method |                            URL                             |
+| :---------------------: | :----: | :--------------------------------------------------------: |
+|  List of User Produce   |  GET   |       http://localhost:8000/users/{user_id}/produce        |
+| Create new User Produce |  POST  |       http://localhost:8000/users/{user_id}/produce        |
+|    Get User Produce     |  GET   | http://localhost:8000/users/{user_id}/produce/{produce_id} |
+|   Update User Produce   |  PUT   | http://localhost:8000/users/{user_id}/produce/{produce_id} |
+|   Delete User Produce   | DELETE | http://localhost:8000/users/{user_id}/produce/{produce_id} |
+
+<details>
+  <summary markdown="span">GET: List of User Produce</summary>
+Returns:
+
+```
+[
+  {
+    "produce_id": 1,
+    "name": "string",
+    "quantity": 0,
+    "weight": 0,
+    "description": "string",
+    "image_url": "string",
+    "exp_date": "2023-04-27",
+    "is_decorative": true,
+    "is_available": true,
+    "price": 0,
+    "user": {
+      "user_id": 1,
+      "username": "string"
+    }
+  },
+  {
+    "produce_id": 2,
+    "name": "string",
+    "quantity": 0,
+    "weight": 0,
+    "description": "string",
+    "image_url": "string",
+    "exp_date": "2023-04-27",
+    "is_decorative": true,
+    "is_available": true,
+    "price": 0,
+    "user": {
+      "user_id": 1,
+      "username": "string"
+    }
+  }
+]
+```
+
+</details>
+
+<details>
+  <summary markdown="span">POST: Creating a new Produce</summary>
+Request Body:
+
+```
+{
+  "name": "string",
+  "quantity": 0,
+  "weight": 0,
+  "description": "string",
+  "image_url": "string",
+  "exp_date": "2023-04-27",
+  "is_decorative": true,
+  "is_available": true,
+  "price": 0.0,
+}
+```
+
+Returns:
+
+```
+{
+  "produce_id": 3,
+  "name": "string",
+  "quantity": 0,
+  "weight": 0,
+  "description": "string",
+  "image_url": "string",
+  "exp_date": "2023-04-27",
+  "is_decorative": true,
+  "is_available": true,
+  "price": 0.0,
+  "owner_id": 1
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">GET: User Produce Detail</summary>
+Returns:
+
+```
+{
+    "produce_id": 1,
+    "name": "string",
+    "quantity": 0,
+    "weight": 0,
+    "description": "string",
+    "image_url": "string",
+    "exp_date": "2023-04-27",
+    "is_decorative": true,
+    "is_available": true,
+    "price": 0,
+    "user": {
+      "user_id": 1,
+      "username": "string"
+    }
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">PUT: Update User Produce Detail</summary>
+Returns:
+
+```
+{
+  "name": "string",
+  "quantity": 0,
+  "weight": 0,
+  "description": "string",
+  "image_url": "string",
+  "exp_date": "2023-04-27",
+  "is_decorative": true,
+  "is_available": true,
+  "price": 0.0,
+}
+```
+
+Returns:
+
+```
+{
+  "produce_id": 3,
+  "name": "string",
+  "quantity": 0,
+  "weight": 0,
+  "description": "string",
+  "image_url": "string",
+  "exp_date": "2023-04-27",
+  "is_decorative": true,
+  "is_available": true,
+  "price": 0.0,
+  "owner_id": 1
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">DELETE: Delete User Produce</summary>
+Returns:
+
+```
+true
+```
+
+</details>
+
+|     Action      | Method |                  URL                   |
+| :-------------: | :----: | :------------------------------------: |
+|  List of Post   |  GET   |      http://localhost:8000/posts       |
+| Create new Post |  POST  |      http://localhost:8000/posts       |
+|    Get Post     |  GET   | http://localhost:8000/posts/{posts_id} |
+|   Update Post   |  PUT   | http://localhost:8000/posts/{posts_id} |
+|   Delete Post   | DELETE | http://localhost:8000/posts/{posts_id} |
+
+<details>
+  <summary markdown="span">GET: List of Post</summary>
+Returns:
+
+```
+[
+  {
+    "posts_id": 1,
+    "post_created": "2023-04-27T22:54:15.173102",
+    "text": "string",
+    "postimg_url": "string",
+    "poster_id": 1,
+    "produce": {
+      "produce_id": null,
+      "name": null,
+      "quantity": null,
+      "weight": null,
+      "description": null,
+      "image_url": null,
+      "exp_date": null,
+      "is_decorative": null,
+      "is_available": null,
+      "price": null
+    },
+    "user": {
+      "user_id": 1,
+      "username": "string",
+      "avatar_url": "string"
+    }
+  },
+  {
+    "posts_id": 2,
+    "post_created": "2023-04-27T22:54:43.376857",
+    "text": "string",
+    "postimg_url": "string",
+    "poster_id": 1,
+    "produce": {
+      "produce_id": 3,
+      "name": "string",
+      "quantity": 0,
+      "weight": 0,
+      "description": "string",
+      "image_url": "string",
+      "exp_date": "2023-04-27",
+      "is_decorative": true,
+      "is_available": true,
+      "price": 0
+    },
+    "user": {
+      "user_id": 1,
+      "username": "string",
+      "avatar_url": "string"
+    }
+  }
+]
+```
+
+</details>
+
+<details>
+  <summary markdown="span">POST: Creating a new Post</summary>
+Request Body:
+
+```
+{
+  "text": "string",
+  "postimg_url": "string",
+  "produce_id": 3,
+  "poster_id": 0
+}
+```
+
+Returns:
+
+```
+{
+  "posts_id": 2,
+  "post_created": "2023-04-27T22:59:26.723Z",
+  "text": "string",
+  "postimg_url": "string",
+  "produce_id": 3,
+  "poster_id": 1
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">GET: Post Detail</summary>
+Returns:
+
+```
+{
+    "posts_id": 2,
+    "post_created": "2023-04-27T22:54:43.376857",
+    "text": "string",
+    "postimg_url": "string",
+    "poster_id": 1,
+    "produce": {
+      "produce_id": 3,
+      "name": "string",
+      "quantity": 0,
+      "weight": 0,
+      "description": "string",
+      "image_url": "string",
+      "exp_date": "2023-04-27",
+      "is_decorative": true,
+      "is_available": true,
+      "price": 0
+    },
+    "user": {
+      "user_id": 1,
+      "username": "string",
+      "avatar_url": "string"
+    }
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">PUT: Update Post Detail</summary>
+Returns:
+
+```
+{
+  "text": "string",
+  "postimg_url": "string",
+  "produce_id": 3,
+  "poster_id": 0
+}
+```
+
+Returns:
+
+```
+{
+  "posts_id": 2,
+  "post_created": "2023-04-27T22:59:26.723Z",
+  "text": "string",
+  "postimg_url": "string",
+  "produce_id": 3,
+  "poster_id": 1
+}
+```
+
+</details>
+
+<details>
+  <summary markdown="span">DELETE: Delete Post</summary>
+Returns:
+
+```
+true
+```
+
+</details>
