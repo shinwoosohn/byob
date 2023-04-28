@@ -1,9 +1,13 @@
-# uncommented volumes
-# add volume for postgres-data
+
 volumes:
-  # from postgres-data -> byob-data
+
   byob-data:
     external: true
+
+  pg-admin:
+    external: true
+
+
 
   pg-admin:
     external: true
@@ -59,3 +63,28 @@ services:
       PGADMIN_DEFAULT_EMAIL: ADMIN@HACKREACTOR.COM
       PGADMIN_DEFAULT_PASSWORD: PASSWORD
       PGADMIN_DISABLE_POSTFIX: 1
+      REACT_APP_BYOB_SERVICE_API_HOST: http://localhost:8000
+
+
+  # postgres:
+  #   build:
+  #     context: ./relational-data
+  #     dockerfile: ./Dockerfile.dev
+  #   volumes:
+  #     - byob-data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_MULTIPLE_DATABASES=byob
+  #     - POSTGRES_PASSWORD=password
+  #   ports:
+  #     - 15432:5432
+
+  # pg-admin:
+  #   image: dpage/pgadmin4
+  #   volumes:
+  #     - pg-admin:/var/lib/pgadmin
+  #   ports:
+  #     - 8082:80
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ADMIN@HACKREACTOR.COM
+  #     PGADMIN_DEFAULT_PASSWORD: PASSWORD
+  #     PGADMIN_DISABLE_POSTFIX: 1
