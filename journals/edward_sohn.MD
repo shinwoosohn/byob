@@ -6,6 +6,14 @@ Each team member is required to keep a development journal, which should be a si
 
 Recommended naming convention is `first_last.md`.
 
+## 4/28/23
+
+We made final bug fix changes, including the one where posts list would not populate with the new post after creation. We then made preparations for the presentation.
+
+## 4/27/23
+
+I debugged a problem where the login and logout were not navigating correctly. I needed to create a logout action in the user slice and dispatch it in the authAPI. I also needed to pass the token through the routes in App by using prop drilling. I updated the README.
+
 ## 4/26/23
 
 We fixed the profile page bug where produce list and post list were not populating correctly. We also fixed the update forms for post and produce as well.
@@ -36,15 +44,31 @@ We ended up removing the sidebar and integrating its element into the top navbar
 
 ## 4/19/23
 
-I debugged the two click login problem.
+I debugged the two click login problem. I needed to use hasOwnProperty("error") to check if login response was successful.
 
 ## 4/18/23
 
 I edited and designed the landing page and login form to look like our wireframe (with a few minor changes). I also added an error message if a user inputs a wrong username or password.
 
+## 4/17/23
+
+We continued working on the redux setup because it would not show user token. We created a user slice to sets the token to the specific user which fixed our problem.
+
+## 4/13/23
+
+I continued to work on the sidebar, but inevitably scrapped it because we decided that it was unnecessary and it can all fit on the nav bar. I went back to the wireframes to make more changes I needed to.
+
 ## 4/12/23
 
 David and I made the top navbar front end component. We used the default one from the Tailwind docs and we edited it to make it look like how it does in our figma wireframes. We added our logo, searchbar, and a profile image that navigates to the profile page (not finished). We also started on creating the sidebar with buttons that take users to different API endpoints.
+
+## 4/11/23
+
+Garrett and I went over the redux setup and found where the problem was. We decided how we would split off the tasks to make the changes and then each worked on our respective redux api store.
+
+## 4/10/23
+
+I made edits to the wireframe due to changes in development and design ideas.
 
 ## 4/7/23
 
