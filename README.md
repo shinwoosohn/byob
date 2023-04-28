@@ -19,8 +19,6 @@ The application's main feature is the ability for users to create posts about th
 
 BYOB's backend architecture consists of a FastAPI server that provides endpoints for CRUD operations on the PostgreSQL database. The server's modularity allows for easy scaling and maintenance, while the use of database migrations ensures data consistency and schema updates.
 
-Overall, BYOB provides a seamless user experience while promoting community building around the shared interest of homegrown produce.
-
 ## BYOB Wireframe Design
 
 #### User Sign Up and Login
@@ -74,6 +72,26 @@ After successfully following the steps outlined above, you should see all 4 cont
 - The port settings for the Database is located at `http:localhost:15432`
 
 ## API Outline
+
+Byob-service directory contains migration, queries, and routers respective subdirectories that make up the entire backend.
+
+- The migration directory contains the table setup for the PostgreSQL database along with some additional script that is created to import
+  the tables upon running the script.
+
+- The queries directory contains the pydantic models or query schema pictured below and is used to hold the Repository methods that will
+  handle the SQL interaction with the database and later used within the router endpoint.
+
+- The routers directory contains the actual endpoints along with any active user based authorization for accessing endpoints. The latter
+  refers to an authorization on the individual routers for the correct user_id when specific routers such as the update or delete endpoints
+  should only be able to be accessed by the author of the information.
+
+The query schema is pictured in the below screenshot with the schema labeled 'In' being used as inputs for all create and update endpoints.
+Utilizing data normalization and the SQL join methods, we have structured our tables to contain foreign key columns allowing for easy
+data destructuring and combination without duplicating information.
+
+See below for the respective endpoint inputs and outputs for how the query schema is utilized in which endpoint.
+
+BYOB MVP Schema.png
 
 **FastAPI Endpoints:**
 | Action | Method | URL |
