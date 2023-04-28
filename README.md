@@ -91,7 +91,7 @@ data destructuring and combination without duplicating information.
 
 See below for the respective endpoint inputs and outputs for how the query schema is utilized in which endpoint.
 
-BYOB MVP Schema.png
+![Alt text](images/BYOB%20MVP%20Schema.png)
 
 **FastAPI Endpoints:**
 | Action | Method | URL |
