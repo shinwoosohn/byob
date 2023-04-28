@@ -41,7 +41,7 @@ export default function PostForm() {
       handleReset();
       navigate("/posts");
     }
-  }, [result.isSuccess]);
+  }, [result.isSuccess, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

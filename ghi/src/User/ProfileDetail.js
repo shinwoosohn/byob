@@ -106,9 +106,10 @@ export default function ProfileDetail() {
         <p> List of your posts</p>
         <div>
           {postsData &&
+            /* eslint-disable eqeqeq */
             postsData
               .filter((singlePost) => {
-                return singlePost.user.user_id === userId;
+                return singlePost.user.user_id == userId;
               })
               .map((singlePost, index) => (
                 <Accordion
