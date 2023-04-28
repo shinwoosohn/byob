@@ -92,7 +92,7 @@ const UpdateProduceFrom = () => {
       handleReset();
       navigate("/posts");
     }
-  }, [result.isSuccess]);
+  }, [result.isSuccess, deleteResult.isSuccess, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

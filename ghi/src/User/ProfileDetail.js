@@ -106,6 +106,7 @@ export default function ProfileDetail() {
         <p> List of your posts</p>
         <div>
           {postsData &&
+            // eslint-disable-next-line
             postsData
               .filter((singlePost) => {
                 return singlePost.user.user_id == userId;
