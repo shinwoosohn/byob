@@ -1,16 +1,21 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useCreatePostsMutation } from "../store/postsApi";
+import { useParams } from "react-router-dom";
+import {
+  useUpdatePostsMutation,
+  useDeletePostsMutation,
+} from "../store/postsApi";
 import { useGetAllProduceQuery } from "../store/produceApi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function PostForm() {
+export default function UpdatePostForm() {
+  const { posts_id } = useParams();
   const [textState, setTextState] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
   const [produce, setProduce] = useState("");
-  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
 
   const handleTextStateChange = (event) => {
     setTextState(event.target.value);
@@ -28,7 +33,8 @@ export default function PostForm() {
     isLoading,
   } = useGetAllProduceQuery(user.user_id, { skip: !user.user_id });
 
-  const [createPost, result] = useCreatePostsMutation();
+  const [updatePost, result] = useUpdatePostsMutation(posts_id);
+  const [deletePost, deleteResult] = useDeletePostsMutation(posts_id);
 
   const handleReset = () => {
     setTextState("");
@@ -37,19 +43,27 @@ export default function PostForm() {
   };
 
   useEffect(() => {
-    if (result.isSuccess) {
+    if (result.isSuccess || deleteResult.isSuccess) {
       handleReset();
       navigate("/posts");
     }
-  }, [result.isSuccess, navigate]);
+  }, [result.isSuccess, deleteResult.isSuccess, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createPost({
-      text: textState,
-      postimg_url: postImgUrl,
-      produce_id: produce,
+    updatePost({
+      posts_id,
+      data: {
+        text: textState,
+        postimg_url: postImgUrl,
+        produce_id: produce,
+      },
     });
+  };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    deletePost(posts_id);
   };
 
   if (isLoading) {
@@ -71,14 +85,15 @@ export default function PostForm() {
         <div className="offset-3 col-6">
           <div className="shadow p-4 mt-4">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-              Create A Post
+              Update A Post
             </h1>
 
-            <form onSubmit={handleSubmit} id="create-post-form">
+            <form id="update-post-form">
               <div>
                 <select
                   value={produce.produce_id}
                   onChange={handleProduceChange}
+                  required
                   id="produce"
                   name="produce"
                   className="form-select"
@@ -128,10 +143,18 @@ export default function PostForm() {
               </div>
 
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
               >
-                Create this post
+                Update post
+              </button>
+              <button
+                onClick={handleDelete}
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Delete post
               </button>
             </form>
           </div>

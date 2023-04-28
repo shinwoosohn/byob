@@ -1,35 +1,43 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useCreateProduceMutation } from "../store/produceApi";
+import {
+  useUpdateProduceMutation,
+  useDeleteProduceMutation,
+} from "../store/produceApi";
 import { useParams } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-// import { Switch } from "@material-tailwind/react";
 import Switch from "@mui/material/Switch";
+import { useNavigate } from "react-router-dom";
 
-const UpdateProduceForm = () => {
-  const { user_id } = useParams();
+const UpdateProduceFrom = () => {
+  const { user_id, produce_id } = useParams();
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [weight, setWeight] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [expDate, setExpDate] = useState("");
-  const [isDecorative, setIsDecorative] = useState(false);
-  const [isAvailable, setIsAvailable] = useState(false);
   const [price, setPrice] = useState("");
+  const navigate = useNavigate();
 
-  const [createProduce, result] = useCreateProduceMutation();
+  const [updateProduce, result] = useUpdateProduceMutation({
+    user_id,
+    produce_id,
+  });
+  const [deleteProduce, deleteResult] = useDeleteProduceMutation({
+    user_id,
+    produce_id,
+  });
 
-  const [checkedDecorative, setCheckedDecorative] = React.useState(true);
+  const [isDecorative, setIsDecorative] = React.useState(true);
   const handleChangeDecorative = (event) => {
-    setCheckedDecorative(event.target.checked);
+    setIsDecorative(event.target.checked);
   };
 
-  const [checkedAvailable, setCheckedAvailable] = React.useState(true);
+  const [isAvailable, setIsAvailable] = React.useState(true);
   const handleChangeAvailable = (event) => {
-    setCheckedAvailable(event.target.checked);
+    setIsAvailable(event.target.checked);
   };
 
   const handleNameChange = (event) => {
@@ -80,23 +88,36 @@ const UpdateProduceForm = () => {
   };
 
   useEffect(() => {
-    if (result.isSuccess) {
+    if (result.isSuccess || deleteResult.isSuccess) {
       handleReset();
+      navigate("/posts");
     }
-  }, [result.isSuccess]);
+  }, [result.isSuccess, deleteResult.isSuccess, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createProduce(user_id, {
-      name: name,
-      quantity: parseInt(quantity),
-      weight: parseInt(weight),
-      description: description,
-      image_url: imageUrl,
-      exp_date: expDate,
-      is_decorative: !checkedDecorative,
-      is_available: !checkedAvailable,
-      price: parseFloat(price),
+    updateProduce({
+      user_id,
+      produce_id,
+      data: {
+        name: name,
+        quantity: parseInt(quantity),
+        weight: parseInt(weight),
+        description: description,
+        image_url: imageUrl,
+        exp_date: expDate,
+        is_decorative: isDecorative,
+        is_available: isAvailable,
+        price: parseFloat(price),
+      },
+    });
+  };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    deleteProduce({
+      user_id,
+      produce_id,
     });
   };
 
@@ -106,11 +127,11 @@ const UpdateProduceForm = () => {
         <div className="offset-3 col-6">
           <div className="shadow p-4 mt-4">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-              Create A Produce
+              Update A Produce
             </h1>
-            <form onSubmit={handleSubmit} id="create-produce-form">
+            <form id="update-produce-form">
               <div>
-                <label htmlFor="produce">Name</label>
+                <label htmlFor="name">Name</label>
                 <input
                   value={name}
                   onChange={handleNameChange}
@@ -124,7 +145,7 @@ const UpdateProduceForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Quantity</label>
+                <label htmlFor="quantity">Quantity</label>
                 <input
                   value={quantity}
                   onChange={handleQuantityChange}
@@ -138,7 +159,7 @@ const UpdateProduceForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Weight</label>
+                <label htmlFor="weight">Weight</label>
                 <input
                   value={weight}
                   onChange={handleWeightChange}
@@ -152,7 +173,7 @@ const UpdateProduceForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Description</label>
+                <label htmlFor="description">Description</label>
                 <input
                   value={description}
                   onChange={handleDescriptionChange}
@@ -166,7 +187,7 @@ const UpdateProduceForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Image Url</label>
+                <label htmlFor="imageUrl">Image Url</label>
                 <input
                   value={imageUrl}
                   onChange={handleImageUrlChange}
@@ -180,7 +201,7 @@ const UpdateProduceForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Expiration Date</label>
+                <label htmlFor="expirationDate">Expiration Date</label>
                 <input
                   value={expDate}
                   onChange={handleExpDateChange}
@@ -198,7 +219,7 @@ const UpdateProduceForm = () => {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={checkedAvailable}
+                        checked={isAvailable}
                         onChange={handleChangeAvailable}
                         inputProps={{ "aria-label": "controlled" }}
                       />
@@ -208,7 +229,7 @@ const UpdateProduceForm = () => {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={checkedDecorative}
+                        checked={isDecorative}
                         onChange={handleChangeDecorative}
                         inputProps={{ "aria-label": "controlled" }}
                       />
@@ -219,7 +240,7 @@ const UpdateProduceForm = () => {
               </div>
 
               <div>
-                <label htmlFor="style">Price</label>
+                <label htmlFor="price">Price</label>
                 <input
                   value={price}
                   onChange={handlePriceChange}
@@ -232,12 +253,26 @@ const UpdateProduceForm = () => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-              >
-                Create this produce
-              </button>
+
+              <div>
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                >
+                  Update Produce
+                </button>
+              </div>
+
+              <div>
+                <button
+                  onClick={handleDelete}
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                >
+                  Delete Produce
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -246,4 +281,4 @@ const UpdateProduceForm = () => {
   );
 };
 
-export default UpdateProduceForm;
+export default UpdateProduceFrom;

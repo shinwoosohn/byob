@@ -1,29 +1,33 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoginMutation } from "../store/authApi";
 import landingPageImg from "../Assets/landingPageImg.png";
 import byobLogo from "../Assets/byobLogo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
-  const navigate = useNavigate();
+const LoginForm = ({ token }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [login, result] = useLoginMutation();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await login({ username: username, password: password });
-    event.target.reset();
+    await login({ username: username, password: password });
+    setUsername("");
+    setPassword("");
+  };
 
-    if (!response.hasOwnProperty("error")) {
+  useEffect(() => {
+    if (token) {
       navigate("/posts");
     }
-  };
+  }, [token, navigate]);
 
   return (
     <div className="w-full h-screen bg-byob-cyan pt-16 rounded-b-[180px]">
-      <div className="max-w-[1600px] m-auto grid grid-cols-3">
+      <div className="max-w-[1440px] m-auto grid grid-cols-3">
         <div>
           <img src={byobLogo} className="pb-20 w-full" alt="" />
           <form onSubmit={handleSubmit} className="w-full max-w-lg">
@@ -63,12 +67,12 @@ const LoginForm = () => {
             >
               Login
             </button>
-            <a
+            <Link
               className="inline-block align-baseline text-sm text-gray-500 hover:text-blue-800 pl-4"
-              href="/signup"
+              to="/signup"
             >
               Dont have an account? Sign up here.
-            </a>
+            </Link>
           </form>
           {result.isError && (
             <div className="text-red-500 mt-2">

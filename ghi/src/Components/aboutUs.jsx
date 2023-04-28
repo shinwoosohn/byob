@@ -15,13 +15,13 @@ const AboutUs = () => {
             Our Story
           </h1>
           <p className="font-normal text-base leading-6 text-gray-600 ">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using Lorem Ipsum.In the first place we have granted to God, and
-            by this our present charter confirmed for us and our heirs forever
-            that the English Church shall be free, and shall have her rights
-            entire, and her liberties inviolate; and we will that it be thus
-            observed; which is apparent from
+            Our website is a platform that promotes the power of social media,
+            gardening, and connection. We provide gardening tips and encourage
+            individuals to share their experiences with our like-minded
+            community. Our aim is to create a network of gardeners who inspire
+            and support each other through social media, while also making a
+            positive impact on the environment. Join us in cultivating a greener
+            world, one garden at a time.
           </p>
         </div>
         <div className="w-full lg:w-8/12 lg:pt-8">
@@ -39,7 +39,7 @@ const AboutUs = () => {
             <div className="p-4 pb-6 flex justify-center flex-col items-center">
               <img
                 className="rounded-lg md:block hidden"
-                src="https://i.gyazo.com/9e2dd929892f8bbdd8a27ed8d7cea4f3.png"
+                src="https://i.gyazo.com/99d70b7b6195325bb0d3f12901391590.jpg"
                 alt="Garrett featured Img"
               />
               <p className="font-medium text-xl leading-5 text-gray-800 mt-4">
