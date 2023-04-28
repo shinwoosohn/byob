@@ -1,5 +1,4 @@
 import { useGetAllPostsQuery } from "../store/postsApi";
-// import { Link } from "react-router-dom";
 import PostsDetail from "./PostsDetail";
 
 function PostsList() {
@@ -14,21 +13,22 @@ function PostsList() {
         classNameName="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
         role="alert"
       >
-        <p classNameName="font-bold">Something went wrong with loading data...</p>
+        <p classNameName="font-bold">
+          Something went wrong with loading data...
+        </p>
       </div>
     );
   }
   return (
     <div className="flex flex-col space-y-6">
-      {posts && (
+      {posts &&
         posts.map((post) => (
           <div key={post.post_created}>
             <PostsDetail singlePost={post} />
           </div>
-        ))
-      )}
-      </div>
-  )
-};
+        ))}
+    </div>
+  );
+}
 
 export default PostsList;
