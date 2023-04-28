@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoginMutation } from "../store/authApi";
 import landingPageImg from "../Assets/landingPageImg.png";
 import byobLogo from "../Assets/byobLogo.png";
@@ -11,15 +11,20 @@ const LoginForm = ({ token }) => {
   const [login, result] = useLoginMutation();
 
   const navigate = useNavigate();
+  console.log(token);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await login({ username: username, password: password });
-    event.target.reset();
+    await login({ username: username, password: password });
+    setUsername("");
+    setPassword("");
+  };
+
+  useEffect(() => {
     if (token) {
       navigate("/posts");
     }
-  };
+  }, [token, navigate]);
 
   return (
     <div className="w-full h-screen bg-byob-cyan pt-16 rounded-b-[180px]">

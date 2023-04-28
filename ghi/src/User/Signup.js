@@ -61,7 +61,7 @@ function Signup({ user_id }) {
     });
     if (!response.hasOwnProperty("error")) {
       setIsModalOpen(false);
-      navigate("/");
+      navigate("/posts");
     }
   };
 

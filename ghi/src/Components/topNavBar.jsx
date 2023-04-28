@@ -5,13 +5,14 @@ import byobIcon from "../Assets/byobIcon.png";
 import { AiOutlineClose } from "react-icons/ai";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { useLogoutMutation } from "../store/authApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function TopNavBar({ token }) {
   const [nav, setNav] = useState(false);
   const [logo, setLogo] = useState(false);
   const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.user);
 
@@ -22,7 +23,11 @@ function TopNavBar({ token }) {
 
   async function handleLogout(e) {
     e.preventDefault();
-    await logout();
+    const response = await logout();
+
+    if (!response.hasOwnProperty("error")) {
+      navigate("/");
+    }
   }
 
   return (
@@ -71,16 +76,14 @@ function TopNavBar({ token }) {
               </li>
             )}
             <li className="flex justify-center items-center px-4 text-[#203330] hover:text-[#CDD884] bg-byob-cyan hover:bg-[#203330] font-bold rounded-lg">
-              <Link to="/">
-                <button
-                  className="button__input"
-                  id="logout"
-                  type="submit"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </Link>
+              <button
+                className="button__input"
+                id="logout"
+                type="submit"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
             </li>
           </ul>
           <div className="hidden md:flex">
