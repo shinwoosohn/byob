@@ -30,7 +30,7 @@ function App() {
     <BrowserRouter basename={basename}>
       <NavBar isLoggedIn={data} />
       <Routes>
-        <Route path="/" element={<LandingPage />}></Route>
+        <Route path="/" element={<LandingPage token={data} />}></Route>
         <Route path="signup" element={<Signup />}></Route>
         <Route element={<AuthProvider token={data} />}>
           <Route path="users">

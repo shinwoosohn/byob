@@ -25,7 +25,6 @@ export default function PostForm() {
     isError,
     isLoading,
   } = useGetAllProduceQuery(user.user_id, { skip: !user.user_id });
-  console.log("ProduceData", produceData);
 
   const [createPost, result] = useCreatePostsMutation();
 
