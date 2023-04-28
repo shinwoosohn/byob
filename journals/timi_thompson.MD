@@ -4,50 +4,32 @@
 
 Order is reverse chronological (most recent changes to oldest)
 
-## Apr 27, 2023 7:14pm PDT
+## Apr 27, 2023
 
 Pushed to branchtimi-journalat BYOB / BYOB
 3f7cba17 · === to == test
 ... and 9 more commits. Compare 5abdc170...3f7cba17
 
-## Apr 27, 2023 6:49pm PDT
-
 Closedissue#88"FE-unit-test-get-single-post"at BYOB / BYOB
-
-## Apr 27, 2023 6:49pm PDT
 
 Pushed to branchmainat BYOB / BYOB
 f8514ead · The unit test for get a single produce is up and running
-
-## Apr 27, 2023 6:49pm PDT
 
 Acceptedmerge request!77"The unit test for get a single produce is up and running"at BYOB / BYOB
 
 Approvedmerge request!77"The unit test for get a single produce is up and running"at BYOB / BYOB
 
-## Apr 27, 2023 6:43pm PDT
-
 Deleted branch89-get-user-unit-testat BYOB / BYOB
 
-## Apr 27, 2023 6:40pm PDT
-
 Openedmerge request!76"Resolve "Get User Unit Test""at BYOB / BYOB
-
-## Apr 27, 2023 6:36pm PDT
 
 Pushed to branch89-get-user-unit-testat BYOB / BYOB
 f39d72b9 · Merge branch 'main' into 66-ut-unittest-for-create-user
 ... and 7 more commits. Compare 0f9efb72...f39d72b9
 
-## Apr 27, 2023 6:36pm PDT
-
 Pushed new branch89-get-user-unit-testat BYOB / BYOB
 
-## Apr 27, 2023 6:34pm PDT
-
 Openedissue#89"Get User Unit Test"at BYOB / BYOB
-
-## Apr 27, 2023 6:01pm PDT
 
 Pushed to branch66-ut-unittest-for-create-userat BYOB / BYOB
 f39d72b9 · Merge branch 'main' into 66-ut-unittest-for-create-user
