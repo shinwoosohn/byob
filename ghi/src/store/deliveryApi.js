@@ -28,7 +28,7 @@ export const deliveryApi = createApi({
 });
 
 export const {
-  useGetAllDeliveryQuery,
+  useGetAllDeliveriesQuery,
   useGetDeliveryQuery,
   useAcceptDeliveryMutation,
 } = deliveryApi;

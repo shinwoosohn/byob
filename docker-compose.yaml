@@ -1,4 +1,7 @@
+# uncommented volumes
+# add volume for postgres-data
 volumes:
+  # from postgres-data -> byob-data
   byob-data:
     external: true
 
