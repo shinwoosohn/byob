@@ -3,14 +3,12 @@ import { useState, useEffect } from "react";
 import { useCreatePostsMutation } from "../store/postsApi";
 import { useGetAllProduceQuery } from "../store/produceApi";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 export default function PostForm() {
   const [textState, setTextState] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
   const [produce, setProduce] = useState("");
   const user = useSelector((state) => state.auth.user);
-  const navigate = useNavigate();
 
   const handleTextStateChange = (event) => {
     setTextState(event.target.value);
@@ -39,9 +37,8 @@ export default function PostForm() {
   useEffect(() => {
     if (result.isSuccess) {
       handleReset();
-      navigate("/posts");
     }
-  }, [result.isSuccess, navigate]);
+  }, [result.isSuccess]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
